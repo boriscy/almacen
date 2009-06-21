@@ -1,0 +1,29 @@
+<% content_for :title do %>
+Listado de Unidades
+<% end %>
+
+<h1>Listado de Unidades</h1>
+
+<table>
+  <tr>
+    <th class="ui-state-default">Nombre</th>
+    <th class="ui-state-default">Iniciales</th>
+    <th class="ui-state-default">&nbsp;</th>
+  </tr>
+
+<% @unidades.each do |unidad| %>
+  <tr>
+    <td><%=h unidad.nombre %></td>
+    <td><%=h unidad.iniciales %></td>
+    <td>
+      <%= link_to 'ver', unidad %>
+      <%= link_to 'editar', edit_unidad_path(unidad) %>
+      <%= link_to 'borrar', unidad, :confirm => 'Esta seguro de borrar?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nueva Unidad', new_unidad_path %>

@@ -1,0 +1,28 @@
+<h1>Listing itemes</h1>
+
+<table>
+  <tr>
+    <th>Partida</th>
+    <th>Codigo</th>
+    <th>Nombre</th>
+    <th>Unidad medida</th>
+    <th>Entero</th>
+  </tr>
+
+<% @items.each do |item| %>
+  <tr>
+    <td><%=h item.partida_id %></td>
+    <td><%=h item.codigo %></td>
+    <td><%=h item.nombre %></td>
+    <td><%=h item.unidad_medida %></td>
+    <td><%=h item.entero %></td>
+    <td><%= link_to 'Show', item %></td>
+    <td><%= link_to 'Edit', edit_item_path(item) %></td>
+    <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New item', new_item_path %>

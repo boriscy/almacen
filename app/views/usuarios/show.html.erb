@@ -1,0 +1,32 @@
+<% content_for :title do %>
+Ver Usuario
+<% end %>
+
+<p>
+  <label>CI:</label>
+  <%=h @usuario.ci %>
+</p>
+<p>
+  <b>Nombre:</b>
+  <%=h @usuario.nombre %>
+</p>
+
+<p>
+  <b>Apellido Paterno:</b>
+  <%=h @usuario.paterno %>
+</p>
+<p>
+  <b>Apellido Materno:</b>
+  <%=h @usuario.materno %>
+</p>
+<p>
+  <b>Unidad:</b>
+  <%=h @usuario.unidad %>
+</p>
+<p>
+  <b>Activo:</b>
+  <%=h @usuario.activo ? "Si" : "No" %>
+</p>
+
+<%= link_to 'Editar', edit_usuario_path(@usuario) %> |
+<%= link_to 'Atras', usuarios_path %>

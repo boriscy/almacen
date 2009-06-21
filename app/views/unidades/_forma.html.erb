@@ -1,0 +1,15 @@
+<% form_for(@unidad) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :nombre %><br />
+    <%= f.text_field :nombre %>
+  </p>
+  <p>
+    <%= f.label :iniciales %><br />
+    <%= f.text_field :iniciales %>
+  </p>
+  <p>
+    <%= f.submit @unidad.id ? 'Editar' : 'Crear', :class => 'ui-state-default ui-corner-all' %>
+  </p>
+<% end %>

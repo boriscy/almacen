@@ -1,0 +1,28 @@
+<p>
+  <b>Partida:</b>
+  <%=h @item.partida_id %>
+</p>
+
+<p>
+  <b>Codigo:</b>
+  <%=h @item.codigo %>
+</p>
+
+<p>
+  <b>Nombre:</b>
+  <%=h @item.nombre %>
+</p>
+
+<p>
+  <b>Unidad medida:</b>
+  <%=h @item.unidad_medida %>
+</p>
+
+<p>
+  <b>Entero:</b>
+  <%=h @item.entero %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

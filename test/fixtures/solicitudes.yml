@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  usuario_id: 1
+  fecha: 2009-06-16 16:27:34
+  estado: MyString
+  fecha_aprobacion: 2009-06-16 16:27:34
+
+two:
+  usuario_id: 1
+  fecha: 2009-06-16 16:27:34
+  estado: MyString
+  fecha_aprobacion: 2009-06-16 16:27:34

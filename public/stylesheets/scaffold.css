@@ -1,0 +1,104 @@
+body{
+  background: #262626; color: #fff;
+padding: 0px; margin: 0px;
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a { color: #f58f17; text-decoration: underline; }
+/*a:visited { color: #666; }*/
+a:hover { color: #3FB2FF; text-decoration: none}
+
+#flashNotice{
+  color: #F58F17;
+  font-size: 1.8em;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid #FF0000;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #262626;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #000;
+  color: #fff;
+  border-bottom: 2px solid #FF0000;
+}
+
+#errorExplanation p {
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+table{
+  border-collapse: collapse;
+}
+th, td{
+  border: 1px solid #8f8f8f;
+  padding: 3px 4px;
+}
+tr.rowdel{
+  background: #6F6F6F;
+}
+
+input, select, textarea{
+  padding: 2px 3px;
+  background: #000;
+  border: 1px solid #666666;
+  color: #FFF;
+}
+
+div#cont{ padding: 10px;}
+/*Menu*/
+ul#navigation{
+  height: 28px;
+  list-style: none;
+  padding: 0px; margin: 0px;
+  background: #000;
+}
+
+ul#navigation li{ display: inline; float: left;}
+
+ul#navigation li a{
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 5px 7px;
+  border-right: 1px solid #5f5f5f;
+}
+ul#navigation li a:hover{
+  background: #5f5f5f !important;
+}
+

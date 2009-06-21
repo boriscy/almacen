@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  partida_id: 1
+  codigo: MyString
+  nombre: MyString
+  unidad_medida: MyString
+  entero: false
+
+two:
+  partida_id: 1
+  codigo: MyString
+  nombre: MyString
+  unidad_medida: MyString
+  entero: false

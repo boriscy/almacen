@@ -1,0 +1,13 @@
+<p>
+  <b>Codigo:</b>
+  <%=h @partida.codigo %>
+</p>
+
+<p>
+  <b>Nombre:</b>
+  <%=h @partida.nombre %>
+</p>
+
+
+<%= link_to 'Edit', edit_partida_path(@partida) %> |
+<%= link_to 'Back', partidas_path %>

@@ -1,0 +1,24 @@
+<% form_for(@inventario) do |inv| %>
+  <table id="inventarioDetalles">
+  <tr>
+    <th style="display:none"></th>
+    <th class="ui-state-default">Item</th>
+    <th class="ui-state-default">Cantidad</th>
+    <!-- <th class="ui-state-default">Precio</th> -->
+  </tr>
+  <% inv.fields_for :inventario_detalles do |det| %>
+  <tr>
+    <td style="display:none"><%= det.hidden_field :id %></td>
+    <td><%= det.select :item_id, Item.all.map{|v| [v, v.id] }, :include_blank => true %></td>
+    <td><%= det.text_field :cantidad, :class => 'num' %></td>
+    <!-- <td><%= %></td> -->
+  </tr>
+  <% end %>
+  </table>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#inventarioDetalles').grider({countRow: true});
+});
+</script>

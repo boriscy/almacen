@@ -1,0 +1,17 @@
+<% content_for :title do %>
+Ver Unidad
+<% end %>
+
+<p>
+  <b>Nombre:</b>
+  <%=h @unidad.nombre %>
+</p>
+
+<p>
+  <b>Iniciales:</b>
+  <%=h @unidad.iniciales %>
+</p>
+
+
+<%= link_to 'Editar', edit_unidad_path(@unidad) %> |
+<%= link_to 'Atras', unidades_path %>

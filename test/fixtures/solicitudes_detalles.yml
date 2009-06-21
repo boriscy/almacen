@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  solicitud_id: 1
+  item_id: 1
+  cantidad: 9.99
+  entero: false
+
+two:
+  solicitud_id: 1
+  item_id: 1
+  cantidad: 9.99
+  entero: false
