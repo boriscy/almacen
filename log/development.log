@@ -6071,3 +6071,66 @@ Rendering inventarios/new
   [4;36;1mItem Load (1.2ms)[0m   [0;1mSELECT * FROM "items" [0m
 Rendered inventarios/_forma (16.3ms)
 Completed in 54ms (View: 19, DB: 1) | 200 OK [http://localhost/inventarios/new]
+
+
+Processing UsuariosController#index (for 127.0.0.1 at 2009-06-22 10:48:52) [GET]
+  [4;36;1mUsuario Load (1.6ms)[0m   [0;1mSELECT * FROM "usuarios" [0m
+Rendering template within layouts/application
+Rendering usuarios/index
+  [4;35;1mUnidad Load (0.5ms)[0m   [0mSELECT * FROM "unidades" WHERE ("unidades"."id" = 2) [0m
+  [4;36;1mUnidad Load (0.6ms)[0m   [0;1mSELECT * FROM "unidades" WHERE ("unidades"."id" = 1) [0m
+Completed in 137ms (View: 117, DB: 3) | 200 OK [http://localhost/usuarios]
+
+
+Processing UnidadesController#index (for 127.0.0.1 at 2009-06-22 10:48:56) [GET]
+  [4;35;1mUnidad Load (1.5ms)[0m   [0mSELECT * FROM "unidades" [0m
+Rendering template within layouts/application
+Rendering unidades/index
+Completed in 43ms (View: 28, DB: 1) | 200 OK [http://localhost/unidades]
+
+
+Processing UnidadesController#edit (for 127.0.0.1 at 2009-06-22 10:48:59) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUnidad Load (0.6ms)[0m   [0;1mSELECT * FROM "unidades" WHERE ("unidades"."id" = 1) [0m
+Rendering template within layouts/application
+Rendering unidades/edit
+Rendered unidades/_forma (8.2ms)
+Completed in 39ms (View: 23, DB: 1) | 200 OK [http://localhost/unidades/1/edit]
+
+
+Processing UnidadesController#index (for 127.0.0.1 at 2009-06-22 10:49:02) [GET]
+  [4;35;1mUnidad Load (1.2ms)[0m   [0mSELECT * FROM "unidades" [0m
+Rendering template within layouts/application
+Rendering unidades/index
+Completed in 24ms (View: 10, DB: 1) | 200 OK [http://localhost/unidades]
+
+
+Processing UnidadesController#show (for 127.0.0.1 at 2009-06-22 10:49:06) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUnidad Load (0.6ms)[0m   [0;1mSELECT * FROM "unidades" WHERE ("unidades"."id" = 1) [0m
+Rendering template within layouts/application
+Rendering unidades/show
+Completed in 29ms (View: 12, DB: 1) | 200 OK [http://localhost/unidades/1]
+
+
+Processing UnidadesController#index (for 127.0.0.1 at 2009-06-22 10:49:08) [GET]
+  [4;35;1mUnidad Load (1.5ms)[0m   [0mSELECT * FROM "unidades" [0m
+Rendering template within layouts/application
+Rendering unidades/index
+Completed in 25ms (View: 11, DB: 1) | 200 OK [http://localhost/unidades]
+
+
+Processing UsuariosController#index (for 127.0.0.1 at 2009-06-22 10:49:11) [GET]
+  [4;36;1mUsuario Load (2.3ms)[0m   [0;1mSELECT * FROM "usuarios" [0m
+Rendering template within layouts/application
+Rendering usuarios/index
+  [4;35;1mUnidad Load (0.8ms)[0m   [0mSELECT * FROM "unidades" WHERE ("unidades"."id" = 2) [0m
+  [4;36;1mUnidad Load (0.8ms)[0m   [0;1mSELECT * FROM "unidades" WHERE ("unidades"."id" = 1) [0m
+Completed in 55ms (View: 35, DB: 4) | 200 OK [http://localhost/usuarios]
+
+
+Processing UnidadesController#index (for 127.0.0.1 at 2009-06-22 10:49:13) [GET]
+  [4;35;1mUnidad Load (1.5ms)[0m   [0mSELECT * FROM "unidades" [0m
+Rendering template within layouts/application
+Rendering unidades/index
+Completed in 26ms (View: 12, DB: 1) | 200 OK [http://localhost/unidades]

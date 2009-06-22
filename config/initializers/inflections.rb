@@ -4,9 +4,9 @@
 # (all these examples are active by default):
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural /^([a-z]+)([^a|^e|^i|^o|^u])$/i, '\1\2es'
+  inflect.singular /^([a-z]+)(es)$/, '\1'
   inflect.irregular 'solicitud_detalle', 'solicitudes_detalles'
   inflect.irregular 'item', 'items'
-  inflect.singular /^([a-z]+)(es)$/, '\1'
 #   inflect.plural /^(ox)$/i, '\1en'
 #   inflect.singular /^(ox)en/i, '\1'
 #   inflect.irregular 'person', 'people'
