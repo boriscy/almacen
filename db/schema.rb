@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090616204057) do
+ActiveRecord::Schema.define(:version => 20090624211842) do
 
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20090616204057) do
     t.boolean  "activo"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "precio_unitario", :precision => 10, :scale => 2
   end
 
   create_table "inventarios", :force => true do |t|

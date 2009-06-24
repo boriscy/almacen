@@ -1,2 +1,20 @@
 <h1>Listado de Inventarios</h1>
 
+<table>
+  <tr>
+    <th class="ui-state-default">Fecha</th>
+    <th class="ui-state-default">Total</th>
+    <th class="ui-state-default"></th>
+  </tr>
+<% @inventarios.each do |inv| %>
+  <tr>
+    <td><%= I18n.l inv.fecha, :format => "%d de %B %Y %H:%I" %></td>
+    <td></td>
+    <td>
+      <%= link_to "ver", inventario_path(inv) %>
+      <%= link_to "editar", edit_inventario_path(inv) %>
+      <%= link_to 'borrar', inv, :confirm => 'Esta seguro?', :method => :delete %>
+    </td>
+  </tr>  
+<% end %>
+</table>

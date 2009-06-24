@@ -3,7 +3,8 @@ class CreateInventarioDetalles < ActiveRecord::Migration
     create_table :inventario_detalles do |t|
       t.integer :inventario_id
       t.integer :item_id
-      t.decimal :cantidad
+      t.decimal :cantidad, :precision => 10, :scale => 2
+      t.decimal :precio_unitario, :precision => 10, :scale => 2
       t.boolean :activo
 
       t.timestamps
