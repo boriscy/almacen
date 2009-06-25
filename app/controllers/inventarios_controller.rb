@@ -20,8 +20,8 @@ class InventariosController < ApplicationController
     @inventario = Inventario.find(params[:id])
 
     respond_to do |format|
-      inventario.html # show.html.erb
-      inventario.xml  { render :xml => @inventario }
+      format.html # show.html.erb
+      format.xml  { render :xml => @inventario }
     end
   end
 end

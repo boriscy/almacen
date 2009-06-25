@@ -2,7 +2,27 @@
 <% content_for :title do %>
 Ver Inventario
 <% end %>
+<h1>Ver Inventario Detalle</h1>
+<table>
+  <tr>
+    <th>Item</th>
+    <th>Precio</th>
+    <th>Cantidad</th>
+    <th>Subtotal</th>
+  </tr>
 
-<Editar', edit_usuario_path(@usuario) %> |
+<% @inventario.inventario_detalles.each do |inv| %>
+  <tr>
+    <td><%= inv.item %></td>
+    <td><%=h inv.cantidad%></td>
+    <td><%=h inv.precio_unitario %></td>   
+    <td><%= (inv.precio_unitario and inv.cantidad) ? inv.precio_unitario * inv.cantidad : "0.0" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+
 <%= link_to 'Atras', usuarios_path %>
 
