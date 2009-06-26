@@ -79,6 +79,8 @@ input, select, textarea{
   color: #FFF;
 }
 
+label{vertical-align: top}
+
 div#cont{ padding: 10px;}
 /*Menu*/
 ul#navigation{

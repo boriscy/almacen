@@ -1,14 +1,16 @@
-#!/usr/bin/env ruby
 <% content_for :title do %>
 Ver Inventario
 <% end %>
 <h1>Ver Inventario Detalle</h1>
+<strong>Descripción:</strong><br/>
+<%= @inventario.descripcion %>
+
 <table>
   <tr>
-    <th>Item</th>
-    <th>Precio</th>
-    <th>Cantidad</th>
-    <th>Subtotal</th>
+    <th class="ui-state-default">Item</th>
+    <th class="ui-state-default">Precio</th>
+    <th class="ui-state-default">Cantidad</th>
+    <th class="ui-state-default">Subtotal</th>
   </tr>
 
 <% @inventario.inventario_detalles.each do |inv| %>
@@ -24,5 +26,6 @@ Ver Inventario
 <br />
 
 
-<%= link_to 'Atras', usuarios_path %>
+<%= link_to 'Listado', inventarios_path %>
+<%= link_to 'Ver', edit_inventario_path(@inventario) %>
 

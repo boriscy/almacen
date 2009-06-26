@@ -1,4 +1,6 @@
 <% form_for(@inventario) do |inv| %>
+  <%= inv.label :descripcion %>
+  <%= inv.text_area :descripcion, :rows => 10 %>
   <table id="inventarioDetalles">
   <tr>
     <th style="display:none"></th>
@@ -6,6 +8,8 @@
     <th col="precio" class="ui-state-default">Precio</th>
     <th col="cantidad" class="ui-state-default">Cantidad</th>
     <th col="subtotal" formula="precio*cantidad" class="ui-state-default" summary="sum">Subtotal</th>
+    <th class="ui-state-default">Borrar</th>
+
     
     <!-- <th class="ui-state-default">Precio</th> -->
   </tr>
@@ -16,7 +20,7 @@
     <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
     <td><%= det.text_field :cantidad, :class => 'num' %></td>
     <td>&nbsp;</td>
-    <!-- <td><%= %></td> -->
+    <td><%= det.check_box :_delete %></td>
   </tr>
   <% end %>
   </table>

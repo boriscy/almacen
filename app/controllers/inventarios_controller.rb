@@ -16,12 +16,27 @@ class InventariosController < ApplicationController
       render "new"
     end
   end
+
   def show
     @inventario = Inventario.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @inventario }
+    end
+  end
+
+  def edit
+    @inventario = Inventario.find(params[:id])
+  end
+
+  def update
+    @inventario = Inventario.find(params[:id])
+    if @inventario.update_attributes(params[:inventario])
+      flash[:notice] = "El inventario fue correctamente actualizado."
+      redirect_to inventarios_path
+    else
+      render :action => "edit"
     end
   end
 end

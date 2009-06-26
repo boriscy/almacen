@@ -4,6 +4,7 @@ class CreateInventarios < ActiveRecord::Migration
       t.datetime :fecha
       t.string :descripcion
       t.string :tipo
+      t.decimal :total, :precision => 12, :scale => 2
 
       t.timestamps
     end

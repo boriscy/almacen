@@ -9,7 +9,7 @@
 <% @inventarios.each do |inv| %>
   <tr>
     <td><%= I18n.l inv.fecha, :format => "%d de %B %Y %H:%I" %></td>
-    <td></td>
+    <td><%= number_to_currency inv.total %></td>
     <td>
       <%= link_to "ver", inventario_path(inv) %>
       <%= link_to "editar", edit_inventario_path(inv) %>
