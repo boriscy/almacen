@@ -10,7 +10,7 @@
 
     $.fn.extend({
         grider: function(config) {
-            return this.each(function(){
+            return this.each(function() {
                 new $.Grider(this, config);
             });
         }
@@ -87,7 +87,9 @@
             // Allow to count rows
             if(config['countRow']) {
                 if(config['countRowAdd']) {
-                    $(table).find('tr.noedit:first').prepend('<th>'+ config.countRowText +'</th>');
+                    var className = $(table).find("th:first").attr("class");
+                    className = className != "" ? ' class="' + className + '"': "";
+                    $(table).find('tr.noedit:first').prepend('<th ' + className +'>'+ config.countRowText +'</th>');
                     $(table).find('tr:not(.noedit)').each(function(index, elem){
                         var ind = index+1;
                         $(elem).prepend('<td>'+ind+'</td>');
@@ -95,13 +97,14 @@
                 }
             }
  
-            for(var i = 0, l = t.rows[0].cells.length; i < l; i++) {
+            var l = $(table).find("tr:not(.noedit):first td").length;
+            for(var i = 0; i < l; i++) {
                 setColumn(t.rows[0].cells[i], i);
             }
             // Types of columns
             setColType();
             // Setting formulas and summaries
-            for(var i = 0, l = t.rows[0].cells.length; i < l; i++) {
+            for(var i = 0; i < l; i++) {
                 setFormula(t.rows[0].cells[i]);
                 setSummary(t.rows[0].cells[i]);
             }
@@ -118,10 +121,11 @@
                 });
             }
             for(var k in cols){
-                if(cols[k].summary)
+                if(cols[k].summary) {
                     calculateSummary(k);
+                }
             };
-            
+
             // Allow to add rows
             if(config['addRow']) {
                 $(table).append(config['addRowText']);
@@ -144,7 +148,7 @@
             // Add events to the elements in the table, elements that are related to a summary or formula
             setEvents();
             // Allows to add rows using tab when cursor on a delete link
-            if(config.addRowWithTab) 
+            if(config.addRowWithTab)
                 addRowWithTab();
         }
 
@@ -203,11 +207,12 @@
          */
         function setColumn(cell, pos) {
             var col = $(cell).attr('col');
-            if(col)
+            if(col) {
                 cols[col] = {
                     pos: pos,
                     name: col
                 };
+            }
         }
 
         /**
@@ -225,13 +230,13 @@
 
             // Add the summary row
             if(!summaryRow && summaryCell) {
-                var l = table.rows[0].cells.length;
                 var html = '<tr class="summary noedit">';
-                for(var i=0; i<l; i++) {
-                    html+='<td>&nbsp;</td>';
-                }
+                $(table).find("tr:not(.noedit):first td").each(function(index, elem) {
+                    var style = $(elem).attr("style") ? ' style="' + $(elem).attr("style") + '"' : "";
+                    html += "<td" + style + "></td>";
+                });
                 html+='</tr>';
-                jQuery(table).append(html);
+                $(table).append(html);
                 summaryRow = true;
             }
         }
@@ -245,7 +250,6 @@
             var pos = parseInt(cols[col].pos) + 1;
             var cells = $(table).find('tr:not(.noedit) td:nth-child(' + pos + ')');
             var res = 0, sum = 0, max = null, min = null;
-
             if(summary != 'count') {
                 var val = 0;
 
@@ -290,7 +294,7 @@
                 res = cells.length;
             }
             res = res.toFixed(config.decimals);
-            $(table).find('tr.summary td:eq(' + cols[col].pos +')').html(res);
+            $(table).find('tr.summary td:nth-child(' + pos +')').html(res);
         }
 
 
@@ -378,7 +382,7 @@
         function calculateFormula(col, pos) {
             var pat = cols[col].formula.match(/\b[a-z_-]+[0-9]*\b/ig);
             var formu = cols[col].formula;
-            var row = $(table).find('tr:eq('+ pos + ')');
+            var row = $(table).find('tr:nth-child('+ (pos +1) + ')');
             // Again needed for IE
             for(var k in pat) {
                 if(!/^\d+$/.test(k)) {
@@ -388,7 +392,12 @@
             var columns = []
             // Prepare formula to be calcultated
             for(var k in pat) {
-                var exp = 'td:eq(' + cols[pat[k]].pos + ') ' + cols[pat[k]].type;
+                //console.log("%s: %o, %o, %o",table.id, k, pat[k], cols[pat[k]]);
+                try{
+                var exp = 'td:nth-child(' + (cols[pat[k]].pos + 1) + ') ' + cols[pat[k]].type;
+                }catch(e){
+                console.log("%s: %o, %o, %o",table.id, k, pat[k], cols);
+                }
                 var val = 0;
                 if(cols[pat[k]].type == 'input:checkbox') {
                     val = $(row).find(exp).attr('checked') ? 1 : 0;
@@ -403,7 +412,7 @@
             var res = eval(formu);
             res = res.toFixed(config.decimals);
             // Pocision the response
-            var cell = $(row).find('td:eq(' + cols[col].pos + ')');
+            var cell = $(row).find('td:nth-child(' + (cols[col].pos + 1) + ')');
             if(cols[col].type == "") {
                 $(cell).html(res);
             }else{
