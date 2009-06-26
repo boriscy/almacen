@@ -81,7 +81,14 @@ input, select, textarea{
 
 label{vertical-align: top}
 
-div#cont{ padding: 10px;}
+div#cont{ 
+padding: 10px;
+         text-align:left;
+margin:auto;
+       background-color:fff;
+width:870px;
+height:inherit;
+}
 /*Menu*/
 ul#navigation{
   height: 28px;

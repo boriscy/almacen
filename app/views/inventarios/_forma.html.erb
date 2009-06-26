@@ -3,7 +3,6 @@
   <%= inv.text_area :descripcion, :rows => 10 %>
   <table id="inventarioDetalles">
   <tr>
-    <th style="display:none"></th>
     <th class="ui-state-default">Item</th>
     <th col="precio" class="ui-state-default">Precio</th>
     <th col="cantidad" class="ui-state-default">Cantidad</th>
@@ -15,7 +14,6 @@
   </tr>
   <% inv.fields_for :inventario_detalles do |det| %>
   <tr>
-    <td style="display:none"><%= det.hidden_field :id %></td>
     <td><%= det.select :item_id, Item.all.map{|v| [v, v.id] }, :include_blank => true %></td>
     <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
     <td><%= det.text_field :cantidad, :class => 'num' %></td>

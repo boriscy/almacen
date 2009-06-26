@@ -2,21 +2,24 @@
 
 <table>
   <tr>
-    <th>Codigo</th>
-    <th>Nombre</th>
+    <th class="ui-state-default">Codigo</th>
+    <th class="ui-state-default">Nombre</th>
+    <th class="ui-state-default"></th>
   </tr>
 
 <% @partidas.each do |partida| %>
   <tr>
     <td><%=h partida.codigo %></td>
     <td><%=h partida.nombre %></td>
-    <td><%= link_to 'Show', partida %></td>
-    <td><%= link_to 'Edit', edit_partida_path(partida) %></td>
-    <td><%= link_to 'Destroy', partida, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+      <%= link_to 'ver', partida %><
+      <%= link_to 'editar', edit_partida_path(partida) %></td>
+      <%= link_to 'borrar', partida, :confirm => 'Esta seguro?', :method => :delete %>
+    </td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New partida', new_partida_path %>
+<%= link_to 'nueva partida', new_partida_path %>
