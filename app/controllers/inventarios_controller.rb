@@ -7,6 +7,7 @@ class InventariosController < ApplicationController
   def new
     #v = {:cantidad => 2, :precio_unitario =>4}
     @inventario = Inventario.new(:inventario_detalles_attributes => [{}])
+    #@inventario.inventario_detalles.build
   end
   
   def create

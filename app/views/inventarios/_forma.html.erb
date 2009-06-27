@@ -1,4 +1,6 @@
 <% form_for(@inventario) do |inv| %>
+<%= inv.error_messages %>
+
   <%= inv.label :descripcion %>
   <%= inv.text_area :descripcion, :rows => 10 %>
   <table id="inventarioDetalles">
@@ -22,10 +24,11 @@
   </tr>
   <% end %>
   </table>
-  <%= submit_tag("Ingresar") %>
+  <p>
+    <%= inv.submit 'Salvar', :class => 'ui-corner-all' %>
+  </p>
 <% end %>
 
-<%= link_to "Listado", inventarios_path %>
 
 <script type="text/javascript">
 $(document).ready(function(){

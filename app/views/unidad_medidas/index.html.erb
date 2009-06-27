@@ -1,0 +1,25 @@
+<h1>Unidades de Medida</h1>
+
+<table>
+  <tr>
+    <th class="ui-state-default">Nombre</th>
+    <th class="ui-state-default">Abreviación</th>
+    <th class="ui-state-default"></th>
+  </tr>
+
+<% @unidad_medidas.each do |unidad_medida| %>
+  <tr>
+    <td><%=h unidad_medida.nombre %></td>
+    <td><%=h unidad_medida.abreviacion %></td>
+    <td>
+      <%= link_to 'Ver', unidad_medida %>
+      <%= link_to 'Editar', edit_unidad_medida_path(unidad_medida) %>
+      <%= link_to 'Borrar', unidad_medida, :confirm => 'Esta seguro?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nueva Unidad de Medida', new_unidad_medida_path %>

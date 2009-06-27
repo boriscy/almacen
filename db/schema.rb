@@ -9,25 +9,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090616204057) do
+ActiveRecord::Schema.define(:version => 20090627223746) do
 
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
     t.integer  "item_id"
-    t.decimal  "cantidad",        :precision => 10, :scale => 2
-    t.decimal  "precio_unitario", :precision => 10, :scale => 2
+    t.decimal  "cantidad"
     t.boolean  "activo"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "precio_unitario", :precision => 10, :scale => 2
   end
 
   create_table "inventarios", :force => true do |t|
     t.datetime "fecha"
     t.string   "descripcion"
     t.string   "tipo"
-    t.decimal  "total",       :precision => 12, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "total",       :precision => 12, :scale => 2
   end
 
   create_table "items", :force => true do |t|
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20090616204057) do
     t.boolean  "entero"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "unidad_id"
   end
 
   create_table "partidas", :force => true do |t|
@@ -60,6 +61,13 @@ ActiveRecord::Schema.define(:version => 20090616204057) do
     t.integer  "solicitud_id"
     t.integer  "item_id"
     t.decimal  "cantidad"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unidad_medidas", :force => true do |t|
+    t.string   "nombre"
+    t.string   "abreviacion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

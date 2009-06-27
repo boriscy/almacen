@@ -1,31 +1,4 @@
 <h1>New item</h1>
 
-<% form_for(@item) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :partida_id %><br />
-    <%= f.select :partida_id, Partida.all.map{|v| [v, v.id]}, {:include_blank => true} %>
-  </p>
-  <p>
-    <%= f.label "Código" %><br />
-    <%= f.text_field :codigo %>
-  </p>
-  <p>
-    <%= f.label :nombre %><br />
-    <%= f.text_field :nombre %>
-  </p>
-  <p>
-    <%= f.label :unidad_medida %><br />
-    <%= f.text_field :unidad_medida %>
-  </p>
-  <p>
-    <%= f.label :entero %><br />
-    <%= f.check_box :entero %>
-  </p>
-  <p>
-    <%= f.submit 'Crear' %>
-  </p>
-<% end %>
-
+<%= render :partial => "forma" %>
 <%= link_to 'Atras', items_path %>

@@ -1,4 +1,4 @@
-<% form_for(@unidad) do |f| %>
+<% form_for(@unidad_medida) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -6,8 +6,8 @@
     <%= f.text_field :nombre %>
   </p>
   <p>
-    <%= f.label :iniciales %><br />
-    <%= f.text_field :iniciales %>
+    <%= f.label :abreviacion %><br />
+    <%= f.text_field :abreviacion %>
   </p>
   <p>
     <%= f.submit 'Salvar', :class => 'ui-corner-all' %>

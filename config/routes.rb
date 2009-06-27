@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :unidad_medidas
+
   map.resources :items
   map.resources :partidas
   map.resources :unidades #, :singular => 'unidad'
