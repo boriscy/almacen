@@ -30,6 +30,9 @@ a:hover { color: #3FB2FF; text-decoration: none}
   background-color: red;
   display: table;
 }
+td .fieldWithErrors {
+  display: block !important;
+}
 
 #errorExplanation {
   width: 400px;

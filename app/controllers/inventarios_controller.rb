@@ -29,7 +29,7 @@ class InventariosController < ApplicationController
   end
 
   def edit
-    @inventario = Inventario.find(params[:id])
+    @inventario = Inventario.find(params[:id], :include => :inventario_detalles)
   end
 
   def update
