@@ -14,31 +14,30 @@ ActiveRecord::Schema.define(:version => 20090627223746) do
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
     t.integer  "item_id"
-    t.decimal  "cantidad"
+    t.decimal  "cantidad",        :precision => 10, :scale => 2
+    t.decimal  "precio_unitario", :precision => 10, :scale => 2
     t.boolean  "activo"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "precio_unitario", :precision => 10, :scale => 2
   end
 
   create_table "inventarios", :force => true do |t|
     t.datetime "fecha"
     t.string   "descripcion"
     t.string   "tipo"
+    t.decimal  "total",       :precision => 12, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "total",       :precision => 12, :scale => 2
   end
 
   create_table "items", :force => true do |t|
     t.integer  "partida_id"
     t.string   "codigo"
     t.string   "nombre"
-    t.string   "unidad_medida"
     t.boolean  "entero"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "unidad_id"
+    t.integer  "unidad_medida_id"
   end
 
   create_table "partidas", :force => true do |t|

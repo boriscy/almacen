@@ -3,7 +3,7 @@
 # Add new inflection rules using the following format 
 # (all these examples are active by default):
 ActiveSupport::Inflector.inflections do |inflect|
-  inflect.plural /^([a-z]+)([^a|^e|^i|^o|^u])$/i, '\1\2es'
+  inflect.plural /^([a-z]+)([^aeiou])$/i, '\1\2es'
   inflect.singular /^([a-z]+)(es)$/, '\1'
   inflect.irregular 'solicitud_detalle', 'solicitudes_detalles'
   inflect.irregular 'item', 'items'
