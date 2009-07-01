@@ -26,6 +26,6 @@ Ver Inventario
 <br />
 
 
-<%= link_to 'Ver', inventarios_path %>
-<%= link_to 'Editar', edit_inventario_path(@inventario) %>
+<%= link_to 'Listado', inventarios_path (:page => @page) %>
+<%= link_to 'Editar', edit_inventario_path(@inventario,:page => @page) %>
 

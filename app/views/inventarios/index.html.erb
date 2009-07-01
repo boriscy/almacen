@@ -11,8 +11,8 @@
     <td><%= I18n.l inv.fecha, :format => "%d de %B %Y %H:%I" %></td>
     <td><%= number_to_currency inv.total %></td>
     <td>
-      <%= link_to "Ver", inventario_path(inv) %>
-      <%= link_to "Editar", edit_inventario_path(inv) %>
+      <%= link_to "Ver", inventario_path(inv, :page => @page ) %>
+      <%= link_to "Editar", edit_inventario_path(inv, :page => @page) %>
       <%= link_to 'Borrar', inv, :confirm => 'Esta seguro?', :method => :delete %>
     </td>
   </tr>  
@@ -20,3 +20,4 @@
 </table>
 
 <%= link_to "Nuevo Inventario", new_inventario_path %>
+<%= will_paginate @inventarios %>

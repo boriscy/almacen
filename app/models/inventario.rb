@@ -8,6 +8,9 @@ class Inventario < ActiveRecord::Base
   
   attr_protected :fecha, :total
   
+  cattr_reader:per_page
+  @@per_page = 2
+  
   protected
   def adicionar_fecha
     self.fecha = DateTime.now
@@ -23,4 +26,5 @@ class Inventario < ActiveRecord::Base
     end
     self.total = sum
   end
+  
 end
