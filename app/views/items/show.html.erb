@@ -23,6 +23,6 @@
   <%=h @item.entero %>
 </p>
 
-
+<%= link_to 'Back', items_path(:page => @pagina) %>
 <%= link_to 'Edit', edit_item_path(@item) %> |
 <%= link_to 'Back', items_path %>
