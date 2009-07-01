@@ -1,13 +1,14 @@
 class InventariosController < ApplicationController
   
   def index
-    @inventarios = Inventario.all
+    #page = params[:page] || 1
+    @inventarios = Inventario.paginate(:page => @page)
+    #@inventarios = Inventario.all
   end
 
   def new
     #v = {:cantidad => 2, :precio_unitario =>4}
     @inventario = Inventario.new(:inventario_detalles_attributes => [{}])
-    #@inventario.inventario_detalles.build
   end
   
   def create
@@ -29,7 +30,7 @@ class InventariosController < ApplicationController
   end
 
   def edit
-    @inventario = Inventario.find(params[:id], :include => :inventario_detalles)
+    @inventario = Inventario.find(params[:id])
   end
 
   def update

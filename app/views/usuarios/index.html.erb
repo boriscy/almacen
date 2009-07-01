@@ -16,8 +16,8 @@ Listado de Usuarios
     <td><%=h usuario.nombre_completo %></td>
     <td><%=h usuario.unidad %></td>
     <td>
-      <%= link_to 'ver', usuario %>
-      <%= link_to 'editar', edit_usuario_path(usuario) %>
+      <%= link_to 'Ver', usuario_path(usuario, :page => @page) %>
+      <%= link_to 'editar', edit_usuario_path(usuario, :page => @page)  %>
       <%= link_to 'borrar', usuario, :confirm => 'Esta seguro de borrar?', :method => :delete, :class => 'delete' %>
     </td>
   </tr>
@@ -27,3 +27,4 @@ Listado de Usuarios
 <br />
 
 <%= link_to 'Nuevo usuario', new_usuario_path %>
+<%= will_paginate @usuarios %>  <!--<-- esta linea estamos poniendo -->-->

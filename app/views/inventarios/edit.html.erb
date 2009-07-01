@@ -6,5 +6,5 @@ Editar Inventario
 
 <%= render :partial => "forma" %>
 
-<%= link_to "Listado", inventarios_path %>
-<%= link_to "Ver", edit_inventario_path(@inventario) %>
+<%= link_to "Listado", inventarios_path(:page => @page) %>
+<%= link_to "Ver", inventario_path(@inventario, :page => @page) %>

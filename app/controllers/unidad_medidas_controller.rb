@@ -2,8 +2,9 @@ class UnidadMedidasController < ApplicationController
   # GET /unidad_medidas
   # GET /unidad_medidas.xml
   def index
-    @unidad_medidas = UnidadMedida.all
-
+    #@unidad_medidas = UnidadMedida.all
+    #page = params[:page] || 1
+    @unidad_medidas = UnidadMedida.paginate(:page => @page)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @unidad_medidas }

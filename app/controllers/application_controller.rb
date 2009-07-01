@@ -7,4 +7,12 @@ class ApplicationController < ActionController::Base
   # Para poder mostrar Ajax
   layout proc{|controller| controller.request.xhr? ? false : "application"}
 
+  # Scrub sensitive parameters from your log
+  # filter_parameter_logging :password
+  protected
+
+  def adicionar_paginacion
+    @page = params[:page] || 1
+  end
+  
 end
