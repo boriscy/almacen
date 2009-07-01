@@ -1,9 +1,11 @@
 class UsuariosController < ApplicationController
   # GET /Usuarios
   # GET /Usuarios.xml
+  
   def index
-    @usuarios = Usuario.all
-
+    #@usuarios = Usuario.all
+    #page = params[:page] || 1
+    @usuarios = Usuario.paginate(:page => @page)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @usuarios }
