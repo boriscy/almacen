@@ -15,4 +15,5 @@ class ApplicationController < ActionController::Base
   def adicionar_paginacion
     @page = params[:page] || 1
   end
+  
 end
