@@ -21,8 +21,8 @@ class Inventario < ActiveRecord::Base
     inventario_detalles.each do |v|
       begin
         unless v.marked_for_destruction?
+          sum += v.precio_unitario * v.cantidad
         end
-        sum += v.precio_unitario * v.cantidad
       rescue
       end
     end
