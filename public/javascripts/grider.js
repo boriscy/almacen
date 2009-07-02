@@ -495,7 +495,6 @@
          * Allows to delete a row
          */
         function delRow(elem) {
-            console.log(config.formPos);
             if($(table).find('tr:not(.noedit)').length > 1 ) {
                 if(config.rails) {
                     var el = $(elem).parents('tr').eq(0).prev("input:hidden[name$='[id]']");
