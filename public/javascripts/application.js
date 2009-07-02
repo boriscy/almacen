@@ -170,7 +170,8 @@ $(document).ready(function(){
       countRowCol: 0,
       countRowText: 'Nº',
       countRowAdd: false,
-      addedRow: false
+      addedRow: false,
+      rails: true
     }
   };
 });

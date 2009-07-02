@@ -54,6 +54,7 @@
   * @param boolean config['countRow'] Indicates if it will do count the rows, necessary for adding and deleting rows
   * @param integer config['countRowCol'] Defines the column in which the count will be displayed, defauls = 0
   * @param boolean config['countRowAdd'] Indicates if it will be able to add Rows
+  * @param boolean config['rails'] accepts the use of rails nested attributes
   */
     $.Grider = function(table, config) {
 
@@ -439,30 +440,33 @@
         }
 
         /**
+         * intializes and adds a number when needed to count the rows added or deleted
+         */
+        function addFormPos() {
+            if(!config.formPos || config.formPos == '') {
+                var control = $(table).find('tr:not(.noedit):last').find('input, select, textarea')[0] || false;
+                // Row number in the control
+                if(control.name) {
+                  config["formPos"] = control.name.replace(/^.*\[([0-9]+)\].*$/ig, "$1") || '';
+                }
+                config.addedRow = true;
+                config.formPos++;
+            } else {
+                config.formPos++;
+            }
+        }
+
+
+        /**
          * Function that allows o add new rows
          */
         function addRow() {
             var tr = $(table).find('tr:not(.noedit):first').clone();
-            if(!config.addedRow) {
-                var control = $(table).find('tr:not(.noedit):last').find('input, select, textarea')[0] || false;
-                // Row number in the control
-                if(control.name) {
-                    config["formPos"] = control.name.replace(/^.*\[([0-9]+)\].*$/ig, "$1") || '';
-                }
-                config.addedRow = true
-            }
-            if(config.formPos !== '')
-                config.formPos++;
-
+            addFormPos();
             if($(tr).find("input, select, textarea").length > 0) {
                 $(tr).find("input, textarea, select").each(function(index, elem) {
                     // Change the name of the fields
-                    var newName = '';
-                    if(config.formPos !== '') {
-                        newName = elem.name.replace(/\[[0-9]+\]/i, '[' + config.formPos + ']');
-                    }else {
-                        newName = elem.name;
-                    }
+                    var newName = elem.name.replace(/\[[0-9]+\]/i, '[' + config.formPos + ']');
                     if(elem.type == 'checkbox' || elem.type == 'radio') {
                          $(elem).attr({'name': newName, 'checked': false})
                     }else {
@@ -491,7 +495,20 @@
          * Allows to delete a row
          */
         function delRow(elem) {
+            console.log(config.formPos);
             if($(table).find('tr:not(.noedit)').length > 1 ) {
+                if(config.rails) {
+                    var el = $(elem).parents('tr').eq(0).prev("input:hidden[name$='[id]']");
+                    if(el.length > 0) {
+                        addFormPos();
+                        var name = $(el).attr("name");
+                        var value = $(el).val();
+                        n1 = name.replace(/^(.*)(\[[0-9]+\])(\[id\])$/, "$1["+ config.formPos + "]$3");
+                        n2 = name.replace(/^(.*)(\[[0-9]+\])(\[id\])$/, "$1["+ config.formPos +"][_delete]");
+                        $(el).remove();
+                        $(table).prepend('<span><input type="hidden" name="'+ n1 +'" value="'+ value +'" /><input type="hidden" value="1" name="'+ n2 +'"</span>');
+                    }
+                }
                 $(elem).parents('tr').eq(0).remove();
                 if(config['countRow']) {
                     rowNumber();
@@ -528,6 +545,7 @@
             findColBy: findColBy,
             addRow: addRow,
             addRowWithTab: addRowWithTab,
+            addFormPos: addFormPos,
             delRow: delRow,
             rowNumber: rowNumber
         }
@@ -553,7 +571,8 @@ Grider = {
         countRowText: 'Nº',
         countRowCol: 0,
         countRowAdd: false,
-        addedRow: false
+        addedRow: false,
+        rails: false
     }
 }
 
