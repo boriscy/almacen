@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  has_attached_file :foto, :styles =>{:medio => '350x350>', :mini => '100x100>'}
+  has_attached_file :foto, :styles => {:medio => '350x350>', :mini => '70x70>'}
   has_many :inventario_detalles
     belongs_to :partida
   belongs_to :unidad_medida
