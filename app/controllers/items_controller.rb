@@ -2,8 +2,8 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
   def index
-    @items = Item.paginate(:page => @pagina)
-    @items = Item.all(:include => [:partida, :unidad_medida])
+    @items = Item.paginate(:page => @page)
+    #@items = Item.all(:include => [:partida, :unidad_medida])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -17,6 +17,7 @@
     <td><%=h item.nombre %></td>
     <td><%=h item.unidad_medida %></td>
     <td><%=h item.entero_ %></td>
+    <td><%= image_tag item.foto.url(:mini) %></td>
     <td>
       <%= link_to 'Ver', item %>
       <%= link_to 'Editar', edit_item_path(item) %>

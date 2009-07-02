@@ -20,7 +20,9 @@ class Inventario < ActiveRecord::Base
     sum = 0
     inventario_detalles.each do |v|
       begin
-        sum += v.precio_unitario * v.cantidad 
+        unless v.marked_for_destruction?
+        end
+        sum += v.precio_unitario * v.cantidad
       rescue
       end
     end

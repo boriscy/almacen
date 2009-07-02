@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20090627223746) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "unidad_medida_id"
+    t.string   "foto"
   end
 
   create_table "partidas", :force => true do |t|

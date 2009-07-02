@@ -23,6 +23,10 @@
   <%=h @item.entero %>
 </p>
 
+<p><b>Foto:</b>
+  <%= image_tag @item.foto.url(:mini) %>
+</p>
+
 <%= link_to 'Back', items_path(:page => @pagina) %>
 <%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<!--<%= link_to 'Back', items_path %>-->
