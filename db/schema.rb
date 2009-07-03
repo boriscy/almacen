@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090627223746) do
+ActiveRecord::Schema.define(:version => 20090703220000) do
 
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
@@ -17,6 +17,16 @@ ActiveRecord::Schema.define(:version => 20090627223746) do
     t.decimal  "cantidad",        :precision => 10, :scale => 2
     t.decimal  "precio_unitario", :precision => 10, :scale => 2
     t.boolean  "activo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "inventario_items", :force => true do |t|
+    t.integer  "item_id"
+    t.decimal  "cantidad"
+    t.boolean  "activo"
+    t.decimal  "valor_inventario"
+    t.string   "estado"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -38,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20090627223746) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "unidad_medida_id"
-    t.string   "foto"
+    t.string   "foto_file_name"
   end
 
   create_table "partidas", :force => true do |t|

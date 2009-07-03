@@ -1,0 +1,153 @@
+<mockup version="1.0" skin="sketch" measuredW="1031" measuredH="980">
+  <controls>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::TabBar" x="22" y="112" w="978" h="828" measuredW="523" measuredH="100" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Usuarios%2C%20Items%2CInventarios%2C%20Pedidos%2C%20Consultas%2C%20Aprobacion</text>
+        <selectedIndex>5</selectedIndex>
+        <tabHPosition>left</tabHPosition>
+        <size>14</size>
+      </controlProperties>
+    </control>
+    <control controlID="34" controlTypeID="com.balsamiq.mockups::Title" x="804" y="112" w="-1" h="-1" measuredW="120" measuredH="23" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Fecha%3A%2010/06/2009</text>
+        <size>12</size>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Title" x="637" y="82" w="-1" h="-1" measuredW="287" measuredH="23" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Bienvenido%20Encargado%20de%20Almacenes%3A%20Peoe%20Arnes</text>
+        <size>12</size>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="78" y="869" w="163" h="-1" measuredW="181" measuredH="32" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>focused</state>
+        <text>Ver%20Lista%20De%20Pedidos</text>
+        <icon>AlertIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Title" x="37" y="143" w="-1" h="-1" measuredW="438" measuredH="62" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Aprobacion%20de%20Pedidos</text>
+        <color>255</color>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::DataGrid" x="93" y="476" w="725" h="172" measuredW="763" measuredH="172" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <hasHeader>true</hasHeader>
+        <selectedIndex>0</selectedIndex>
+        <bold>true</bold>
+        <alternateRowColor>12303802</alternateRowColor>
+        <value>32</value>
+        <verticalScrollbar>true</verticalScrollbar>
+        <text>CODIGO%2C%20PARTIDA%2C%20ITEM%2C%20CANTIDAD%2C%20UNIDAD%2C%20%2C%20%2C%0AMH00-220%2C%20Hojas%2C%20Hojas%20Bond%20Tamano%20Carta%2C%202%20%2CPauqetes%0AMH01-230%2C%20Boligrafos%2C%20Boligrafos%20%20Color%20rojo%2C%2010%20%2CUnidad%0AMH03-240%2C%20Cuadernos%2C%20Cuadernos%20Tamano%20carta%20de%20100%20H%2C%2010%20%2CUnidades%0AMH04-280%2C%20CD%2C%20Cd%20Tdk%20de%20780%20Mb%2C%2030%20%2CUnidades%2C%20%20%20%20%2C%20%20Modificado%20</text>
+        <italic>true</italic>
+        <color>16777215</color>
+        <rowHeight>36</rowHeight>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::FieldSet" x="63" y="235" w="802" h="619" measuredW="200" measuredH="170" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>PEDIDO</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Label" x="78" y="276" w="-1" h="-1" measuredW="217" measuredH="25" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>CODIGO%20PEDIDO%3A%20RRHH%20-%201200</text>
+        <color>255</color>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Label" x="78" y="368" w="244" h="25" measuredW="244" measuredH="25" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Unidad%20Solisitante%3A%20Recursos%20Humanos</text>
+        <color>255</color>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::Label" x="518" y="275" w="-1" h="-1" measuredW="200" measuredH="25" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Fecha%20de%20Solicitud%3A%2010/8/2009</text>
+        <color>255</color>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="78" y="316" w="-1" h="-1" measuredW="253" measuredH="25" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Solicitante%3A%20Ana%20Maria%20Sanches%20Gusman</text>
+        <color>255</color>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Label" x="518" y="315" w="-1" h="-1" measuredW="189" measuredH="25" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cargo%20%3A%20Secretaria%20de%20RRHH</text>
+        <color>255</color>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="331" y="428" w="-1" h="-1" measuredW="120" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>DETALLE%20PEDIDO</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::TextArea" x="93" y="714" w="-1" h="-1" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Se%20cambio%20la%20cnatidad%20de%20Cd%20Tdk%20de%20780%20Mb%20de%0A30%20a%2015%20por%20consideracion%20del%20Almacenero</text>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Button" x="677" y="503" w="29" h="-1" measuredW="48" measuredH="32" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>focused</state>
+        <text/>
+        <icon>CopyIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Button" x="678" y="542" w="29" h="-1" measuredW="48" measuredH="32" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>focused</state>
+        <text/>
+        <icon>CopyIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Button" x="681" y="577" w="29" h="-1" measuredW="48" measuredH="32" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>focused</state>
+        <text/>
+        <icon>CopyIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::Button" x="681" y="613" w="29" h="-1" measuredW="48" measuredH="32" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>selected</state>
+        <text/>
+        <icon>CopyIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Button" x="93" y="686" w="-1" h="-1" measuredW="167" measuredH="32" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>selected</state>
+        <text>OBSERVACIONES</text>
+        <icon>PencilIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::Button" x="364" y="752" w="-1" h="-1" measuredW="110" measuredH="32" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>selected</state>
+        <text>ACEPTAR</text>
+        <icon>EmoticonIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::Button" x="526" y="752" w="-1" h="-1" measuredW="123" measuredH="32" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>RECHAZAR</text>
+        <icon>SadFaceIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="2" y="5" w="1019" h="965" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <verticalScrollbar>true</verticalScrollbar>
+        <text>Sistema%20de%20Almacenes%0Ahttp%3A//0.0.0.0%3A3000/Aprovaciones</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
