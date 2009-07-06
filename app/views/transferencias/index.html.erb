@@ -1,0 +1,24 @@
+<h1>Listing transferencias</h1>
+
+<table>
+  <tr>
+    <th>Almacen origen</th>
+    <th>Almacen destino</th>
+    <th>Fecha</th>
+  </tr>
+
+<% @transferencias.each do |transferencia| %>
+  <tr>
+    <td><%=h transferencia.almacen_origen_id %></td>
+    <td><%=h transferencia.almacen_destino_id %></td>
+    <td><%=h transferencia.fecha %></td>
+    <td><%= link_to 'Show', transferencia %></td>
+    <td><%= link_to 'Edit', edit_transferencia_path(transferencia) %></td>
+    <td><%= link_to 'Destroy', transferencia, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New transferencia', new_transferencia_path %>

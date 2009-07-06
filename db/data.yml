@@ -1,0 +1,180 @@
+
+--- 
+unidades: 
+  columns: 
+  - id
+  - nombre
+  - iniciales
+  - created_at
+  - updated_at
+  records: 
+  - - "1"
+    - "Viceministerio de Exploraci\xC3\xB3n y Producci\xC3\xB3n"
+    - VMEP
+    - 2009-06-29 12:58:39
+    - 2009-06-29 12:58:39
+
+--- 
+partidas: 
+  columns: 
+  - id
+  - codigo
+  - nombre
+  - created_at
+  - updated_at
+  records: 
+  - - "1"
+    - PPA
+    - Papel
+    - 2009-06-29 13:00:30
+    - 2009-06-29 13:00:30
+  - - "2"
+    - CAR
+    - Carpetas
+    - 2009-06-29 13:00:49
+    - 2009-06-29 13:00:49
+
+--- 
+inventarios: 
+  columns: 
+  - id
+  - fecha
+  - descripcion
+  - tipo
+  - total
+  - created_at
+  - updated_at
+  records: 
+  - - "1"
+    - 2009-06-29 13:13:16
+    - Nuevo si, que si
+    - 
+    - "50.02"
+    - 2009-06-29 13:13:16
+    - 2009-07-02 15:18:25
+  - - "2"
+    - 2009-07-02 12:45:04
+    - "Prueba de edici\xC3\xB3n"
+    - 
+    - "160"
+    - 2009-07-02 12:45:04
+    - 2009-07-02 15:37:58
+
+--- 
+inventario_detalles: 
+  columns: 
+  - id
+  - inventario_id
+  - item_id
+  - cantidad
+  - precio_unitario
+  - activo
+  - created_at
+  - updated_at
+  records: 
+  - - "3"
+    - "2"
+    - "1"
+    - "3000"
+    - "0.05"
+    - false
+    - 2009-07-02 12:45:04
+    - 2009-07-02 15:05:34
+  - - "9"
+    - "1"
+    - "1"
+    - "2501"
+    - "0.02"
+    - false
+    - 2009-07-02 15:18:03
+    - 2009-07-02 15:18:25
+  - - "10"
+    - "2"
+    - "2"
+    - "500"
+    - "0.02"
+    - false
+    - 2009-07-02 15:37:58
+    - 2009-07-02 15:37:58
+
+--- 
+usuarios: 
+  columns: 
+  - id
+  - unidad_id
+  - ci
+  - nombre
+  - paterno
+  - materno
+  - cargo
+  - activo
+  - created_at
+  - updated_at
+  records: 
+  - - "1"
+    - "1"
+    - "3376951"
+    - Boris
+    - Barroso
+    - Camberos
+    - 
+    - false
+    - 2009-06-29 12:59:02
+    - 2009-06-29 12:59:02
+
+--- 
+unidad_medidas: 
+  columns: 
+  - id
+  - nombre
+  - abreviacion
+  - created_at
+  - updated_at
+  records: 
+  - - "1"
+    - Unidad
+    - unid.
+    - 2009-06-29 12:59:40
+    - 2009-06-29 12:59:40
+  - - "2"
+    - Metro
+    - m.
+    - 2009-06-29 12:59:52
+    - 2009-06-29 12:59:52
+
+--- 
+items: 
+  columns: 
+  - id
+  - partida_id
+  - codigo
+  - nombre
+  - entero
+  - created_at
+  - updated_at
+  - unidad_medida_id
+  records: 
+  - - "1"
+    - "1"
+    - PPB
+    - Papel Bond
+    - true
+    - 2009-06-29 13:01:25
+    - 2009-06-29 13:01:25
+    - "1"
+  - - "2"
+    - "1"
+    - PSB
+    - Papel Sabana
+    - true
+    - 2009-06-29 13:01:53
+    - 2009-06-29 13:01:53
+    - "1"
+  - - "3"
+    - "2"
+    - BBL
+    - "Bol\xC3\xADgrafo"
+    - true
+    - 2009-06-29 13:02:22
+    - 2009-06-29 13:02:28
+    - "1"

@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :transferencias
+
+  map.resources :almacenes
+
   map.resources :unidad_medidas
 
   map.resources :items
