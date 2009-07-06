@@ -5,3 +5,4 @@
 *.sqlite3
 *~
 public/fotos
+db/data.yml
