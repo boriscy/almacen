@@ -1,0 +1,98 @@
+@background: #262626; 
+@background2: #000;
+@border_color: #666666;
+@color: #fff;
+body{
+  padding: 0px;
+  margin: 0px;
+  background: @background; color: @color;
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+@a_color: #f58f17;
+@a_hover: #3FB2FF;
+a { color: @a_color; text-decoration: underline; }
+a:hover { color: @a_hover; text-decoration: none}
+#flashNotice{
+  color: #F58F17;
+  font-size: 1.8em;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+td .fieldWithErrors {
+  display: block !important;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid #FF0000;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  h2{
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: @background2;
+    color: #fff;
+    border-bottom: 2px solid #FF0000;
+  }
+  p{margin-bottom: 0; padding: 5px;}
+  ul li{font-size: 12px; list-style: square;}
+}
+
+@border_color_table: #8f8f8f;
+table{
+  border-collapse: collapse;
+}
+th, td{
+  border: 1px solid @border_color_table;
+  padding: 3px 4px;
+}
+
+/*Forms*/
+input, select, textarea{
+  padding: 2px 3px;
+  background: @background2;
+  border: 1px solid @border_color;
+  color: @color;
+}
+
+label{vertical-align: top}
+
+div#cont{ 
+  padding: 10px;
+  text-align:left;
+  margin:auto;
+}
+@a_menu_color: #5f5f5f;
+/*Menu*/
+ul#navigation{
+  height: 28px;
+  list-style: none;
+  padding: 0px; margin: 0px;
+  background: @background2;
+  li{display: inline; float: left;}
+  li a{
+   display: block;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 5px 7px;
+    border-right: 1px solid @border_color;
+  }
+  li a:hover{
+    background: @a_menu_color !important;
+  }
+}

@@ -1,0 +1,20 @@
+.fieldWithErrors { background-color: red; padding: 2px; display: table; }
+label { vertical-align: top; }
+ul#navigation { margin: 0px; background: #000; list-style: none; padding: 0px; height: 28px; }
+ul#navigation li a { font-weight: bold; font-size: 1em; text-decoration: none; border-right: 1px solid #666666; display: block; padding: 5px 7px; }
+ul#navigation li a:hover { background: #5f5f5f !important; }
+ul#navigation li { display: inline; float: left; }
+a { color: #f58f17; text-decoration: underline; }
+body { margin: 0px; background: #262626; color: #fff; padding: 0px; }
+td .fieldWithErrors { display: block !important; }
+#errorExplanation { margin-bottom: 20px; border: 2px solid #FF0000; padding: 7px; padding-bottom: 12px; width: 400px; }
+#errorExplanation p { margin-bottom: 0; padding: 5px; }
+#errorExplanation ul li { font-size: 12px; list-style: square; }
+#errorExplanation h2 { font-weight: bold; font-size: 12px; margin: -7px; border-bottom: 2px solid #FF0000; background-color: #000; color: #fff; padding: 5px 5px 5px 15px; text-align: left; }
+a:hover { color: #3FB2FF; text-decoration: none; }
+th, td { border: 1px solid #8f8f8f; padding: 3px 4px; }
+#flashNotice { font-size: 1.8em; font-weight: bold; color: #F58F17; text-decoration: underline; }
+table { border-collapse: collapse; }
+body, p, ol, ul, td { font-size: 13px; font-family: verdana, arial, helvetica, sans-serif; line-height: 18px; }
+div#cont { margin: auto; padding: 10px; text-align: left; }
+input, select, textarea { background: #000; border: 1px solid #666666; color: #fff; padding: 2px 3px; }
