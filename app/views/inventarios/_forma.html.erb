@@ -1,15 +1,22 @@
+
 <% form_for(@inventario) do |inv| %>
+
 <%= inv.error_messages %>
 
   <%= inv.label :descripcion %>
   <%= inv.text_area :descripcion, :rows => 10 %>
+<br/><br/><br/>
+  <div class="input">
+  <label>Seleccione el Item:</label>
+  <%= select_tag "item", Item.list.map{|v| "<option id=\"#{v[1]}\">#{v[0]}</option>" }.join(""), :class => "flexselect" %>
+  </div>
+  <br/><br/>
   <table id="inventarioDetalles">
   <tr>
     <th class="ui-state-default">Item</th>
     <th col="precio" class="ui-state-default">Precio</th>
     <th col="cantidad" class="ui-state-default">Cantidad</th>
     <th col="subtotal" formula="precio*cantidad" class="ui-state-default" summary="sum">Subtotal</th>
-    <th class="ui-state-default">Borrar</th>
 
     
     <!-- <th class="ui-state-default">Precio</th> -->
@@ -20,7 +27,6 @@
     <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
     <td><%= det.text_field :cantidad, :class => 'num' %></td>
     <td>&nbsp;</td>
-    <td><%= det.check_box :_delete %></td>
   </tr>
   <% end %>
   </table>
@@ -32,6 +38,6 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#inventarioDetalles').grider();
+  $('#inventarioDetalles').grider({addRow: false, addRowWithTab: false});
 });
 </script>
