@@ -1,8 +1,9 @@
 class Inventario < ActiveRecord::Base
   has_many :inventario_detalles, :dependent => :destroy
+  belongs_to :almacen
+
   accepts_nested_attributes_for :inventario_detalles, :allow_destroy => true
   validates_presence_of :descripcion
-  validate
   before_create :adicionar_fecha
   before_save :adicionar_total
   after_save :actualizar_inventario

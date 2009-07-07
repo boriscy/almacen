@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  almacen_origen_id: 1
+  almacen_destino_id: 1
+  fecha: 2009-07-06 10:48:07
+
+two:
+  almacen_origen_id: 1
+  almacen_destino_id: 1
+  fecha: 2009-07-06 10:48:07

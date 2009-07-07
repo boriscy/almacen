@@ -8,6 +8,8 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'solicitud_detalle', 'solicitudes_detalles'
   inflect.irregular 'inventario_item', 'inventario_items'
   inflect.irregular 'item', 'items'
+  inflect.irregular 'stock', 'stocks'
+
 #   inflect.plural /^(ox)$/i, '\1en'
 #   inflect.singular /^(ox)en/i, '\1'
 #   inflect.irregular 'person', 'people'
