@@ -6,3 +6,6 @@
 *~
 public/fotos
 db/data.yml
+nbproject
+public/javascripts/grider/*
+!public/javascripts/grider/grider.js

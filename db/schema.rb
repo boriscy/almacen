@@ -9,7 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090627223338) do
+ActiveRecord::Schema.define(:version => 20090706145029) do
+
+  create_table "almacenes", :force => true do |t|
+    t.string   "nombre",     :limit => 100
+    t.string   "direccion"
+    t.string   "codigo",     :limit => 20
+    t.string   "telefono",   :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
@@ -28,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20090627223338) do
     t.decimal  "total",       :precision => 12, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "almacen_id"
   end
 
   create_table "items", :force => true do |t|
@@ -60,6 +70,36 @@ ActiveRecord::Schema.define(:version => 20090627223338) do
     t.integer  "solicitud_id"
     t.integer  "item_id"
     t.decimal  "cantidad"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stocks", :force => true do |t|
+    t.integer  "almacen_id"
+    t.integer  "item_id"
+    t.decimal  "cantidad"
+    t.decimal  "valor_inventario"
+    t.boolean  "activo"
+    t.string   "estado"
+    t.string   "accion"
+    t.datetime "fecha_vencimiento"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transferencia_detalles", :force => true do |t|
+    t.integer  "item_id"
+    t.integer  "transferencia_id"
+    t.decimal  "cantidad",         :precision => 14, :scale => 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transferencias", :force => true do |t|
+    t.integer  "almacen_origen_id"
+    t.integer  "almacen_destino_id"
+    t.datetime "fecha"
+    t.decimal  "total"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
