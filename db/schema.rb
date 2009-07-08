@@ -9,7 +9,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD:db/schema.rb
 ActiveRecord::Schema.define(:version => 20090703220000) do
+=======
+ActiveRecord::Schema.define(:version => 20090627223338) do
+>>>>>>> e8031a31c0dc0633822597dcba7eaf370b78b112:db/schema.rb
 
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
@@ -48,7 +52,10 @@ ActiveRecord::Schema.define(:version => 20090703220000) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "unidad_medida_id"
+<<<<<<< HEAD:db/schema.rb
     t.string   "foto_file_name"
+=======
+>>>>>>> e8031a31c0dc0633822597dcba7eaf370b78b112:db/schema.rb
   end
 
   create_table "partidas", :force => true do |t|

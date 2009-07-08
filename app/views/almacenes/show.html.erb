@@ -1,0 +1,18 @@
+<p>
+  <b>Nombre:</b>
+  <%=h @almacen.nombre %>
+</p>
+
+<p>
+  <b>Direccion:</b>
+  <%=h @almacen.direccion %>
+</p>
+
+<p>
+  <b>Codigo:</b>
+  <%=h @almacen.codigo %>
+</p>
+
+
+<%= link_to 'Edit', edit_almacen_path(@almacen) %> |
+<%= link_to 'Back', almacenes_path %>

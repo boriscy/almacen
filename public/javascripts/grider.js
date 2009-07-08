@@ -66,7 +66,11 @@
 
         if(config) {
             for(var k in defaults) {
+              if(typeof(defaults[k]) == "boolean" && typeof(config[k]) == "boolean" ) {
+                config[k] = config[k];
+              }else{
                 config[k] = config[k] || defaults[k];
+              }
             }
         }else{
             config = defaults;

@@ -1,0 +1,18 @@
+<p>
+  <b>Almacen origen:</b>
+  <%=h @transferencia.almacen_origen_id %>
+</p>
+
+<p>
+  <b>Almacen destino:</b>
+  <%=h @transferencia.almacen_destino_id %>
+</p>
+
+<p>
+  <b>Fecha:</b>
+  <%=h @transferencia.fecha %>
+</p>
+
+
+<%= link_to 'Edit', edit_transferencia_path(@transferencia) %> |
+<%= link_to 'Back', transferencias_path %>

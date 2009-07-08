@@ -1,0 +1,23 @@
+<h1>New transferencia</h1>
+
+<% form_for(@transferencia) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :almacen_origen_id %><br />
+    <%= f.text_field :almacen_origen_id %>
+  </p>
+  <p>
+    <%= f.label :almacen_destino_id %><br />
+    <%= f.text_field :almacen_destino_id %>
+  </p>
+  <p>
+    <%= f.label :fecha %><br />
+    <%= f.datetime_select :fecha %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', transferencias_path %>
