@@ -9,8 +9,8 @@
 
 <% @transferencias.each do |transferencia| %>
   <tr>
-    <td><%=h transferencia.almacen_origen_id %></td>
-    <td><%=h transferencia.almacen_destino_id %></td>
+    <td><%=h transferencia.origen.nombre %></td>
+    <td><%=h transferencia.destino.nombre %></td>
     <td><%=h transferencia.fecha %></td>
     <td><%= link_to 'Show', transferencia %></td>
     <td><%= link_to 'Edit', edit_transferencia_path(transferencia) %></td>
