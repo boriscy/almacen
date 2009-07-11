@@ -1,23 +1,36 @@
 class Inventario < ActiveRecord::Base
+  # Relaciones
   has_many :inventario_detalles, :dependent => :destroy
   belongs_to :almacen
 
+  # Nested Forms, son atrbutos detalle en un formulario, en este caso allow_destroy => true
+  # hara que se borren todos los items relacionados
   accepts_nested_attributes_for :inventario_detalles, :allow_destroy => true
-  validates_presence_of :descripcion
+  # validaciones
+  validates_presence_of :almacen_id
+
+  # Callbacks, son metodos que llaman a funciones cuando se realiza alguna de las acciones
+  # descritas en el modelo ej: before_save (Antes de salvar), after_create (Despues de crear)
   before_create :adicionar_fecha
   before_save :adicionar_total
   after_save :actualizar_inventario
-  
-  attr_protected :fecha, :total
-  
+
+  # Atributos protegidos que no pueden ser modificados por los parametros
+  attr_protected :fecha, :total 
+ 
+  # paginacion
   cattr_reader:per_page
   @@per_page = 2
   
   protected
+
+  # Adiciona la fecha al registro
   def adicionar_fecha
     self.fecha = DateTime.now
   end
 
+  # Metodo que calcula el total de los detalles en este caso (inventario_detalles) antes de salvar
+  # Ver arriba accepts_nested_attributes_for
   def adicionar_total
     sum = 0
     inventario_detalles.each do |v|
@@ -31,29 +44,67 @@ class Inventario < ActiveRecord::Base
     self.total = sum
   end
 
+  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
+  def actualizar_inventario_delete(inv, stock)
+    cantidad = stock.cantidad - inv.cantidad
+    valor = stock.valor_inventario - inv.precio_unitario * inv.cantidad
+    [cantidad, valor]
+  end
+
+  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
+  # En este caso es necesario revisar en la base de datos cual es su estado actual ya que
+  # el objeto inv es atualizado por los nuevos valores que ingresa el usuario
+  def actualizar_inventario_update(inv, stock)
+    # Valor que se encuentra almacenado en la Base de Datos
+    db_inv = InventarioDetalle.find(inv.id)
+    cantidad = inv.cantidad + stock.cantidad + stock.cantidad - db_inv.cantidad
+    valor =  inv.cantidad * v.precio_unitario + stock.valor_inventario + stock.cantidad - db_inv.cantidad * db_inv.precio_unitario
+    [cantidad, valor]
+  end
+
+  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
+  def actualizar_inventario_create(inv, stock)
+    cantidad = stock.cantidad + inv.cantidad
+    valor = stock.valor_inventario + inv.precio_unitario * inv.cantidad
+    [cantidad, valor]
+  end
+
+
   # metodo para poder actualizar el valor y el total que hay en inventarios
-  def acutalizar_inventario
+  def actualizar_inventario
     ids = inventario_detalles.map{|v| v.id}
     InventarioItem.all(:conditions => { :id => ids })
+
+    # Incio de una transaccion para poder asegurar que los datos
+    # son almacenados correctamente
     Inventario.transaction do
       inventario_detalles.each do |inv|
-        ii = InventarioItem.find(inv.item_id, :conditions => {:activo => true} )
-        if inv.created_at == inv.updated_at
-          cantidad_total_calc = inv.cantidad + ii.cantidad
-          valor_inventario_calc = inv.precio_unitario * inv.cantidad + ii.precio_unitario * ii.cantidad
-        elsif inv.marked_for_destruction?
-          cantidad_total_calc = ii.cantidad - inv.cantidad
-          valor_inventario_calc = -1 * inv.precio_unitario * inv.cantidad + ii.precio_unitario * ii.cantidad
-        else
-          actual = InventaioDetalle.find(inv.id, :activo => true)
-          cantidad_total_calc = inv.cantidad + ii.cantidad - actual.cantidad
-          valor_inventario_calc = inv.precio_unitario * inv.cantidad + ii.precio_unitario * ii.cantidad - actual.precio_unitario * actual.cantidad
+        # Este metodo de busqueda es creado automaticamente por Rails
+        # a este tipo de metodos generados se llama metaprogramacion
+        stock = Stock.find_by_almacen_id_and_item_id( almacen_id, inv.item_id )
+        # Crear un stock vacio si retorna stock Nulo nil
+        stock = Stock.new(:almacen_id => almacen_id, :cantidad => 0, :valor_inventario => 0) if stock.nil?
+        # En este caso permite llamar a una funcion determinada de acurdo a la
+        # operacion, permite que el codigo se mas claro
+        case
+          when inv.created_at == inv.updated_at
+            cantidad, valor = actualizar_inventario_create(inv, stock)
+          when inv.marked_for_destruction?
+            cantidad, valor =  actualizar_inventario_delete(inv, stock)
+          else
+            cantidad, valor =  actualizar_inventario_update(inv, stock)
         end
-        ii.activo = false
-        ii.save
-        i_new = InventarioItem.create( :item_id => inv.item_id, :cantidad => cantidad_total_calc , :valor_inventario => valor_inventario_calc. :activo => true )
+        # Aqui es donde se crea el nuevo registro de stock
+        Stock.create(:almacen_id => almacen_id, :valor_inventario => valor, :item_id => inv.item_id,
+            :cantidad => cantidad, :activo => true, :estado => '' )
+        # se marca como inactivo el ultimo
+        stock.activo = false
+        stock.save unless stock.id.nil?
+
       end
     end
+
+
   end
-  
+
 end
