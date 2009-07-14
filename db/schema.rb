@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
     t.datetime "updated_at"
   end
 
+  create_table "inventario_items", :force => true do |t|
+    t.integer  "item_id"
+    t.decimal  "cantidad"
+    t.boolean  "activo"
+    t.decimal  "valor_inventario"
+    t.string   "estado"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "inventarios", :force => true do |t|
     t.datetime "fecha"
     t.string   "descripcion"
@@ -48,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "unidad_medida_id"
+    t.string   "foto_file_name"
   end
 
   create_table "partidas", :force => true do |t|

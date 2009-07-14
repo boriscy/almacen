@@ -6,10 +6,13 @@ class Item < ActiveRecord::Base
   has_many :solicitud_detalles
   belongs_to :partida
   belongs_to :unidad_medida
+  has_many :inventario_items
   
+  after_create :crear_inventario
+
   validates_presence_of :partida_id, :unidad_medida_id
   cattr_reader :per_page
-  @@per_page = 3
+  @@per_page = 1
 
   
   def to_s
@@ -24,4 +27,9 @@ class Item < ActiveRecord::Base
     self.unidad_medida.entero
   end
   
+  protected
+  def crear_inventario
+    InventarioItem.create(:item_id => self.id, :cantidad => 0, :activo => true, :valor_inventario => 0)
+  end
+
 end

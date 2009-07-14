@@ -1,24 +1,5 @@
 <h1>Editing almacen</h1>
 
-<% form_for(@almacen) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :nombre %><br />
-    <%= f.text_field :nombre %>
-  </p>
-  <p>
-    <%= f.label :direccion %><br />
-    <%= f.text_field :direccion %>
-  </p>
-  <p>
-    <%= f.label :codigo %><br />
-    <%= f.text_field :codigo %>
-  </p>
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @almacen %> |
-<%= link_to 'Back', almacenes_path %>
+<%= render :partial => "forma" %>
+<%= link_to 'Ver', @almacen %> |
+<%= link_to 'Atras', almacenes_path %>

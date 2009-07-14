@@ -7,7 +7,7 @@
     <th class="ui-state-default">Nombre</th>
     <th class="ui-state-default">Unidad medida</th>
     <th class="ui-state-default">Entero</th>
-    <th class="ui-state-default"></th>
+    <th class="ui-state-default">Imagen</th>
   </tr>
 
 <% @items.each do |item| %>
@@ -19,8 +19,8 @@
     <td><%=h item.entero_ %></td>
     <td><%= image_tag item.foto.url(:mini) %></td>
     <td>
-      <%= link_to 'Ver', item %>
-      <%= link_to 'Editar', edit_item_path(item) %>
+      <%= link_to 'Ver', item_path(item, :page => @page ) %>
+      <%= link_to 'Editar', edit_item_path(item, :page => @page) %>
       <%= link_to 'Borrar', item, :confirm => 'Estas seguro?', :method => :delete %>
     </td>
   </tr>
@@ -28,5 +28,6 @@
 </table>
 
 <br />
-<%= will_paginate @items %>
+
 <%= link_to 'Nuevo item', new_item_path %>
+<%= will_paginate @items %>

@@ -12,8 +12,8 @@
     <td><%=h partida.codigo %></td>
     <td><%=h partida.nombre %></td>
     <td>
-      <%= link_to 'ver', partida %><
-      <%= link_to 'editar', edit_partida_path(partida) %></td>
+      <%= link_to 'ver', partida %>
+      <%= link_to 'editar', edit_partida_path(partida) %>
       <%= link_to 'borrar', partida, :confirm => 'Esta seguro?', :method => :delete %>
     </td>
   </tr>

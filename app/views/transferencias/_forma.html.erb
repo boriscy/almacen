@@ -1,0 +1,19 @@
+<% form_for(@transferencia) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :almacen_origen_id %><br />
+    <%= f.select :almacen_origen_id, Almacen.all.map{|v| [v, v.id]}, :include_blank => true %>
+  </p>
+  <p>
+    <%= f.label :almacen_destino_id %><br />
+    <%= f.select :almacen_destino_id, Almacen.all.map{|v| [v, v.id]}, :include_blank => true %>
+  </p>
+  <p>
+    <%= f.label :fecha %><br />
+    <%= f.datetime_select :fecha %>
+  </p>
+  <p>
+    <%= f.submit 'Salvar' %>
+  </p>
+<% end %>

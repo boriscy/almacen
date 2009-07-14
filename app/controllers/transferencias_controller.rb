@@ -2,7 +2,7 @@ class TransferenciasController < ApplicationController
   # GET /transferencias
   # GET /transferencias.xml
   def index
-    @transferencias = Transferencia.all
+    @transferencias = Transferencia.all(:include => [:origen, :destino])
 
     respond_to do |format|
       format.html # index.html.erb

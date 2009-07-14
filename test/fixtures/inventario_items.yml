@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  item_id: 1
+  cantidad: 9.99
+  activo: false
+  valor_inventario: 9.99
+  estado: MyString
+
+two:
+  item_id: 1
+  cantidad: 9.99
+  activo: false
+  valor_inventario: 9.99
+  estado: MyString
