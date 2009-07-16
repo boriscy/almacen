@@ -41,5 +41,39 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
       assert_equal 1, stock.cantidad
       assert_equal 1, stock.valor_inventario
     end
+
+    context "Actualizacion" do
+      setup do
+        @inventario = Inventario.first
+        attr = []
+        c = 1
+        @inventario.inventario_detalles.each do |inv|
+          attr << {:id => inv.id, :item_id => inv.item_id, :cantidad => c * 5, :precio_unitario => c * 1.5}
+          c += 1
+        end
+        attr.push({:item_id => 3, :cantidad => 2, :precio_unitario => 2})
+        @inventario.inventario_detalles_attributes = attr
+        @inventario.save
+        @inventario = Inventario.first
+      end
+
+      should "tener 3 items" do
+        # es necesario realizar la busqueda ya que crea un elemento vacio con nil y retorna 4 si no se realiza la consulta
+        assert_equal 3, @inventario.inventario_detalles.size 
+      end
+
+      should "tener un total de 41.5" do
+        assert_equal 41.5, @inventario.total
+      end
+
+      should "actualizar stock correctamente" do
+        debugger
+        @inventario.inventario_detalles.each do |inv|
+          stock = Stock.find_by_item_id_and_almacen_id(inv.item_id, @inventario.almacen_id)
+          assert_equal inv.cantidad, stock.cantidad
+        end
+      end
+
+    end
   end
 end

@@ -13,7 +13,10 @@ class Inventario < ActiveRecord::Base
   # descritas en el modelo ej: before_save (Antes de salvar), after_create (Despues de crear)
   before_create :adicionar_fecha
   before_save :adicionar_total
-  after_save :actualizar_inventario
+  after_create :actualizar_inventario
+  after_update :actualizar_inventario
+  after_destroy :actualizar_inventario
+
 
   # Atributos protegidos que no pueden ser modificados por los parametros
   attr_protected :fecha, :total 
@@ -72,7 +75,6 @@ class Inventario < ActiveRecord::Base
 
   # metodo para poder actualizar el valor y el total que hay en inventarios
   def actualizar_inventario
-
     # Incio de una transaccion para poder asegurar que los datos
     # son almacenados correctamente
     Inventario.transaction do
@@ -85,12 +87,12 @@ class Inventario < ActiveRecord::Base
         # En este caso permite llamar a una funcion determinada de acurdo a la
         # operacion, permite que el codigo se mas claro
         case
-          when inv.created_at == inv.updated_at
-            cantidad, valor = actualizar_inventario_create(inv, stock)
           when inv.marked_for_destruction?
             cantidad, valor =  actualizar_inventario_delete(inv, stock)
+          when inv.changed?
+            cantidad, valor = actualizar_inventario_update(inv, stock)
           else
-            cantidad, valor =  actualizar_inventario_update(inv, stock)
+            cantidad, valor =  actualizar_inventario_create(inv, stock)
         end
         # Aqui es donde se crea el nuevo registro de stock
         Stock.create(:almacen_id => almacen_id, :valor_inventario => valor, :item_id => inv.item_id,
