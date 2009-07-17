@@ -8,7 +8,7 @@
 <br/><br/><br/>
   <div class="input">
   <label>Seleccione el Item:</label>
-  <%= select_tag "item", Item.list.map{|v| "<option id=\"#{v[1]}\">#{v[0]}</option>" }.join(""), :class => "flexselect" %>
+  <%= select_tag "item", Item.list.map{|v| "<option id=\"#{v[1]}\">#{v[0]}</option>" }.join(""), :class => "flexselect", :size => "40" %>
   </div>
   <br/><br/>
   <table id="inventarioDetalles">
