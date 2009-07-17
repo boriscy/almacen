@@ -1,19 +1,27 @@
-
+<style>
+#item_flexselect{width: 500px}
+</style>
 <% form_for(@inventario) do |inv| %>
 
 <%= inv.error_messages %>
-
+<p>
+  <%= inv.label :almacen_id, "Almacen" %>
+  <%= inv.select :almacen_id, Almacen.list, :include_blank => true %>
+</p>
+<p>
   <%= inv.label :descripcion %>
   <%= inv.text_area :descripcion, :rows => 10 %>
+</p>
 <br/><br/><br/>
   <div class="input">
   <label>Seleccione el Item:</label>
-  <%= select_tag "item", Item.list.map{|v| "<option id=\"#{v[1]}\">#{v[0]}</option>" }.join(""), :class => "flexselect", :size => "40" %>
+  <% @items = Item.list %>
+  <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
   </div>
   <br/><br/>
   <table id="inventarioDetalles">
   <tr>
-    <th class="ui-state-default">Item</th>
+    <th class="ui-state-default" style="width:200px">Item</th>
     <th col="precio" class="ui-state-default">Precio</th>
     <th col="cantidad" class="ui-state-default">Cantidad</th>
     <th col="subtotal" formula="precio*cantidad" class="ui-state-default" summary="sum">Subtotal</th>
@@ -23,9 +31,16 @@
   </tr>
   <% inv.fields_for :inventario_detalles do |det| %>
   <tr>
-    <td><%= det.select :item_id, Item.all.map{|v| [v, v.id] }, :include_blank => true %></td>
+    <td>
+      <%= det.hidden_field :item_id %>
+      <% unless det.object.item_id.nil? %>
+        <%= buscar_en_lista(@items, det.object.item_id)[0] %>
+      <% end %>
+    </td>
     <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
-    <td><%= det.text_field :cantidad, :class => 'num' %></td>
+    <td>
+      <%= det.text_field :cantidad, :class => 'num' %>
+    </td>
     <td>&nbsp;</td>
   </tr>
   <% end %>
@@ -38,6 +53,29 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#inventarioDetalles').grider({addRow: false, addRowWithTab: false});
+  $('#inventarioDetalles').grider({addRowWithTab: false})
+  .find("caption").hide();
+  
+  $('#item').flexselect()
+  val = $('#item').val();
+  var init = <%= @inventario.inventario_detalles.first.item_id.nil? ? false : true %>;
+
+  elementos = {}
+  $('#item_flexselect').focus(function(){
+    var tmp = $('#item').val();
+    if(val != tmp  && !elementos[tmp + ""]) {
+      val = tmp;
+      elementos[tmp + ""] = true;
+      if(init) {
+        $('#inventarioDetalles caption a').click();
+      }
+      var num = $('#inventarioDetalles tr:not(.noedit):last input:text').attr("name").replace(/^.*([0-9]+).*$/,"$1");
+      var html = "<input type='hidden' name='inventario[inventario_detalles_attributes]["+ num +"][item_id]' value='" + tmp + "' />";
+      html += this.value;
+      $('#inventarioDetalles').find("tr:not(.noedit):last td:eq(0)").html(html);
+      init = true;
+    }
+  });
+
 });
 </script>

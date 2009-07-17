@@ -1,10 +1,11 @@
-<h1>Listing almacenes</h1>
+<h1>Almacenes</h1>
 
 <table>
   <tr>
-    <th>Nombre</th>
-    <th>Direccion</th>
-    <th>Codigo</th>
+    <th class="ui-state-default">Nombre</th>
+    <th class="ui-state-default">Direccion</th>
+    <th class="ui-state-default">Codigo</th>
+    <th class="ui-state-default"></th>
   </tr>
 
 <% @almacenes.each do |almacen| %>
@@ -12,9 +13,10 @@
     <td><%=h almacen.nombre %></td>
     <td><%=h almacen.direccion %></td>
     <td><%=h almacen.codigo %></td>
-    <td><%= link_to 'Ver', almacen %></td>
-    <td><%= link_to 'Editar', edit_almacen_path(almacen) %></td>
-    <td><%= link_to 'Borrar', almacen, :confirm => 'Estas seguro?', :method => :delete %></td>
+    <td><%= link_to 'Ver', almacen %>
+      <%= link_to 'Editar', edit_almacen_path(almacen) %>
+      <%= link_to 'Borrar', almacen, :confirm => 'Estas seguro?', :method => :delete %>
+    </td>
   </tr>
 <% end %>
 </table>

@@ -1,0 +1,19 @@
+<h1>Solicitudes</h1>
+
+<table>
+  <tr>
+    <th class="ui-state-default">Fecha</th>
+    <th class="ui-state-default">Total</th>
+    <th class="ui-state-default">&nbsp;</th>
+  </tr>
+  <% @solicitudes.each do |v| %>
+    <td><%= v.fecha %></td>
+    <td><%= v.total %></td>
+    <td>
+      <%= link_to solicitud_path(v) %>
+      <%= link_to edit_solicitud_path(v) %>
+      <%= link_to delete_solicitud_path(v) %>
+    </td>
+  <% end %>
+</table>
+<%= will_paginate @solicitudes %>

@@ -8,7 +8,6 @@ class Item < ActiveRecord::Base
   belongs_to :unidad_medida
   has_many :inventario_items
   
-  after_create :crear_inventario
 
   validates_presence_of :partida_id, :unidad_medida_id
   cattr_reader :per_page
@@ -19,17 +18,9 @@ class Item < ActiveRecord::Base
     "#{nombre} (#{codigo})"
   end
 
-  def entero_
-    entero ? "Si" : "No"
-  end
-
   def entero?
     self.unidad_medida.entero
   end
   
-  protected
-  def crear_inventario
-    InventarioItem.create(:item_id => self.id, :cantidad => 0, :activo => true, :valor_inventario => 0)
-  end
 
 end

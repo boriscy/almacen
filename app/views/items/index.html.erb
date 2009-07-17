@@ -5,9 +5,9 @@
     <th class="ui-state-default">Partida</th>
     <th class="ui-state-default">Codigo</th>
     <th class="ui-state-default">Nombre</th>
-    <th class="ui-state-default">Unidad medida</th>
-    <th class="ui-state-default">Entero</th>
+    <th class="ui-state-default">Medida</th>
     <th class="ui-state-default">Imagen</th>
+    <th class="ui-state-default"></th>
   </tr>
 
 <% @items.each do |item| %>
@@ -15,8 +15,7 @@
     <td><%=h item.partida %></td>
     <td><%=h item.codigo %></td>
     <td><%=h item.nombre %></td>
-    <td><%=h item.unidad_medida %></td>
-    <td><%=h item.entero_ %></td>
+    <td><%=h item.unidad_medida.abreviacion %></td>
     <td><%= image_tag item.foto.url(:mini) %></td>
     <td>
       <%= link_to 'Ver', item_path(item, :page => @page ) %>

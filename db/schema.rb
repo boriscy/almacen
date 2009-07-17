@@ -23,42 +23,33 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
   create_table "inventario_detalles", :force => true do |t|
     t.integer  "inventario_id"
     t.integer  "item_id"
-    t.decimal  "cantidad",        :precision => 10, :scale => 2
-    t.decimal  "precio_unitario", :precision => 10, :scale => 2
+    t.decimal  "cantidad",          :precision => 10, :scale => 2
+    t.decimal  "precio_unitario",   :precision => 10, :scale => 2
     t.boolean  "activo"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "inventario_items", :force => true do |t|
-    t.integer  "item_id"
-    t.decimal  "cantidad"
-    t.boolean  "activo"
-    t.decimal  "valor_inventario"
-    t.string   "estado"
+    t.date     "fecha_vencimiento"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "inventarios", :force => true do |t|
+    t.integer  "almancen_id"
     t.datetime "fecha"
     t.string   "descripcion"
     t.string   "tipo"
     t.decimal  "total",       :precision => 12, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "almacen_id"
   end
 
   create_table "items", :force => true do |t|
     t.integer  "partida_id"
+    t.integer  "unidad_medida_id"
     t.string   "codigo"
     t.string   "nombre"
-    t.boolean  "entero"
+    t.string   "unidad_medida"
+    t.string   "foto_file_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "unidad_medida_id"
-    t.string   "foto_file_name"
   end
 
   create_table "partidas", :force => true do |t|
@@ -80,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
   create_table "solicitudes_detalles", :force => true do |t|
     t.integer  "solicitud_id"
     t.integer  "item_id"
-    t.decimal  "cantidad"
+    t.decimal  "cantidad",     :precision => 10, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -88,12 +79,12 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
   create_table "stocks", :force => true do |t|
     t.integer  "almacen_id"
     t.integer  "item_id"
-    t.decimal  "cantidad"
-    t.decimal  "valor_inventario"
+    t.decimal  "cantidad",          :precision => 10, :scale => 2
+    t.decimal  "valor_inventario",  :precision => 12, :scale => 2
     t.boolean  "activo"
     t.string   "estado"
     t.string   "accion"
-    t.datetime "fecha_vencimiento"
+    t.date     "fecha_vencimiento"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -101,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
   create_table "transferencia_detalles", :force => true do |t|
     t.integer  "item_id"
     t.integer  "transferencia_id"
-    t.decimal  "cantidad",         :precision => 14, :scale => 2
+    t.decimal  "cantidad",         :precision => 10, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -118,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
   create_table "unidad_medidas", :force => true do |t|
     t.string   "nombre"
     t.string   "abreviacion"
+    t.boolean  "entero",      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -131,11 +123,11 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
 
   create_table "usuarios", :force => true do |t|
     t.integer  "unidad_id"
-    t.string   "ci"
-    t.string   "nombre"
-    t.string   "paterno"
-    t.string   "materno"
-    t.string   "cargo"
+    t.string   "ci",         :limit => 15
+    t.string   "nombre",     :limit => 30
+    t.string   "paterno",    :limit => 30
+    t.string   "materno",    :limit => 30
+    t.string   "cargo",      :limit => 50
     t.boolean  "activo"
     t.datetime "created_at"
     t.datetime "updated_at"

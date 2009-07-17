@@ -2,6 +2,8 @@
 @background2: #000;
 @border_color: #666666;
 @color: #fff;
+@a_color: #F58F17; 
+@a_hover: #3FB2FF;
 body{
   padding: 0px;
   margin: 0px;
@@ -15,8 +17,8 @@ body, p, ol, ul, td {
 }
 @a_color: #f58f17;
 @a_hover: #3FB2FF;
-a { color: @a_color; text-decoration: underline; }
-a:hover { color: @a_hover; text-decoration: none}
+a { color: @a_color; text-decoration: underline; cursor: pointer; }
+a:hover { color: @a_hover; text-decoration: none; }
 #flashNotice{
   color: #F58F17;
   font-size: 1.8em;
@@ -69,7 +71,7 @@ input, select, textarea{
   color: @color;
 }
 
-label{vertical-align: top}
+label{vertical-align: top;}
 
 div#cont{ 
   padding: 10px;

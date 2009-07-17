@@ -3,4 +3,8 @@ class Unidad < ActiveRecord::Base
   def to_s
     "#{nombre} (#{iniciales})"
   end
+
+  def entero_to_s
+    entero ? "Si" : "No"
+  end
 end

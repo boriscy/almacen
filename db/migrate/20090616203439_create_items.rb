@@ -2,6 +2,7 @@ class CreateItems < ActiveRecord::Migration
   def self.up
     create_table :items do |t|
       t.integer :partida_id
+      t.integer :unidad_medida_id
       t.string :codigo
       t.string :nombre
       t.string :unidad_medida

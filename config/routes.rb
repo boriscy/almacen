@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :unidades #, :singular => 'unidad'
   map.resources :usuarios
   map.resources :inventarios
-  
+  map.resources :solicitudes  
 
   # The priority is based upon order of creation: first created -> highest priority.
 

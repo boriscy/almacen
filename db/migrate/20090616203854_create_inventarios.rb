@@ -1,7 +1,7 @@
 class CreateInventarios < ActiveRecord::Migration
   def self.up
     create_table :inventarios do |t|
-      t.integer :almancen_id
+      t.integer :almacen_id
       t.datetime :fecha
       t.string :descripcion
       t.string :tipo
