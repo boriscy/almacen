@@ -58,7 +58,7 @@ class Inventario < ActiveRecord::Base
     # Valor que se encuentra almacenado en la Base de Datos
     db_inv = InventarioDetalle.find(inv.id)
     cantidad = inv.cantidad + stock.cantidad + stock.cantidad - db_inv.cantidad
-    valor =  inv.cantidad * v.precio_unitario + stock.valor_inventario + stock.cantidad - db_inv.cantidad * db_inv.precio_unitario
+    valor =  inv.cantidad * inv.precio_unitario + stock.valor_inventario + stock.cantidad - db_inv.cantidad * db_inv.precio_unitario
     [cantidad, valor]
   end
 

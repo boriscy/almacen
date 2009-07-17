@@ -35,6 +35,13 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
       stock = Stock.find_by_item_id(1)
       assert_equal 2, stock.cantidad
       assert_equal 3, stock.valor_inventario
+      stock = Stock.find_by_item_id(2)
+      assert_equal 1, stock.cantidad
+      assert_equal 1, stock.valor_inventario
+ 
+      
+      
     end
+    
   end
 end
