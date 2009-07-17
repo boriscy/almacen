@@ -16,6 +16,7 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
       @inventario.inventario_detalles_attributes = [ {:item_id => 1, :cantidad => 2, :precio_unitario => 1.5},
             {:item_id => 2, :cantidad => 1, :precio_unitario => 1}]
       @inventario.save!
+      s = 0
     end
 
     should "debe tener fecha" do
@@ -33,13 +34,12 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
     end
 
     should "actualizar stock" do
-      stock = Stock.find_by_item_id(1)
+      stock = Stock.find_by_item_id_and_almacen_id(1, 1)
       assert_equal 2, stock.cantidad
-      assert_equal 3, stock.valor_inventario
-
-      stock = Stock.find_by_item_id(2)
+      assert_equal 3.0, stock.valor_inventario
+      stock = Stock.find_by_item_id_and_almacen_id(2, 1)
       assert_equal 1, stock.cantidad
-      assert_equal 1, stock.valor_inventario
+      assert_equal 1.0, stock.valor_inventario
     end
 
     context "Actualizacion" do
@@ -53,11 +53,12 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
         end
         attr.push({:item_id => 3, :cantidad => 2, :precio_unitario => 2})
         @inventario.inventario_detalles_attributes = attr
-        @inventario.save
-        @inventario = Inventario.first
+        @inventario.save        
+        @inventario = Inventario.find(@inventario.id)
       end
 
       should "tener 3 items" do
+
         # es necesario realizar la busqueda ya que crea un elemento vacio con nil y retorna 4 si no se realiza la consulta
         assert_equal 3, @inventario.inventario_detalles.size 
       end
@@ -67,13 +68,13 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
       end
 
       should "actualizar stock correctamente" do
-        debugger
-        @inventario.inventario_detalles.each do |inv|
-          stock = Stock.find_by_item_id_and_almacen_id(inv.item_id, @inventario.almacen_id)
-          assert_equal inv.cantidad, stock.cantidad
-        end
+#        @inventario.inventario_detalles.each do |inv|
+        stock = Stock.find_by_item_id_and_almacen_id(1, 1)
+        assert_equal 5, stock.cantidad
+#        end
       end
 
     end
+
   end
 end
