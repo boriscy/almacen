@@ -6,7 +6,6 @@
 *~
 public/fotos
 nbproject
-db/data.yml
 nbproject
 public/javascripts/grider/*
 !public/javascripts/grider/grider.js
