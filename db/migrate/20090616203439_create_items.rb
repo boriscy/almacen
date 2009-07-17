@@ -5,7 +5,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :codigo
       t.string :nombre
       t.string :unidad_medida
-      t.boolean :entero
+      t.string :foto_file_name
 
       t.timestamps
     end

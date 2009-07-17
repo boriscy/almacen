@@ -1,11 +1,1 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  fecha: 2009-06-16 16:38:54
-  descripcion: MyString
-  tipo: MyString
-
-two:
-  fecha: 2009-06-16 16:38:54
-  descripcion: MyString
-  tipo: MyString

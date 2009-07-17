@@ -78,7 +78,7 @@ class UnidadesController < ApplicationController
     @unidad.destroy
 
     respond_to do |format|
-      format.html { redirect_to(unidads_url) }
+      format.html { redirect_to(unidades_url) }
       format.xml  { head :ok }
     end
   end

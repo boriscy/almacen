@@ -6,6 +6,7 @@ class CreateInventarioDetalles < ActiveRecord::Migration
       t.decimal :cantidad, :precision => 10, :scale => 2
       t.decimal :precio_unitario, :precision => 10, :scale => 2
       t.boolean :activo
+      t.date :fecha_vencimiento
 
       t.timestamps
     end

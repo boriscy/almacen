@@ -3,6 +3,7 @@ class CreateUnidadMedidas < ActiveRecord::Migration
     create_table :unidad_medidas do |t|
       t.string :nombre
       t.string :abreviacion
+      t.boolean :entero, :default => false
 
       t.timestamps
     end

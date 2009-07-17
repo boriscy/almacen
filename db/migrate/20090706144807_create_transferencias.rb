@@ -4,7 +4,7 @@ class CreateTransferencias < ActiveRecord::Migration
       t.integer :almacen_origen_id
       t.integer :almacen_destino_id
       t.datetime :fecha
-      t.decimal :total, :pecision => 14, :scale => 2
+      t.decimal :total, :pecision => 12, :scale => 2
 
       t.timestamps
     end

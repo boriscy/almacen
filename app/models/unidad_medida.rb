@@ -2,8 +2,12 @@ class UnidadMedida < ActiveRecord::Base
   has_many :items
   validates_presence_of :nombre, :abreviacion
   cattr_reader :per_page
-  @@per_page = 1
+  @@per_page = 30
   def to_s
     "#{nombre} (#{abreviacion})"
+  end
+
+  def entero_to_s
+    entero ? "SI" : "NO"
   end
 end

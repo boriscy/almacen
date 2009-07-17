@@ -12,7 +12,7 @@ class Item < ActiveRecord::Base
 
   validates_presence_of :partida_id, :unidad_medida_id
   cattr_reader :per_page
-  @@per_page = 1
+  @@per_page = 30
 
   
   def to_s
