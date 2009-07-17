@@ -3,12 +3,12 @@ class CreateStocks < ActiveRecord::Migration
     create_table :stocks do |t|
       t.integer :almacen_id
       t.integer :item_id
-      t.decimal :cantidad
-      t.decimal :valor_inventario
+      t.decimal :cantidad, :precision => 10, :scale => 2
+      t.decimal :valor_inventario, :precision => 12, :scale => 2
       t.boolean :activo
       t.string :estado
       t.string :accion
-      t.datetime :fecha_vencimiento
+      t.date :fecha_vencimiento
 
       t.timestamps
     end

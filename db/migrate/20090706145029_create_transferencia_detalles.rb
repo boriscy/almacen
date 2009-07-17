@@ -3,7 +3,7 @@ class CreateTransferenciaDetalles < ActiveRecord::Migration
     create_table :transferencia_detalles do |t|
       t.integer :item_id
       t.integer :transferencia_id
-      t.decimal :cantidad, :precision => 14, :scale => 2 
+      t.decimal :cantidad, :precision => 10, :scale => 2 
 
       t.timestamps
     end

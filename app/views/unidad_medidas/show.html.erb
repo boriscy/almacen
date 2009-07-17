@@ -8,6 +8,11 @@
   <%=h @unidad_medida.abreviacion %>
 </p>
 
+<p>
+  <b>Entero:</b>
+  <%=h @unidad_medida.entero_to_s %>
+</p>
+
 
 <%= link_to 'Editar', edit_unidad_medida_path( :page => @page) %> |
 <%= link_to 'Listado', unidad_medidas_path( :page => @page) %>

@@ -6,4 +6,8 @@ class UnidadMedida < ActiveRecord::Base
   def to_s
     "#{nombre} (#{abreviacion})"
   end
+
+  def entero_to_s
+    entero ? "SI" : "NO"
+  end
 end
