@@ -55,7 +55,7 @@
 $(document).ready(function(){
   $('#inventarioDetalles').grider({addRowWithTab: false})
   .find("caption").hide();
-  
+ 
   $('#item').flexselect()
   val = $('#item').val();
   var init = <%= @inventario.inventario_detalles.first.item_id.nil? ? false : true %>;
@@ -78,4 +78,5 @@ $(document).ready(function(){
   });
 
 });
+
 </script>

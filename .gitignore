@@ -6,6 +6,5 @@
 *~
 public/fotos
 nbproject
-nbproject
 public/javascripts/grider/*
 !public/javascripts/grider/grider.js

@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
   end
 
   create_table "inventarios", :force => true do |t|
-    t.integer  "almancen_id"
+    t.integer  "almacen_id"
     t.datetime "fecha"
     t.string   "descripcion"
     t.string   "tipo"
