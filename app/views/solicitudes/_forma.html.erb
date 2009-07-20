@@ -1,0 +1,26 @@
+<% form_for(@solicitud) do |inv| %>
+  <%= inv.error_messages %>
+  <table id="solicitudDetalles">
+    <tr>
+        <th class= "ui-state-default"> Item</th>
+        <th col="cantidad" class = "ui-state-default"> Cantidad</th>
+      </tr>
+      <% inv.fields_for :solicitud_detalles do |det|%>
+        <tr>
+          </td>
+          <td><%= det.select :item_id, Item.all.map{|v| [v, v.id]}, :include_blank => true%></td>
+          <td><%= det.text_field :cantidad, :class => 'num' %></td>
+          
+        </tr>
+      <% end %>
+  </table>  
+  <p>
+    <%= inv.submit 'Salvar', :class => 'ui-corner-all' %>
+  </p>
+<% end %>
+
+<script type = "text/javascript">
+  $(document).ready(function() {
+    $('#solicitudDetalles').grider({addRow: true , addRowWithTab: true});
+  });
+</script>

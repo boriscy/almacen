@@ -1,19 +1,18 @@
 class SolicitudesController < ApplicationController
-  # GET /Solicituds
-  # GET /Solicituds.xml
-  
+  # GET /solicitudes
+  # GET /solicitudes.xml
   def index
-    #@solicitudes = Solicitud.all
-    #page = params[:page] || 1
+  #  @solicitudes = Solicitud.all
+
+   # respond_to do |format|
+  #format.html # index.html.erb
+   #   format.xml  { render :xml => @solicitudes }
+    #end
     @solicitudes = Solicitud.paginate(:page => @page)
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @solicitudes }
-    end
   end
 
-  # GET /Solicituds/1
-  # GET /Solicituds/1.xml
+  # GET /solicitudes/1
+  # GET /solicitudes/1.xml
   def show
     @solicitud = Solicitud.find(params[:id])
 
@@ -23,66 +22,59 @@ class SolicitudesController < ApplicationController
     end
   end
 
-  # GET /Solicituds/new
-  # GET /Solicituds/new.xml
+  # GET /solicitudes/new
+  # GET /solicitudes/new.xml
   def new
-    @solicitud = Solicitud.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @Solicitud }
-    end
+     @solicitud = Solicitud.new(:solicitud_detalles_attributes => [{}])
   end
 
-  # GET /Solicituds/1/edit
+  # GET /solicitudes/1/edit
   def edit
     @solicitud = Solicitud.find(params[:id])
   end
 
-  # POST /Solicituds
-  # POST /Solicituds.xml
+  # POST /solicitudes
+  # POST /solicitudes.xml
   def create
-    @solicitud = Solicitud.new(params[:usuario])
+    @solicitud = Solicitud.new(params[:solicitud])
 
-    respond_to do |format|
       if @solicitud.save
-        flash[:notice] = 'El usuario fue creado exitosamente.'
-        format.html { redirect_to(@solicitud) }
-        format.xml  { render :xml => @solicitud, :status => :created, :location => @solicitud }
+        redirect_to solicitudes_path
+        #format.html { redirect_to(@solicitud) }
+        #format.xml  { render :xml => @solicitud, :status => :created, :location => @solicitud }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
+        #format.html { render :action => "new" }
+        #format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
+        render "new"
       end
-    end
-  end
+   end
 
-  # PUT /Solicituds/1
-  # PUT /Solicituds/1.xml
+  # PUT /solicitudes/1
+  # PUT /solicitudes/1.xml
   def update
     @solicitud = Solicitud.find(params[:id])
 
-    respond_to do |format|
-      if @solicitud.update_attributes(params[:usuario])
-        flash[:notice] = 'El usuario fue correctamente actualizado.'
-        format.html { redirect_to(@solicitud) }
-        format.xml  { head :ok }
+      if @solicitud.update_attributes(params[:solicitud])
+        flash[:notice] = 'Solicitud ha sido modificado.'
+        #format.html { redirect_to(@solicitud) }
+        #format.xml  { head :ok }
+        redirect_to solicitudes_path
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
+        #format.html { render :action => "edit" }
+        #format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
+        render :action => "edit"
       end
-    end
   end
 
-  # DELETE /Solicituds/1
-  # DELETE /Solicituds/1.xml
+  # DELETE /solicitudes/1
+  # DELETE /solicitudes/1.xml
   def destroy
     @solicitud = Solicitud.find(params[:id])
     @solicitud.destroy
 
     respond_to do |format|
-      format.html { redirect_to(usuarios_url) }
+      format.html { redirect_to(solicitudes_url) }
       format.xml  { head :ok }
     end
   end
-
 end

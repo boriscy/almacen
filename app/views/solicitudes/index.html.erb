@@ -1,19 +1,25 @@
-<h1>Solicitudes</h1>
+<h1>Listado de  solicitudes</h1>
 
 <table>
   <tr>
-    <th class="ui-state-default">Fecha</th>
-    <th class="ui-state-default">Total</th>
-    <th class="ui-state-default">&nbsp;</th>
+    <th class="ui-state-default" >Fecha</th>
+    <th class="ui-state-default">Estado</th>
+    <th class="ui-state-default"> </th>
   </tr>
-  <% @solicitudes.each do |v| %>
-    <td><%= v.fecha %></td>
-    <td><%= v.total %></td>
+
+<% @solicitudes.each do |solicitud| %>
+  <tr>
+    <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%I" unless solicitud.fecha.nil? %></td>
+    <td><%= solicitud.estado %></td>
     <td>
-      <%= link_to solicitud_path(v) %>
-      <%= link_to edit_solicitud_path(v) %>
-      <%= link_to delete_solicitud_path(v) %>
+      <%= link_to 'Mostrar', solicitud_path(solicitud,:page => @page) %>
+      <%= link_to 'Editar', edit_solicitud_path(solicitud, :page => @page) %>
+      <%= link_to 'Eliminar', solicitud, :confirm => 'Esta Seguro?', :method => :delete %>
     </td>
-  <% end %>
+  </tr>
+<% end %>
 </table>
-<%= will_paginate @solicitudes %>
+
+<br />
+
+<%= link_to 'Nueva solicitud', new_solicitud_path %>
