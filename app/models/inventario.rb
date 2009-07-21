@@ -25,7 +25,7 @@ class Inventario < ActiveRecord::Base
  
   # paginacion
   cattr_reader:per_page
-  @@per_page = 2
+  @@per_page = 9
   
   protected
 
