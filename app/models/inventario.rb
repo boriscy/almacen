@@ -17,7 +17,7 @@ class Inventario < ActiveRecord::Base
   before_save :adicionar_total
   before_save :actualizar_inventario
   before_destroy :marcar_destroy
-#  after_destroy :actualizar_inventario
+  #after_destroy :actualizar_inventario
 
 
   # Atributos protegidos que no pueden ser modificados por los parametros

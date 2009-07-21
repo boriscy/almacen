@@ -53,15 +53,19 @@
 
 
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function() {
   $('#inventarioDetalles').grider({addRowWithTab: false})
   .find("caption").hide();
   
   $('#item').flexselect()
   val = $('#item').val();
+  // Sirve para poder saber si es edicion o creacion de un inventario
   var init = <%= @inventario.inventario_detalles.first.item_id.nil? ? false : true %>;
-
-  elementos = {}
+  // En esta variable se almacena todos los ids para la cadena JSON de "elementos"
+  <% @elementos = {} %>
+  <% @inventario.inventario_detalles.map{|v| @elementos[v.id] = true } unless @inventario.id.nil? %>
+  // Variable que permite almacenar todos los items seleccionados, para no repetir la seleccion
+  elementos = <%= @elementos.to_json %>;
   $('#item_flexselect').focus(function(){
     var tmp = $('#item').val();
     if(val != tmp  && !elementos[tmp + ""]) {
@@ -75,7 +79,10 @@ $(document).ready(function(){
       html += this.value;
       $('#inventarioDetalles').find("tr:not(.noedit):last td:eq(0)").html(html);
       init = true;
-    }
+    }/*else if(elementos[tmp + ""]) {
+      this.value = '';
+      alert("Usted ya selecciono este ítem");
+    }*/
   });
 
 });
