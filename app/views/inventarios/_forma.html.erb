@@ -86,10 +86,13 @@ $(document).ready(function() {
       alert("Usted ya selecciono este ítem");
       }*/
     });
-    
-  $('a.delete').live("click", function() {
-    var item_id = $(this).parents("tr").find("input:hidden").val();
-    delete elementos[item_id];
+
+  // Esto permite capturar el evento cuando se hace click en a.delete de la tabla "inventarioDetalles"
+  $('#inventarioDetalles a.delete').live("click", function() {
+    //Buscar parent y despues buscar dentro del parent el campo hidden
+      var item_id = $(this).parents("tr").find("input:hidden").val();
+      //Borrar el item de elementos
+      delete elementos[item_id];
   });
 
 });
