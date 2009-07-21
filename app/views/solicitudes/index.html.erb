@@ -2,8 +2,9 @@
 
 <table>
   <tr>
+    <th class="ui-state-default" >Numero</th>
     <th class="ui-state-default" >Fecha</th>
-    <th class="ui-state-default">Usuario</th>
+    <th class="ui-state-default">Solicitante</th>
     <th class="ui-state-default">Descripcion</th>
     <th class="ui-state-default">Estado</th>
     <th class="ui-state-default"></th>
@@ -11,12 +12,13 @@
 
 <% @solicitudes.each do |solicitud| %>
   <tr>
+    <td><%= solicitud.id%></td>
     <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%I" %></td>
     <td><%= solicitud.usuario.nombre_completo %></td>
     <td><%= solicitud.descripcion[0,100] +  (solicitud.descripcion.size > 100 ? "..." : "") %></td>
     <td><%= solicitud.estado %></td>
     <td>
-      <%= link_to 'Mostrar', solicitud_path(solicitud,:page => @page) %>
+      <%= link_to 'Detallar', solicitud_path(solicitud,:page => @page) %>
       <%= link_to 'Editar', edit_solicitud_path(solicitud, :page => @page) %>
       <%= link_to 'Borrar', solicitud, :confirm => 'Esta Seguro?', :method => :delete %>
     </td>
