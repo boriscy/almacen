@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20090706145029) do
     t.datetime "fecha"
     t.string   "estado"
     t.datetime "fecha_aprobacion"
+    t.text     "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

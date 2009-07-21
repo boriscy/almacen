@@ -8,7 +8,7 @@ class SolicitudesController < ApplicationController
   #format.html # index.html.erb
    #   format.xml  { render :xml => @solicitudes }
     #end
-    @solicitudes = Solicitud.paginate(:page => @page)
+    @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario)
   end
 
   # GET /solicitudes/1

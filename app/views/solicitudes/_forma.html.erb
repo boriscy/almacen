@@ -1,35 +1,29 @@
 <style>
   #item_flexselect{width: 500px}
-  </style>
+</style>
 
-<% form_for(@solicitud) do |inv| %>
-  <%= inv.error_messages %>
-  <p>
-    <%= inv.label :Usuario_id, "Usuario" %>
-    <%=# inv.select :Usuario_id, Usuario.list, :include_blank => true 
-    %>
-  </p>
-  <p>
-    <%= # inv.label :descripcion
-    %>
-    <%= # inv.text_area :descripcion, :rows => 10 
-    %>
-  </p>
-  <br /><br /><br />
-  <div class = input>
-    <label>Seleccione el Item:</label>
-   <% @items = Item.list %>
+<% form_for(@solicitud) do |sol| %>
+  <%= sol.error_messages %>
+
+  <%= sol.label :descripcion, "Descripción" %>
+  <%= sol.text_area :descripcion, :rows => 10 %>
+
+  <br/><br/> 
+  <div class="input buscar">
+  <label>Seleccione el Item:</label>
+  <% @items = Item.list %>
   <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
- 
   </div>
+
 <br/><br/>
 
+<h3>Items</h3>
   <table id="solicitudDetalles">
     <tr>
        <th class="ui-state-default" style="width:200px">Item</th>
-       <th col="cantidad" class = "ui-state-default"> Cantidad</th>
+       <th class="ui-state-default" col="cantidad" class = "ui-state-default"> Cantidad</th>
    </tr>
-      <% inv.fields_for :solicitud_detalles do |det|%>
+      <% sol.fields_for :solicitud_detalles do |det|%>
         <tr>
           <td>
                 <%= det.hidden_field :item_id %>
@@ -38,13 +32,12 @@
                 <% end %>
           </td>
           <td><%= det.text_field :cantidad, :class => 'num' %></td>
-          <td>&nbsp;</td> 
         </tr>
 
       <% end %>
   </table>  
   <p>
-    <%= inv.submit 'Salvar', :class => 'ui-corner-all' %>
+    <%= sol.submit 'Salvar', :class => 'ui-corner-all' %>
   </p>
 <% end %>
 

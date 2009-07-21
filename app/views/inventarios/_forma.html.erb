@@ -9,16 +9,17 @@
   <%= inv.select :almacen_id, Almacen.list, :include_blank => true %>
 </p>
 <p>
-  <%= inv.label :descripcion %>
+  <%= inv.label :descripcion, "Descripción" %>
   <%= inv.text_area :descripcion, :rows => 10 %>
 </p>
 <br/><br/><br/>
-  <div class="input">
+  <div class="input buscar">
   <label>Seleccione el Item:</label>
   <% @items = Item.list %>
   <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
   </div>
   <br/><br/>
+<h3>Items</h3>
   <table id="inventarioDetalles">
   <tr>
     <th class="ui-state-default" style="width:200px">Item</th>
