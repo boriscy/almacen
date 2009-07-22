@@ -1,0 +1,71 @@
+<style>
+  #item_flexselect{width: 500px}
+</style>
+
+<% form_for(@solicitud) do |sol| %>
+  <%= sol.error_messages %>
+
+  <%= sol.label :descripcion, "Descripción" %>
+  <%= sol.text_area :descripcion, :rows => 10 %>
+
+  <br/><br/> 
+  <div class="input buscar">
+  <label>Buscar Item:</label>
+  <% @items = Item.list %>
+  <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
+  </div>
+
+<br/><br/>
+
+<h3>Items</h3>
+  <table id="solicitudDetalles">
+    <tr>
+       <th class="ui-state-default" style="width:200px">Item</th>
+       <th class="ui-state-default" col="cantidad" class = "ui-state-default"> Cantidad</th>
+   </tr>
+      <% sol.fields_for :solicitud_detalles do |det|%>
+        <tr>
+          <td>
+                <%= det.hidden_field :item_id %>
+                <% unless det.object.item_id.nil? %>
+                <%= buscar_en_lista(@items, det.object.item_id)[0] %>
+                <% end %>
+          </td>
+          <td><%= det.text_field :cantidad, :class => 'num' %></td>
+                  </tr> 
+
+      <% end %>
+  </table>  
+  <p>
+    <%= sol.submit 'Salvar', :class => 'ui-corner-all' %>
+  </p>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#solicitudDetalles').grider({addRowWithTab: false})
+  .find("caption").hide();
+  
+  $('#item').flexselect()
+  val = $('#item').val();
+  var init = <%= @solicitud.solicitud_detalles.first.item_id.nil? ? false : true %>;
+
+  elementos = {}
+  $('#item_flexselect').focus(function(){
+    var tmp = $('#item').val();
+    if(val != tmp  && !elementos[tmp + ""]) {
+      val = tmp;
+      elementos[tmp + ""] = true;
+      if(init) {
+        $('#solicitudDetalles caption a').click();
+      }
+      var num = $('#solicitudDetalles tr:not(.noedit):last input:text').attr("name").replace(/^.*([0-9]+).*$/,"$1");
+      var html = "<input type='hidden' name='solicitud[solicitud_detalles_attributes]["+ num +"][item_id]' value='" + tmp + "' />";
+      html += this.value;
+      $('#solicitudDetalles').find("tr:not(.noedit):last td:eq(0)").html(html);
+      init = true;
+    }
+  });
+
+});
+</script>

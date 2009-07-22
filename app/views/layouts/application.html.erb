@@ -18,6 +18,9 @@
 <% @menu.each do |m|%>
   <li><%= link_to m[1], m[0]  %></li>
 <% end %>
+<% if current_user %>
+  <li><a href="/logout">Salir</a></li>
+<% end %>
 </ul>
 <div id="cont">
   <div id="flashNotice"><%= flash[:notice] %></div>
@@ -27,6 +30,7 @@
 
 </body>
 </html>
+
 <script type="text/javascript">
 $(document).ready(function(){
   $("select[class*=flexselect]").flexselect();

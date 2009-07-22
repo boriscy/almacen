@@ -9,16 +9,17 @@
   <%= inv.select :almacen_id, Almacen.list, :include_blank => true %>
 </p>
 <p>
-  <%= inv.label :descripcion %>
+  <%= inv.label :descripcion, "Descripción" %>
   <%= inv.text_area :descripcion, :rows => 10 %>
 </p>
 <br/><br/><br/>
-  <div class="input">
-  <label>Seleccione el Item:</label>
+  <div class="input buscar">
+  <label>Buscar Item:</label>
   <% @items = Item.list %>
   <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
   </div>
   <br/><br/>
+<h3>Items</h3>
   <table id="inventarioDetalles">
   <tr>
     <th class="ui-state-default" style="width:200px">Item</th>
@@ -52,16 +53,21 @@
 
 
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function() {
   $('#inventarioDetalles').grider({addRowWithTab: false})
   .find("caption").hide();
  
   $('#item').flexselect()
   val = $('#item').val();
+  // Sirve para poder saber si es edicion o creacion de un inventario
   var init = <%= @inventario.inventario_detalles.first.item_id.nil? ? false : true %>;
-
-  elementos = {}
-  $('#item_flexselect').focus(function(){
+  // En esta variable se almacena todos los ids para la cadena JSON de "elementos"
+  <% @elementos = {} %>
+  <% @inventario.inventario_detalles.map{|v| @elementos[v.id] = true } unless @inventario.id.nil? %>
+  // Variable que permite almacenar todos los items seleccionados, para no repetir la seleccion
+  elementos = <%= @elementos.to_json %>;
+  // Es necesario borrar los items de "elementos" cuando se borrar de la tabla
+  $('#item_flexselect').focus(function() {
     var tmp = $('#item').val();
     if(val != tmp  && !elementos[tmp + ""]) {
       val = tmp;
@@ -74,7 +80,19 @@ $(document).ready(function(){
       html += this.value;
       $('#inventarioDetalles').find("tr:not(.noedit):last td:eq(0)").html(html);
       init = true;
-    }
+      $('#item_flexselect').val('');
+    }/*else if(elementos[tmp + ""]) 
+      this.value = '';
+      alert("Usted ya selecciono este ítem");
+      }*/
+    });
+
+  // Esto permite capturar el evento cuando se hace click en a.delete de la tabla "inventarioDetalles"
+  $('#inventarioDetalles a.delete').live("click", function() {
+    //Buscar parent y despues buscar dentro del parent el campo hidden
+      var item_id = $(this).parents("tr").find("input:hidden").val();
+      //Borrar el item de elementos
+      delete elementos[item_id];
   });
 
 });

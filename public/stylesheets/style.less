@@ -4,6 +4,7 @@
 @color: #fff;
 @a_color: #F58F17; 
 @a_hover: #3FB2FF;
+@buscar_color: #595959;
 body{
   padding: 0px;
   margin: 0px;
@@ -68,6 +69,10 @@ input, select, textarea{
   border: 1px solid @border_color;
   color: @color;
 }
+input[type="submit"] {
+  margin:10px 200px;
+  font-weight:bold;
+}
 
 label{vertical-align: top;}
 
@@ -95,4 +100,9 @@ ul#navigation{
   li a:hover{
     background: @a_menu_color !important;
   }
+}
+.buscar{
+  background: @buscar_color;
+  padding: 4px;
+  display: table;
 }

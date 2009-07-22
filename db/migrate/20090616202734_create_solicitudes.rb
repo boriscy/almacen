@@ -5,6 +5,7 @@ class CreateSolicitudes < ActiveRecord::Migration
       t.datetime :fecha
       t.string :estado
       t.datetime :fecha_aprobacion
+      t.text :descripcion
 
       t.timestamps
     end
