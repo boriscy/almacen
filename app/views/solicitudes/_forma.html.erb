@@ -10,7 +10,7 @@
 
   <br/><br/> 
   <div class="input buscar">
-  <label>Seleccione el Item:</label>
+  <label>Buscar Item:</label>
   <% @items = Item.list %>
   <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
   </div>
@@ -32,7 +32,7 @@
                 <% end %>
           </td>
           <td><%= det.text_field :cantidad, :class => 'num' %></td>
-        </tr>
+                  </tr> 
 
       <% end %>
   </table>  

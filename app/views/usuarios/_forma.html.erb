@@ -21,6 +21,23 @@
     <%= f.label :materno, 'Materno:' %><br />
     <%= f.text_field :materno %>
   </p>
+ <p>
+    <%= f.label :cargo, 'Cargo:' %><br />
+    <%= f.text_field :cargo %>
+  </p>
+ <p>
+    <%= f.label :login, 'Nombre de usuario:' %><br />
+    <%= f.text_field :login %>
+  </p>
+ <p>
+    <%= f.label :password, 'Contraseña:' %><br />
+    <%= f.password_field :password %>
+  </p>
+ <p>
+    <%= f.label :password_confirmation, 'Confirmar contraseña:' %><br />
+    <%= f.password_field :password_confirmation %>
+  </p>
+
   <p>
     <%= f.submit 'Salvar', :class => 'ui-corner-all' %>
   </p>

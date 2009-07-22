@@ -5,7 +5,9 @@ class Usuario < ActiveRecord::Base
 
   has_many :solicitudes
 
-  @@per_page = 1
+  acts_as_authentic   
+
+  @@per_page = 20
   def nombre_completo
     "#{nombre} #{paterno} #{materno}"
   end

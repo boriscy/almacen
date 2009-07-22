@@ -2,17 +2,21 @@
 Ver Solicitud
 <% end %>
 <h1>Ver solicitud Detalle</h1>
+ <%= @solicitud.usuario.nombre_completo %>
+
 
 <table>
-  <tr>
+    <tr>
     <th class="ui-state-default">Item</th>
     <th class="ui-state-default">Cantidad</th>
+    <th class="ui-state-default">Unid. Medida</th>
      </tr>
 
 <% @solicitud.solicitud_detalles.each do |inv| %>
   <tr>
     <td><%=h inv.item %></td>
     <td><%=h inv.cantidad %></td>
+    <td> <%=h inv.item.unidad_medida.abreviacion%></td>
   </tr>
 <% end %>
 </table>

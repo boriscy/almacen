@@ -7,6 +7,17 @@ class ApplicationController < ActionController::Base
   before_filter :adicionar_paginacion
   # Para poder mostrar Ajax
   layout proc{|controller| controller.request.xhr? ? false : "application"}
+ helper_method :current_user  
+    
+   private  
+   def current_user_session  
+     return @current_user_session if defined?(@current_user_session)  
+     @current_user_session = UsuarioSession.find  
+   end  
+     
+   def current_user  
+     @current_user = current_user_session && current_user_session.record  
+   end  
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
