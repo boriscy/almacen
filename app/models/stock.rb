@@ -4,5 +4,6 @@ class Stock < ActiveRecord::Base
   
   default_scope :conditions => { :activo => true }
   validates_presence_of :item_id
+  composed_of :estado, :class_name => "Expira" 
 
 end
