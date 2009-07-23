@@ -7,6 +7,7 @@ class Item < ActiveRecord::Base
   belongs_to :partida
   belongs_to :unidad_medida
   has_many :inventario_items
+  has_many :vencimientos
   
 
   validates_presence_of :partida_id, :unidad_medida_id

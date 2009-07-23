@@ -18,8 +18,8 @@
     <%= f.text_field :nombre %>
   </p>
   <p>
-    <%= f.label :Foto %>
-    <%= f.file_field :foto %>
+    <%= f.label :Foto %><br/>
+    <%= f.file_field :foto, :size => 50 %>
   </p>
   <p>
     <%= f.submit 'Salvar', :class => 'ui-corner-all' %>
