@@ -110,3 +110,12 @@ ul#navigation li a:hover { background: #5f5f5f !important; }
   padding: 4px;
   display: table;
 }
+.login{
+  float : right;
+  color: #F58F17;
+  font-size: 1.8em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding: 10px;
+  border: 1px solid #666666;
+}

@@ -14,9 +14,10 @@ class UsuarioSessionesController < ApplicationController
   def create
     @usuario_session = UsuarioSession.new(params[:usuario_session])
     if @usuario_session.save
-      flash[:notice] = "Successfully created usuario session."
+      flash[:notice] = "Bienvenido Al Sitsema de Almacenes"
       redirect_to @usuario_session
     else
+      flash[:notice] = "Usuario y/o Contraseña Incorrectos"
       render :action => 'new'
     end
   end
@@ -28,7 +29,7 @@ class UsuarioSessionesController < ApplicationController
   def update
     @usuario_session = UsuarioSession.find(params[:id])
     if @usuario_session.update_attributes(params[:usuario_session])
-      flash[:notice] = "Successfully updated usuario session."
+      flash[:notice] = "Usted Actualizo Los Datos Del Usuario."
       redirect_to @usuario_session
     else
       render :action => 'edit'
@@ -38,7 +39,7 @@ class UsuarioSessionesController < ApplicationController
   def destroy
     @usuario_session = UsuarioSession.find(params[:id])
     @usuario_session.destroy
-    flash[:notice] = "Successfully destroyed usuario session."
-    redirect_to root_url
-  end
+    flash[:notice] = "Usted Salio del Sistema de Almacenes"
+    redirect_to login_url
+    end
 end

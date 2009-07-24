@@ -2,11 +2,14 @@ class AlmacenesController < ApplicationController
   # GET /almacenes
   # GET /almacenes.xml
   def index
-    @almacenes = Almacen.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @almacenes }
+    if current_user && ( current_user.admin? || current_user.dga?)
+      @almacenes = Almacen.all
+        respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @almacenes }
+      end
+    else
+      render :partial => "/shared/no_autorizado"
     end
   end
 

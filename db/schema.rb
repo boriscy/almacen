@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090721193815) do
+ActiveRecord::Schema.define(:version => 20090724205914) do
 
   create_table "almacenes", :force => true do |t|
     t.string   "nombre",     :limit => 100
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20090721193815) do
     t.string   "crypted_password"
     t.string   "persistence_token"
     t.string   "cargo"
+    t.string   "rol"
   end
 
 end
