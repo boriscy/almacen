@@ -6,7 +6,7 @@ class CreateUsuarios < ActiveRecord::Migration
       t.string :nombre, :limit => 30
       t.string :paterno, :limit => 30
       t.string :materno, :limit => 30
-      t.string :cargo, :limit => 50
+#      t.string :cargo, :limit => 50
       t.boolean :activo
 
       t.timestamps

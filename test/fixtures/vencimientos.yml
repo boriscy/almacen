@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  stock_id: 1
+  item_id: 1
+  cantidad: 9.99
+  fecha: 2009-07-23
+
+two:
+  stock_id: 1
+  item_id: 1
+  cantidad: 9.99
+  fecha: 2009-07-23

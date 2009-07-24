@@ -79,6 +79,10 @@ input[type="submit"] {
   margin: 10px 200px;
   font-weight: bold;
 }
+input[type="file"] {
+  color: #000000;
+  background: #ffffff;
+}
 label { vertical-align: top; }
 div#cont {
   padding: 10px;

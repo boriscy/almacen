@@ -1,20 +1,6 @@
-<h1>Editing partida</h1>
+<h1>Editar partida</h1>
 
-<% form_for(@partida) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :codigo %><br />
-    <%= f.text_field :codigo %>
-  </p>
-  <p>
-    <%= f.label :nombre %><br />
-    <%= f.text_field :nombre %>
-  </p>
-  <p>
-    <%= f.submit 'Mmodificar' %>
-  </p>
-<% end %>
+<%= render :partial => "forma" %>
 
 <%= link_to 'Ver', @partida %> |
 <%= link_to 'Atras', partidas_path %>
