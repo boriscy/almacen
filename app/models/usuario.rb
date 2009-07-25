@@ -11,4 +11,16 @@ class Usuario < ActiveRecord::Base
   def nombre_completo
     "#{nombre} #{paterno} #{materno}"
   end
+    def admin?
+    self.rol == "admin"
+  end
+    def usuario?
+    self.rol == "usuario"
+  end
+  def almacenero?
+    self.rol == "almacenero"
+  end
+  def dga?
+    self.rol == "dga"
+  end
 end

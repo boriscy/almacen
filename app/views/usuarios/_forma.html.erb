@@ -37,7 +37,13 @@
     <%= f.label :password_confirmation, 'Confirmar contraseña:' %><br />
     <%= f.password_field :password_confirmation %>
   </p>
-
+  
+  <% if current_user && current_user.admin? %>
+  <p>
+    <%= f.label :rol, 'Nivel De Acceso:' %><br />
+    <%= f.select :rol, ["admin","almacenero","usuario","dga"] %>
+  </p>
+  <% end %>
   <p>
     <%= f.submit 'Salvar', :class => 'ui-corner-all' %>
   </p>

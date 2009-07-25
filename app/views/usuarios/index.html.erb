@@ -1,5 +1,3 @@
-<%= current_user.login if current_user%>
-
 <% content_for :title do %>
 Listado de Usuarios
 <% end %>
@@ -17,16 +15,18 @@ Listado de Usuarios
   <tr>
     <td><%=h usuario.nombre_completo %></td>
     <td><%=h usuario.unidad %></td>
+    <% if current_user && current_user.admin? %>
     <td>
       <%= link_to 'Ver', usuario_path(usuario, :page => @page) %>
       <%= link_to 'editar', edit_usuario_path(usuario, :page => @page)  %>
       <%= link_to 'borrar', usuario, :confirm => 'Esta seguro de borrar?', :method => :delete, :class => 'delete' %>
     </td>
+    <% end %>
   </tr>
 <% end %>
 </table>
-
+<% if current_user && current_user.admin? %>
 <br />
-
 <%= link_to 'Nuevo usuario', new_usuario_path %>
 <%= will_paginate @usuarios %>  <!--<-- esta linea estamos poniendo -->-->
+<% end %>

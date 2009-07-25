@@ -66,6 +66,7 @@ $(document).ready(function() {
   <% @inventario.inventario_detalles.map{|v| @elementos[v.id] = true } unless @inventario.id.nil? %>
   // Variable que permite almacenar todos los items seleccionados, para no repetir la seleccion
   elementos = <%= @elementos.to_json %>;
+  selected = [];
   // Es necesario borrar los items de "elementos" cuando se borrar de la tabla
   $('#item_flexselect').focus(function() {
     var tmp = $('#item').val();
@@ -80,7 +81,9 @@ $(document).ready(function() {
       html += this.value;
       $('#inventarioDetalles').find("tr:not(.noedit):last td:eq(0)").html(html);
       init = true;
+      selected.push([$('#item_flexselect').val(), $('#item_flexselect option').attr('value')]);
       $('#item_flexselect').val('');
+      
     }/*else if(elementos[tmp + ""]) 
       this.value = '';
       alert("Usted ya selecciono este ítem");
