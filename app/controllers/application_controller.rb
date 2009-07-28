@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :adicionar_paginacion
   # Para poder mostrar Ajax
   layout proc{|controller| controller.request.xhr? ? false : "application"}
- helper_method :current_user  
+  helper_method :current_user  
     
    private  
    def current_user_session  
