@@ -1,4 +1,4 @@
 class Rol < ActiveRecord::Base
-  belongs_to :usuario
+  has_many :usuarios
   has_many :permisos
 end

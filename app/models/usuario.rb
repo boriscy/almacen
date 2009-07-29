@@ -1,9 +1,13 @@
 class Usuario < ActiveRecord::Base
   belongs_to :unidad
+  belongs_to :rol
+  has_many :solicitudes
+  
+
+
   validates_presence_of :nombre, :paterno, :materno, :ci, :unidad_id
   cattr_reader :per_page
 
-  has_many :solicitudes
 
   acts_as_authentic   
 
