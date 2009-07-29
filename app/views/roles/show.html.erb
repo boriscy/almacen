@@ -1,0 +1,13 @@
+<ul>
+<% @controllers.each do |cont| %>
+  <li><%= cont[0] %>
+    <ul>
+      <% cont[1].each do |act| %>
+      <li><%= act %></li>
+      <% end %>
+    </ul>
+  </li>
+
+<% end %>
+</ul>
+

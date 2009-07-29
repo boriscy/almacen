@@ -43,7 +43,7 @@ class AlmacenesController < ApplicationController
 
     respond_to do |format|
       if @almacen.save
-        flash[:notice] = 'Almacen was successfully created.'
+        flash[:notice] = 'El almacen fue correctamente creado.'
         format.html { redirect_to(@almacen) }
         format.xml  { render :xml => @almacen, :status => :created, :location => @almacen }
       else
@@ -60,7 +60,7 @@ class AlmacenesController < ApplicationController
 
     respond_to do |format|
       if @almacen.update_attributes(params[:almacen])
-        flash[:notice] = 'Almacen was successfully updated.'
+        flash[:notice] = 'El almacen fue correctamente actualizado.'
         format.html { redirect_to(@almacen) }
         format.xml  { head :ok }
       else
@@ -75,7 +75,7 @@ class AlmacenesController < ApplicationController
   def destroy
     @almacen = Almacen.find(params[:id])
     @almacen.destroy
-
+    
     respond_to do |format|
       format.html { redirect_to(almacenes_url) }
       format.xml  { head :ok }

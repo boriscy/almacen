@@ -45,7 +45,7 @@ class UnidadMedidasController < ApplicationController
 
     respond_to do |format|
       if @unidad_medida.save
-        flash[:notice] = 'UnidadMedida was successfully created.'
+        flash[:notice] = 'La unidad de medida fue correctamente creada.'
         format.html { redirect_to(@unidad_medida) }
         format.xml  { render :xml => @unidad_medida, :status => :created, :location => @unidad_medida }
       else
@@ -62,7 +62,7 @@ class UnidadMedidasController < ApplicationController
 
     respond_to do |format|
       if @unidad_medida.update_attributes(params[:unidad_medida])
-        flash[:notice] = 'UnidadMedida was successfully updated.'
+        flash[:notice] = 'La unidad de medida fue correctamente actualizada.'
         format.html { redirect_to(@unidad_medida) }
         format.xml  { head :ok }
       else

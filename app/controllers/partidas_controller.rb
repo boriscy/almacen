@@ -44,7 +44,7 @@ class PartidasController < ApplicationController
 
     respond_to do |format|
       if @partida.save
-        flash[:notice] = 'Partida was successfully created.'
+        flash[:notice] = 'La Partida fue correctamente creada.'
         format.html { redirect_to(@partida) }
         format.xml  { render :xml => @partida, :status => :created, :location => @partida }
       else
@@ -61,7 +61,7 @@ class PartidasController < ApplicationController
 
     respond_to do |format|
       if @partida.update_attributes(params[:partida])
-        flash[:notice] = 'Partida was successfully updated.'
+        flash[:notice] = 'La Partida fue correctamente actualizada.'
         format.html { redirect_to(@partida) }
         format.xml  { head :ok }
       else

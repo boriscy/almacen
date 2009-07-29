@@ -13,25 +13,31 @@
 
 </head>
 <body>
-<ul id="navigation">
-<% @menu = [[:usuarios, "Usuarios"],[:items, "Items"],[:unidad_medidas, "Medidas"],[:partidas, "Partidas"],[:almacenes, "Almacenes"],[:inventarios, "Inventarios"],[:solicitudes, "Solicitudes"]] %>
-<% @menu.each do |m|%>
-  <li><%= link_to m[1], m[0]  %></li>
-<% end %>
-<% if current_user %>
-  <li>
- <!--  Bienvenido:  <b> <%= current_user.nombre_completo %> </b>-->
-    <a href="/logout">Salir</a></li>
-<% else %>
-  <li><a href="/login">Ingresar</a></li>
-<% end %>
-</ul>
-<div id="cont">
+  <div id="enc" class="ui-state-active">
+    <a href="http://boriscy.github.com/almacen">Almacen</a>
+    <% if current_user %>
+    <div class="login">
+        <%= link_to current_user.nombre_completo, usuario_path(current_user) %>
+    </div>  
+    <%end%>
+  </div>
+
+  <ul id="navigation">
+  <% @menu = [[:usuarios, "Usuarios"],[:items, "Items"],[:unidad_medidas, "Medidas"],[:partidas, "Partidas"],[:almacenes, "Almacenes"],[:inventarios, "Inventarios"],[:solicitudes, "Solicitudes"]] %>
+  <% @menu.each do |m|%>
+    <li><%= link_to m[1], m[0]  %></li>
+  <% end %>
   <% if current_user %>
-  <div class="login">
-    Bienvenido:  <b> <%= current_user.nombre_completo + " " + Date.today.strftime("%d/%m/%Y") %> </b>
-  </div>  
-  <%end%>
+    <li>
+   <!--  Bienvenido:  <b> <%= current_user.nombre_completo %> </b>-->
+      <a href="/logout">Salir</a></li>
+  <% else %>
+    <li><a href="/login">Ingresar</a></li>
+  <% end %>
+  </ul>
+
+
+<div id="cont">
   
   <div id="flashNotice"><%= flash[:notice] %></div>
 

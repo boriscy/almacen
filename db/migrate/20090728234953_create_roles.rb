@@ -1,7 +1,7 @@
 class CreateRoles < ActiveRecord::Migration
   def self.up
     create_table :roles do |t|
-      t.string :nombre
+      t.string :nombre, :limit => 100
       t.string :descripcion
 
       t.timestamps

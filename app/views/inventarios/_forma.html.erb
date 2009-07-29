@@ -3,23 +3,24 @@
 </style>
 <% form_for(@inventario) do |inv| %>
 
-<%= inv.error_messages %>
-<p>
-  <%= inv.label :almacen_id, "Almacen" %>
-  <%= inv.select :almacen_id, Almacen.list, :include_blank => true %>
-</p>
-<p>
-  <%= inv.label :descripcion, "Descripción" %>
-  <%= inv.text_area :descripcion, :rows => 10 %>
-</p>
-<br/><br/><br/>
+  <%= inv.error_messages %>
+  <p>
+    <%= inv.label :almacen_id, "Almacen" %>
+    <%= inv.select :almacen_id, Almacen.list, :include_blank => true %>
+  </p>
+  <p>
+    <%= inv.label :descripcion, "Descripción" %>
+    <%= inv.text_area :descripcion, :rows => 10 %>
+  </p>
+  <br/><br/><br/>
+
   <div class="input buscar">
   <label>Buscar Item:</label>
   <% @items = Item.list %>
   <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
   </div>
   <br/><br/>
-<h3>Items</h3>
+  <h3>Items</h3>
   <table id="inventarioDetalles">
   <tr>
     <th class="ui-state-default" style="width:200px">Item</th>
@@ -30,21 +31,23 @@
     
     <!-- <th class="ui-state-default">Precio</th> -->
   </tr>
+
   <% inv.fields_for :inventario_detalles do |det| %>
-  <tr>
-    <td>
-      <%= det.hidden_field :item_id %>
-      <% unless det.object.item_id.nil? %>
-        <%= buscar_en_lista(@items, det.object.item_id)[0] %>
-      <% end %>
-    </td>
-    <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
-    <td>
-      <%= det.text_field :cantidad, :class => 'num' %>
-    </td>
-    <td>&nbsp;</td>
-  </tr>
+    <tr>
+      <td>
+        <%= det.hidden_field :item_id %>
+        <% unless det.object.item_id.nil? %>
+          <%= buscar_en_lista(@items, det.object.item_id)[0] %>
+        <% end %>
+      </td>
+      <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
+      <td>
+        <%= det.text_field :cantidad, :class => 'num' %>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
   <% end %>
+
   </table>
   <p>
     <%= inv.submit 'Salvar', :class => 'ui-corner-all' %>

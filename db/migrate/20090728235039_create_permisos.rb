@@ -2,8 +2,8 @@ class CreatePermisos < ActiveRecord::Migration
   def self.up
     create_table :permisos do |t|
       t.integer :rol_id
-      t.string :controlador
-      t.string :acciones
+      t.string :controlador, :limit => 100
+      t.string :acciones # Serialización de lista de acciones
 
       t.timestamps
     end

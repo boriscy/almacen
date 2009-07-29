@@ -2,13 +2,11 @@ class SolicitudesController < ApplicationController
   # GET /solicitudes
   # GET /solicitudes.xml
   def index
-  #  @solicitudes = Solicitud.all
-
-   # respond_to do |format|
-  #format.html # index.html.erb
-   #   format.xml  { render :xml => @solicitudes }
-    #end
     @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario)
+    respond_to do |format| 
+      format.html
+      format.xml  { render :xml => @solicitudes }
+    end
   end
 
   # GET /solicitudes/1
@@ -37,33 +35,32 @@ class SolicitudesController < ApplicationController
   # POST /solicitudes.xml
   def create
     @solicitud = Solicitud.new(params[:solicitud])
-
+    respond_to do |format|
       if @solicitud.save
-        redirect_to solicitudes_path
-        #format.html { redirect_to(@solicitud) }
-        #format.xml  { render :xml => @solicitud, :status => :created, :location => @solicitud }
+        flash[:notice] = 'La solicitud a sido correctamente creada.'
+        format.html { redirect_to(@solicitud) }
+        format.xml  { render :xml => @solicitud, :status => :created, :location => @solicitud }
       else
-        #format.html { render :action => "new" }
-        #format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
-        render "new"
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
       end
-   end
+     end
+  end
 
   # PUT /solicitudes/1
   # PUT /solicitudes/1.xml
   def update
     @solicitud = Solicitud.find(params[:id])
-
+    respond_to do |format|
       if @solicitud.update_attributes(params[:solicitud])
-        flash[:notice] = 'Solicitud ha sido modificado.'
-        #format.html { redirect_to(@solicitud) }
-        #format.xml  { head :ok }
-        redirect_to solicitudes_path
+        flash[:notice] = 'La solicitud a sido correctamente actualizada.'
+        format.html { redirect_to(@solicitud) }
+        format.xml  { head :ok }
       else
-        #format.html { render :action => "edit" }
-        #format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
-        render :action => "edit"
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @solicitud.errors, :status => :unprocessable_entity }
       end
+    end
   end
 
   # DELETE /solicitudes/1

@@ -1,0 +1,48 @@
+<% form_for @rol do |rol| %>
+  <div>
+    <%= rol.label :nombre, "Nombre" %>
+    <%= rol.text_field :nombre %>  
+  </div>
+
+  <h2>Listado de Roles</h2>
+  <a id="todos_checkboxes">Seleccionar todos</a>
+
+  <ul>
+  <% @num = 0 %>
+  <% rol.fields_for :permisos do |per| %>
+    <li>
+      <%= per.hidden_field :controlador %>
+      <%= per.object.controlador %>
+      <ul class="inline bb">
+        <% per.object.acciones.each do |accion| %>
+        <li>
+          <label for="rol_permisos_attributes_<%= @num %>_acciones_<%= accion %>">
+          <%= check_box "rol[permisos_attributes][#{@num}][acciones]", accion %>
+          <%= accion %></label>
+        </li>
+        <% end %>
+        <% @num += 1%>
+      </ul>
+    </li>
+  <% end %>
+  </ul>
+
+  <p>
+  <%= rol.submit 'Salvar', :class => 'ui-corner-all' %>
+  </p>
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#todos_checkboxes').click(function(){
+    var val, txt;
+    if($(this).html() == "Seleccionar todos"){
+      val = true; txt = "Deseleccionar todos";
+    }else{
+      val = false; txt = "Seleccionar todos";
+    }
+    $('input:checkbox').attr("checked", val)
+    $(this).html(txt);
+  });
+});
+</script>

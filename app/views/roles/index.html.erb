@@ -1,0 +1,8 @@
+<h1>Listado de Roles</h1>
+
+<ul>
+  <% for rol in @roles do %>
+  <li><%= link_to rol, edit_rol_path(rol) %></li>
+  <% end %>
+</ul>
+<%= link_to 'Crear Rol', new_rol_path %>

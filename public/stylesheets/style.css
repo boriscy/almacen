@@ -9,6 +9,11 @@ body {
   font-size: 13px;
   line-height: 18px;
 }
+ul {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
 td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
@@ -27,7 +32,7 @@ a:hover {
   color: #f58f17;
   font-size: 1.8em;
   font-weight: bold;
-  text-decoration: underline;
+  margin: 10px;
 }
 .fieldWithErrors {
   padding: 2px;
@@ -48,6 +53,7 @@ td .fieldWithErrors { display: block !important; }
   padding: 5px 5px 5px 15px;
   font-size: 12px;
   margin: -7px;
+  margin-bottom: 2px;
   background-color: #000000;
   color: #ffffff;
   border-bottom: 2px solid #ff0000;
@@ -58,7 +64,7 @@ td .fieldWithErrors { display: block !important; }
 }
 #errorExplanation ul li {
   font-size: 12px;
-  list-style: square;
+  list-style: none;
 }
 table { border-collapse: collapse; }
 th, td {
@@ -82,6 +88,10 @@ input[type="submit"] {
 input[type="file"] {
   color: #000000;
   background: #ffffff;
+}
+input.num {
+  text-align: right;
+  width: 10em;
 }
 label { vertical-align: top; }
 div#cont {
@@ -114,12 +124,24 @@ ul#navigation li a:hover { background: #5f5f5f !important; }
   padding: 4px;
   display: table;
 }
-.login{
-  float : right;
-  color: #F58F17;
-  font-size: 1.8em;
-  font-weight: bold;
-  text-decoration: underline;
-  padding: 10px;
-  border: 1px solid #666666;
+#enc {
+  height: 75px;
+  border-bottom: 2px solid #666666;
 }
+#enc .login {
+  font-weight: bold;
+  padding: 10px 20px;
+}
+#enc .login a {
+  text-decoration: none;
+  font-size: 1.6em;
+  color: #000000 !important;
+}
+#enc .login a:hover { text-decoration: underline; }
+ul {
+  margin: 2px;
+  padding: 2px;
+}
+ul.inline { padding: 10px; }
+ul.inline li { display: inline; }
+.bb { border-bottom: 1px solid #666666; }

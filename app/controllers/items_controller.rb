@@ -3,7 +3,6 @@ class ItemsController < ApplicationController
   # GET /items.xml
   def index
     @items = Item.paginate(:include => [:partida, :unidad_medida],:page => @page)
-    #@items = Item.all(:include => [:partida, :unidad_medida])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -45,7 +44,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        flash[:notice] = 'Item was successfully created.'
+        flash[:notice] = 'El item fue creado.'
         format.html { redirect_to(@item) }
         format.xml  { render :xml => @item, :status => :created, :location => @item }
       else
@@ -62,7 +61,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.update_attributes(params[:item])
-        flash[:notice] = 'Item was successfully updated.'
+        flash[:notice] = 'El item fue correctamente actualizado.'
         format.html { redirect_to(@item) }
         format.xml  { head :ok }
       else

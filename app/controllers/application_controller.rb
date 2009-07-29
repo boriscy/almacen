@@ -26,4 +26,8 @@ class ApplicationController < ActionController::Base
   def adicionar_paginacion
     @page = params[:page] || 1
   end
+
+  # Fución que permite verificar el permiso de un usuario
+  def verificar_permiso
+  end
 end

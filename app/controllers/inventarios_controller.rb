@@ -7,13 +7,14 @@ class InventariosController < ApplicationController
   end
 
   def new
-    #v = {:cantidad => 2, :precio_unitario =>4}
+    # Se crea un item vacio
     @inventario = Inventario.new(:inventario_detalles_attributes => [{}])
   end
   
   def create
     @inventario = Inventario.new(params[:inventario])
     if @inventario.save
+      flash[:notice] = "El inventario fue correctamente creado."
       redirect_to inventarios_path      
     else
       render "new"
