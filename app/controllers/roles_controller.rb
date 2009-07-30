@@ -19,7 +19,7 @@ class RolesController < ApplicationController
   end
 
   def edit
-    @rol = Rol.find(params[:id])
+    @rol = Rol.find(params[:id], :include => :permisos)
   end
 
   def update
@@ -38,7 +38,9 @@ class RolesController < ApplicationController
       size = controller.size - 3
       cont = controller[0, size].classify.constantize.new
       actions = (cont.methods - cont.private_methods - cont.protected_methods - ApplicationController.methods - ApplicationController.new.methods).sort
-      ret << [controller[0, size].classify, actions]
+      h = {}
+      actions.each{|v| h[v] = "0" }
+      ret << [controller[0, size].classify, h]
     end
     ret
   end

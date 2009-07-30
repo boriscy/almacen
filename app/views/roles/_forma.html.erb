@@ -14,10 +14,10 @@
       <%= per.hidden_field :controlador %>
       <%= per.object.controlador %>
       <ul class="inline bb">
-        <% per.object.acciones.each do |accion| %>
+        <% per.object.acciones.each do |accion, val| %>
         <li>
           <label for="rol_permisos_attributes_<%= @num %>_acciones_<%= accion %>">
-          <%= check_box "rol[permisos_attributes][#{@num}][acciones]", accion %>
+          <%= check_box "rol[permisos_attributes][#{@num}][acciones]", accion, :value => val %>
           <%= accion %></label>
         </li>
         <% end %>

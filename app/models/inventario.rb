@@ -100,7 +100,7 @@ class Inventario < ActiveRecord::Base
       case true
         when inv.marked_for_destruction?
           cantidad, valor =  actualizar_inventario_delete(inv, stock)
-        when inv.id.nil?
+        when inv.new_record?
           cantidad, valor =  actualizar_inventario_create(inv, stock)
         else
           cantidad, valor = actualizar_inventario_update(inv, stock)

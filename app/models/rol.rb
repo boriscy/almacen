@@ -8,4 +8,8 @@ class Rol < ActiveRecord::Base
 
   cattr_reader :per_page
   @@per_page = 30
+
+  def to_s
+    nombre
+  end
 end
