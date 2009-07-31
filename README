@@ -1,4 +1,6 @@
 Almacen es un proyecto creado en el Ministerio de Hidrocarburos para
 el manejo de inventarios en los almacenes, creado con Ruby on Rails y jQuery
-Espero esto este bien (jejejeje)
-Ojala
+
+Para poder obtener los submodulos como grider se ejecuta
+git submodule update --init
+dentro la carpeta del proyecto
