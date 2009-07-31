@@ -23,5 +23,6 @@ class UsuarioSessionesController < ApplicationController
     @usuario_session.destroy
     flash[:notice] = "Usted Salio del Sistema de Almacenes"
     redirect_to login_url
-    end
+  end
+
 end

@@ -17,7 +17,7 @@
         <% per.object.acciones.each do |accion, val| %>
         <li>
           <label for="rol_permisos_attributes_<%= @num %>_acciones_<%= accion %>">
-          <%= check_box "rol[permisos_attributes][#{@num}][acciones]", accion, :value => val %>
+          <%= check_box "rol[permisos_attributes][#{@num}][acciones]", accion, :checked => val %>
           <%= accion %></label>
         </li>
         <% end %>

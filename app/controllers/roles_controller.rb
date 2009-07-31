@@ -4,7 +4,7 @@ class RolesController < ApplicationController
   end
 
   def new
-    @controladores = list_controllers
+    @controladores = Rol.list_controllers
     @rol = Rol.new(:permisos_attributes => @controladores.map{|c| {:controlador => c[0], :acciones => c[1]} })
   end
 
@@ -20,28 +20,22 @@ class RolesController < ApplicationController
 
   def edit
     @rol = Rol.find(params[:id], :include => :permisos)
+    @rol.actualizar
   end
 
   def update
+    @rol = Rol.find(params[:id])
+    if @rol.update_attributes(params[:rol]) 
+      flash[:notice] = "Se actualizado el Rol correctamente."
+      redirect_to roles_url
+    end
   end
 
   def destroy
+    @rol = Rol.find(params[:id])
+    @rol.destroy
+    flash[:notice] = "Se ha borrado correctamente el rol #{@rol}."
+    redirect_to roles_url
   end
 
-
-  protected
-  # Lista todos los controladores y acciones de la aplicacion
-  def list_controllers
-    ret = []
-    controllers = Dir.new("#{RAILS_ROOT}/app/controllers").entries.sort.select{|c| c =~ /_controller\.rb$/ and c != "application_controller.rb"}
-    controllers.each do |controller|
-      size = controller.size - 3
-      cont = controller[0, size].classify.constantize.new
-      actions = (cont.methods - cont.private_methods - cont.protected_methods - ApplicationController.methods - ApplicationController.new.methods).sort
-      h = {}
-      actions.each{|v| h[v] = "0" }
-      ret << [controller[0, size].classify, h]
-    end
-    ret
-  end
 end

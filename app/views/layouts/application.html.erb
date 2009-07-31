@@ -23,7 +23,7 @@
   </div>
 
   <ul id="navigation">
-  <% @menu = [[:usuarios, "Usuarios"],[:items, "Items"],[:unidad_medidas, "Medidas"],[:partidas, "Partidas"],[:almacenes, "Almacenes"],[:inventarios, "Inventarios"],[:solicitudes, "Solicitudes"]] %>
+  <% @menu = [[:usuarios, "Usuarios"],[:items, "Items"],[:unidad_medidas, "Medidas"],[:partidas, "Partidas"],[:almacenes, "Almacenes"],[:inventarios, "Inventarios"],[:solicitudes, "Solicitudes"], [:roles, "Roles"]] %>
   <% @menu.each do |m|%>
     <li><%= link_to m[1], m[0]  %></li>
   <% end %>

@@ -1,8 +1,19 @@
 <h1>Listado de Roles</h1>
 
-<ul>
+<table>
+  <tr>
+    <th class="ui-state-default">Rol</th>
+    <th class="ui-state-default"></th>
+  </tr>
+
+
   <% for rol in @roles do %>
-  <li><%= link_to rol, edit_rol_path(rol) %></li>
+  <tr>
+    <td><%= rol.to_s.classify  %></td>
+    <td><%= link_to "editar", edit_rol_path(rol) %>
+    <%= link_to "borrar", rol, :confirm => "Esta seguro?", :method => :delete %>
+    </td>
+  </tr>
   <% end %>
-</ul>
+</table>
 <%= link_to 'Crear Rol', new_rol_path %>
