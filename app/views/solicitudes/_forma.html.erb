@@ -11,8 +11,8 @@
   <br/><br/> 
   <div class="input buscar">
   <label>Buscar Item:</label>
-  <% @items = Item.list %>
-  <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v[1]}\">#{v[0]}</option>" }.join("")  %>
+  <% @items = Item.all(:order => "nombre ASC", :include => :unidad_medida) %>
+  <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v.id}\">#{v.nombre}</option>" }.join("")  %>
   </div>
 
 <br/><br/>
@@ -20,8 +20,9 @@
 <h3>Items</h3>
   <table id="solicitudDetalles">
     <tr>
-       <th class="ui-state-default" style="width:200px">Item</th>
-       <th class="ui-state-default" col="cantidad" class = "ui-state-default"> Cantidad</th>
+      <th class="ui-state-default" style="width:200px">Item</th>
+      <th class="ui-state-default" style="width:200px">Unidad de Medida</th>
+      <th class="ui-state-default" col="cantidad" class = "ui-state-default"> Cantidad</th>
    </tr>
       <% sol.fields_for :solicitud_detalles do |det|%>
         <tr>
@@ -31,6 +32,7 @@
                 <%= buscar_en_lista(@items, det.object.item_id)[0] %>
                 <% end %>
           </td>
+          <td>&nbsp;</td>
           <td><%= det.text_field :cantidad, :class => 'num' %></td>
         </tr> 
 
@@ -43,6 +45,12 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+  <% @json = {}%>
+  <% @items.each{|v| @json[v.id] = "#{v.unidad_medida.nombre} (#{v.unidad_medida.abreviacion})"} %>
+  var itemUnidades = <%= @json.to_json %>;
+  
+  
+    
   $('#solicitudDetalles').grider({addRowWithTab: false})
   .find("caption").hide();
   
@@ -63,8 +71,16 @@ $(document).ready(function(){
       var html = "<input type='hidden' name='solicitud[solicitud_detalles_attributes]["+ num +"][item_id]' value='" + tmp + "' />";
       html += this.value;
       $('#solicitudDetalles').find("tr:not(.noedit):last td:eq(0)").html(html);
+      $('#solicitudDetalles').find("tr:not(.noedit):last td:eq(1)").html(itemUnidades[tmp + ""]);
+      
       init = true;
+      selected.push([$('#item_flexselect').val(), $('#item_flexselect option').attr('value')]);
+      $('#item_flexselect').val('');
     }
+  });
+  $('#solicitudDetalles a.delete').live("click", function() {
+      var item_id = $(this).parents("tr").find("input:hidden").val();
+      delete elementos[item_id];
   });
 
 });
