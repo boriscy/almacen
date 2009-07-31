@@ -5,6 +5,8 @@ class Permiso < ActiveRecord::Base
 
   before_save :cambiar_valor_acciones
 
+  validates_presence_of :controlador
+
   # Actualiza los valores de las acciones para que sean true, false
   # en ves de "0" o "1"
   def cambiar_valor_acciones
