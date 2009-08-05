@@ -109,7 +109,7 @@ class UsuariosController < ApplicationController
   def update_password
     usuario = current_user
     if usuario
-      @usuario = usuario
+      #²
     else
       redirect_to "/login"
     end
