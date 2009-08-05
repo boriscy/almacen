@@ -76,4 +76,16 @@ class SolicitudesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # Aprobacion inmediato superior
+  def aprobacion_superior
+  end
+
+  # Aprobacion almacenero
+  def aprobacion_almacenero
+  end
+
+  def aprobacion_administracion
+  end
+
 end

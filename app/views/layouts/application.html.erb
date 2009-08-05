@@ -17,7 +17,7 @@
     <a href="http://boriscy.github.com/almacen">Almacen</a>
     <% if current_user %>
     <div class="login">
-        <%= link_to current_user.nombre_completo, usuario_path(current_user) %>
+        <%= link_to current_user.nombre_completo, edit_perfil_usuario_path(current_user) %>
     </div>  
     <%end%>
   </div>

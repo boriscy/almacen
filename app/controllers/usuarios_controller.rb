@@ -1,8 +1,8 @@
 class UsuariosController < ApplicationController
-  before_filter :verificar_permiso
+  before_filter :verificar_permiso, :except => [:edit_perfil, :update_perfil]
   # GET /Usuarios
   # GET /Usuarios.xml
-  
+
   def index
     #@usuarios = Usuario.all
     #page = params[:page] || 1
@@ -71,6 +71,47 @@ class UsuariosController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @usuario.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+
+  # Edita su propio perfil
+  def edit_perfil
+    usuario = current_user
+    if usuario
+      @usuario = usuario
+    else
+      redirect_to "/login"
+    end
+  end
+
+  def update_perfil
+    usuario = current_user
+    if usuario
+      if usuario.update_attributes(params[:usuario])
+        redirect_to usuario_url(usuario)
+      else
+        render :action => "edit_perfil"
+      end
+    else
+      redirect_to "/login"
+    end
+  end
+
+  def edit_password
+    usuario = current_user
+    if usuario
+      @usuario = usuario
+    else
+      redirect_to "/login"
+    end
+  end
+
+  def update_password
+    usuario = current_user
+    if usuario
+      @usuario = usuario
+    else
+      redirect_to "/login"
     end
   end
 

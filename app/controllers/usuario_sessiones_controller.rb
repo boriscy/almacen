@@ -12,10 +12,10 @@ class UsuarioSessionesController < ApplicationController
   def create
     @usuario_session = UsuarioSession.new(params[:usuario_session])
     if @usuario_session.save
-      flash[:notice] = "Bienvenido Al Sistema de Almacenes"
+      flash[:notice] = "Bienvenido Al Sistema de Almacenes."
       redirect_to @usuario_session
     else
-      flash[:notice] = "Usuario y/o Contraseña Incorrectos"
+      flash[:notice] = "Usuario y/o Contraseña Incorrectos."
       render :action => 'new'
     end
   end
@@ -23,7 +23,7 @@ class UsuarioSessionesController < ApplicationController
   def destroy
     @usuario_session = UsuarioSession.find(params[:id])
     @usuario_session.destroy
-    flash[:notice] = "Usted Salio del Sistema de Almacenes"
+    flash[:notice] = "Usted Salio del Sistema de Almacenes."
     redirect_to login_url
   end
 
