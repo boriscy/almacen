@@ -108,8 +108,8 @@ class UsuariosController < ApplicationController
 
   def update_password
     usuario = current_user
-    if usuario
-      #²
+    if usuario.valid_password?(params[:old_password])
+      usuario.update_atributes(params[:usuario])
     else
       redirect_to "/login"
     end

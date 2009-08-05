@@ -52,7 +52,7 @@ class Rol < ActiveRecord::Base
       controllers.each do |controller|
         size = controller.size - 3
         cont = controller[0, size].classify.constantize.new
-        actions = (cont.methods - cont.private_methods - cont.protected_methods - ApplicationController.methods - ApplicationController.new.methods).sort
+        actions = (cont.methods - cont.private_methods - cont.protected_methods - ApplicationController.new.methods).sort
         h = {}
         actions.each{|v| h[v] = false }
         ret << [controller.gsub(/_controller\.rb$/,""), h]
