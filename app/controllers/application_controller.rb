@@ -29,5 +29,14 @@ class ApplicationController < ActionController::Base
 
   # Fución que permite verificar el permiso de un usuario
   def verificar_permiso
+    usuario = current_user
+    if usuario
+      permiso = Permiso.find_by_rol_id_and_controlador(usuario.rol_id, params[:controller])
+      unless permiso and permiso.acciones[params[:action]]
+        redirect_to "/login"
+      end
+    else
+      redirect_to "/login"
+    end
   end
 end

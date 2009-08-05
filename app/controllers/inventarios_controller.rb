@@ -1,4 +1,5 @@
 class InventariosController < ApplicationController
+  before_filter :verificar_permiso
   
   def index
     #page = params[:page] || 1

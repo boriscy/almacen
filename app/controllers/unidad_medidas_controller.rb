@@ -1,4 +1,5 @@
 class UnidadMedidasController < ApplicationController
+  before_filter :verificar_permiso
   # GET /unidad_medidas
   # GET /unidad_medidas.xml
   def index

@@ -1,4 +1,6 @@
 class UsuarioSessionesController < ApplicationController
+  before_filter :verificar_permiso, :except => [:new, :create]
+
   def show
     @usuario_session = UsuarioSession.find(params[:id])
   end

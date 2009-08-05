@@ -3,7 +3,11 @@
 
   <p>
     <%= f.label :unidad_id, 'Unidad:' %><br />
-    <%= f.select :unidad_id, Unidad.all.map{|v| [v, v.id]}, :include_blank => true %>
+    <%= f.select :unidad_id, Unidad.list, :include_blank => true %>
+  </p>
+  <p>
+    <%= f.label :rol_id, 'Rol:' %><br />
+    <%= f.select :rol_id, Rol.list, :include_blank => true %>
   </p>
   <p>
     <%= f.label :ci, 'CI:' %><br />

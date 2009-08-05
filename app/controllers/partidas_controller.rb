@@ -1,4 +1,6 @@
 class PartidasController < ApplicationController
+  before_filter :verificar_permiso
+
   # GET /partidas
   # GET /partidas.xml
   def index

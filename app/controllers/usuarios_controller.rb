@@ -1,4 +1,5 @@
 class UsuariosController < ApplicationController
+  before_filter :verificar_permiso
   # GET /Usuarios
   # GET /Usuarios.xml
   

@@ -1,4 +1,6 @@
 class AlmacenesController < ApplicationController
+  before_filter :verificar_permiso
+
   # GET /almacenes
   # GET /almacenes.xml
   def index

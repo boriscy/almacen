@@ -1,4 +1,6 @@
 class SolicitudesController < ApplicationController
+  before_filter :verificar_permiso, :except => [:index]
+
   # GET /solicitudes
   # GET /solicitudes.xml
   def index

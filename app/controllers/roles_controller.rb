@@ -1,4 +1,6 @@
 class RolesController < ApplicationController
+  before_filter :verificar_permiso
+
   def index
     @roles = Rol.paginate(:page => @page)
   end

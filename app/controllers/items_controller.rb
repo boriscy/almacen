@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_filter :verificar_permiso
   # GET /items
   # GET /items.xml
   def index
