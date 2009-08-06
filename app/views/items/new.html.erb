@@ -1,4 +1,7 @@
-<h1>New item</h1>
+<% content_for :title do %>
+Crear item
+<% end %>
+<h1>Crear item</h1>
 
 <%= render :partial => "forma" %>
 <%= link_to 'Atras', items_path(:page => @page) %>

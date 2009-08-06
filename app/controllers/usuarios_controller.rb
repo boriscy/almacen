@@ -85,6 +85,9 @@ class UsuariosController < ApplicationController
   end
 
   def update_perfil
+    # No permite editar el rol de un usuario
+    params[:usuario].delete(:rol_id) 
+
     usuario = current_user
     if usuario
       if usuario.update_attributes(params[:usuario])

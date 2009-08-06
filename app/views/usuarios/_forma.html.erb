@@ -5,10 +5,14 @@
     <%= f.label :unidad_id, 'Unidad:' %><br />
     <%= f.select :unidad_id, Unidad.list, :include_blank => true %>
   </p>
+  <% #Variable que se define en la vista edit_perfil %>
+  <% unless @no_rol %>
   <p>
     <%= f.label :rol_id, 'Rol:' %><br />
     <%= f.select :rol_id, Rol.list, :include_blank => true %>
   </p>
+  <% end %>
+
   <p>
     <%= f.label :ci, 'CI:' %><br />
     <%= f.text_field :ci %>
@@ -33,6 +37,7 @@
     <%= f.label :login, 'Nombre de usuario:' %><br />
     <%= f.text_field :login %>
   </p>
+  <% #No permite editar el password de un usuario %>
   <% if @usuario.id.nil? %>
   <p>
     <%= f.label :password, 'Contraseña:' %><br />
