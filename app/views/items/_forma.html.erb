@@ -3,22 +3,22 @@
 
   <p>
     <%= f.label :partida_id %><br />
-    <%= f.select :partida_id, Partida.all.map{|v| [v, v.id]}, :include_blank => true %>
+    <%= f.select :partida_id, Partida.list, :include_blank => true %>
   </p>
   <p>
     <%= f.label :unidad_medida_id, 'Unidad de medida' %><br />
-    <%= f.select :unidad_medida_id, UnidadMedida.all.map{|v| [v, v.id]}, :include_blank => true  %>
+    <%= f.select :unidad_medida_id, UnidadMedida.list, :include_blank => true  %>
   </p>
   <p>
-    <%= f.label :codigo %><br />
+    <%= f.label :codigo, "Código" %><br />
     <%= f.text_field :codigo %>
   </p>
   <p>
-    <%= f.label :nombre %><br />
+    <%= f.label :nombre, "Nombre:" %><br />
     <%= f.text_field :nombre %>
   </p>
   <p>
-    <%= f.label :Foto %><br/>
+    <%= f.label :foto %><br/>
     <%= f.file_field :foto, :size => 50 %>
   </p>
   <p>

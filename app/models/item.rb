@@ -9,8 +9,10 @@ class Item < ActiveRecord::Base
   has_many :inventario_items
   has_many :vencimientos
   
+  # Validaciones
+  validates_presence_of :partida_id, :unidad_medida_id, :nombre, :codigo
+  validates_associated :partida, :unidad_medida
 
-  validates_presence_of :partida_id, :unidad_medida_id
   cattr_reader :per_page
   @@per_page = 30
 

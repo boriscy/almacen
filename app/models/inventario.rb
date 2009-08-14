@@ -9,6 +9,7 @@ class Inventario < ActiveRecord::Base
 
  
   # validaciones
+  validates_associated :almacen
   validates_presence_of :almacen_id
 
   # Callbacks, son metodos que llaman a funciones cuando se realiza alguna de las acciones

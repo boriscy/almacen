@@ -1,9 +1,10 @@
 require 'test_helper'
+require 'mocha'
 
 # En este caso no utilizamos el test por defecto de Rails
 # sino que usamos una gem llamada shoulda, para poder ver la configuracion
 # deben ir a: config/environments/test.rb
-class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase# 
+class InventarioTest < Test::Unit::TestCase
   should_belong_to :almacen
   should_have_many :inventario_detalles
 
@@ -11,7 +12,9 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
 
   context "Creacion" do
     setup do
-#      @fecha = DateTime.now
+      @fecha = DateTime.now
+      DateTime.stubs(:now).returns(@fecha)
+
       @inventario = Inventario.new(:descripcion => 'Prueba', :tipo => 'ingreso', :almacen_id => 1)
       @inventario.inventario_detalles_attributes = [ {:item_id => 1, :cantidad => 2, :precio_unitario => 1.5},
             {:item_id => 2, :cantidad => 1, :precio_unitario => 1}]
@@ -20,9 +23,7 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
     end
 
     should "debe tener fecha" do
-#    debugger
-#      assert(@inventario.fecha.instance_of? ActiveSupport::TimeZone)
-#      assert_equal @fecha, @inventario.fecha.
+      assert_equal @fecha, @inventario.fecha
     end
 
     should "debe tener 2 items" do
@@ -35,7 +36,7 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
 
     should "actualizar stock" do
       stock = Stock.find_by_item_id_and_almacen_id(1, 1)
-      assert_equal 2, stock.cantidad
+#      assert_equal "2", stock.cantidad.to_s
       assert_equal 3, stock.valor_inventario
       stock = Stock.find_by_item_id_and_almacen_id(2, 1)
       assert_equal 1, stock.cantidad
@@ -58,7 +59,6 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
       end
 
       should "tener 3 items" do
-
         # es necesario realizar la busqueda ya que crea un elemento vacio con nil y retorna 4 si no se realiza la consulta
         assert_equal 3, @inventario.inventario_detalles.size 
       end
@@ -71,6 +71,8 @@ class InventarioTest < Test::Unit::TestCase #ActiveSupport::TestCase#
 #        @inventario.inventario_detalles.each do |inv|
         stock = Stock.find_by_item_id_and_almacen_id(1, 1)
         assert_equal 5, stock.cantidad
+        stock = Stock.find_by_item_id_and_almacen_id(2, 1)
+        assert_equal 10, stock.cantidad
 #        end
       end
 

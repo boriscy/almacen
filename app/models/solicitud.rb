@@ -7,7 +7,8 @@ class Solicitud < ActiveRecord::Base
   before_create :adicionar_fecha
   before_create :adicionar_usuario
 
-  validates_presence_of :descripcion
+  validates_presence_of :descripcion, :usuario_id
+  validates_associated :usuario
 
   protected
   # Adiciona la fecha al registro

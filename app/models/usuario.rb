@@ -6,6 +6,7 @@ class Usuario < ActiveRecord::Base
   acts_as_authentic
 
   validates_presence_of :nombre, :paterno, :materno, :ci, :unidad_id
+  validates_associated :rol, :unidad
 
   cattr_reader :per_page
 
