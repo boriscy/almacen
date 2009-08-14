@@ -2,6 +2,8 @@ class Inventario < ActiveRecord::Base
   # Relaciones
   has_many :inventario_detalles, :dependent => :destroy
   belongs_to :almacen
+  
+  default_scope :order => "fecha DESC"
 
   # Nested Forms, son atrbutos detalle en un formulario, en este caso allow_destroy => true
   # hara que se borren todos los items relacionados

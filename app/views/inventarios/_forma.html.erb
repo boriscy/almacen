@@ -39,15 +39,18 @@
       <td>
         <%= det.hidden_field :item_id %>
         <% unless det.object.item_id.nil? %>
-          <%= buscar_en_lista(@items, det.object.item_id)[0] %>
+          <% @item = @items.select{|i| i.id == det.object.item_id}[0] %>
+          <%= @item %>
         <% end %>
       </td>
-      <td>&nbsp;</td>
+      <td>
+        <%= @item.unidad_medida if @item %>
+      </td>
       <td><%= det.text_field :precio_unitario, :class => 'num' %></td>
       <td>
         <%= det.text_field :cantidad, :class => 'num' %>
       </td>
-      
+      <td class="num"></td>
     </tr>
   <% end %>
 
@@ -66,6 +69,8 @@ $(document).ready(function() {
 
   $('#inventarioDetalles').grider({addRowWithTab: false})
   .find("caption").hide();
+  $('#inventarioDetalles').find("tr.noedit:last td:eq(4)").addClass("num bold");
+
  
   $('#item').flexselect()
   val = $('#item').val();

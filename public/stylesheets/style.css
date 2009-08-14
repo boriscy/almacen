@@ -1,20 +1,10 @@
-body, p, ol, ul, td {
+body {
   padding: 0px;
   margin: 0px;
   background: #262626;
   color: #ffffff;
 }
-body {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-}
-ul {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-}
-td {
+body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
@@ -71,10 +61,6 @@ th, td {
   border: 1px solid #8f8f8f;
   padding: 3px 4px;
 }
-td {
-  border: 1px solid #8f8f8f;
-  padding: 3px 4px;
-}
 input, select, textarea {
   padding: 2px 3px;
   background: #000000;
@@ -89,9 +75,10 @@ input[type="file"] {
   color: #000000;
   background: #ffffff;
 }
+.num { text-align: right; }
 input.num {
-  text-align: right;
   width: 10em;
+  text-align: right;
 }
 label { vertical-align: top; }
 div#cont {
@@ -145,3 +132,4 @@ ul {
 ul.inline { padding: 10px; }
 ul.inline li { display: inline; }
 .bb { border-bottom: 1px solid #666666; }
+.bold { font-weight: bold; }
