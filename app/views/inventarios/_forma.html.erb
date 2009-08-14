@@ -1,9 +1,10 @@
-<style>
-#item_flexselect{width: 500px}
+<style type="text/css">
+#item_flexselect{width: 500px;}
 </style>
 <% form_for(@inventario) do |inv| %>
 
   <%= inv.error_messages %>
+
   <p>
     <%= inv.label :almacen_id, "Almacen" %>
     <%= inv.select :almacen_id, Almacen.list, :include_blank => true %>
@@ -12,6 +13,7 @@
     <%= inv.label :descripcion, "Descripción" %>
     <%= inv.text_area :descripcion, :rows => 10 %>
   </p>
+
   <br/><br/><br/>
 
   <div class="input buscar">
@@ -19,8 +21,10 @@
   <% @items = Item.all(:order => "nombre ASC", :include => :unidad_medida) %>
   <%= select_tag "item", "<option></option>"+ @items.map{|v| "<option value=\"#{v.id}\">#{v.nombre}</option>" }.join("")  %>
   
-    </div>
+  </div>
+
   <br/><br/>
+
   <h3>Items</h3>
   <table id="inventarioDetalles">
   <tr>

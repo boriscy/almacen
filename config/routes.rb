@@ -9,7 +9,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :usuarios, :member => {:edit_perfil => :get, :update_perfil => :put, 
     :edit_password => :get, :update_password => :put}
   map.resources :inventarios
-  map.resources :solicitudes, :member => {:aprobacion_superior => :post, :aprobacion_almacenero => :post, :aprobacion_administracion => :post}
+  map.resources :solicitudes, :member => {:aprobacion_superior => :post,
+    :aprobacion_almacenero => :post, :aprobacion_administracion => :post, :desaprobar => :post}
   map.resources :roles
 
 

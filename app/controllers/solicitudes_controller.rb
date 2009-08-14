@@ -79,13 +79,25 @@ class SolicitudesController < ApplicationController
 
   # Aprobacion inmediato superior
   def aprobacion_superior
+    solicitud = Solicitud.find(params[:id])
+    render :json => {:success => solicitud.cambiar_estado(2)}
   end
 
   # Aprobacion almacenero
   def aprobacion_almacenero
+    solicitud = Solicitud.find(params[:id])
+    render :json => {:success => solicitud.cambiar_estado(2)}
   end
 
   def aprobacion_administracion
+    solicitud = Solicitud.find(params[:id])
+    render :json => {:success => solicitud.cambiar_estado(2)}
+  end
+  
+  # Permite regresar a un estado anterior
+  def desaprobar
+    solicitud = Solicitud.find(params[:id])
+    render :json => {:success => solicitud.desabilitar_estado() }
   end
 
 end
