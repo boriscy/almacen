@@ -9,7 +9,7 @@ class Stock < ActiveRecord::Base
   default_scope :conditions => { :activo => true }
   validates_presence_of :item_id
 
-  def valor_unitario
+  def precio_unitario
     valor_inventario/cantidad
   end
 

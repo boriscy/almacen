@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :solicitudes, :member => {:aprobacion_superior => :post,
     :aprobacion_almacenero => :post, :aprobacion_administracion => :post, :desaprobar => :post}
   map.resources :roles
+  map.resources :stocks
 
 
   map.resources :usuario_sessiones

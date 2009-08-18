@@ -1,0 +1,24 @@
+<h1>Stocks de Items</h1>
+
+<table>
+  <tr>
+    <th class="ui-state-default">Item</th>
+    <th class="ui-state-default" title="Unidad de medida">Unidad</th>
+    <th class="ui-state-default">Almacen</th>
+    <th class="ui-state-default">Cantidad</th>
+    <th class="ui-state-default">Precio Unitario</th>
+    <th class="ui-state-default" title="Valor en Inventario">Valor Inv.</th>
+  </tr>
+  <% @stocks.each do |stock| %>
+  <tr>
+    <td><%= stock.item %></td>
+    <td><%= stock.item.unidad_medida %></td>
+    <td><%= stock.almacen %></td>
+    <td class="num"><%= stock.cantidad %></td>
+    <td class="num"><%= number_to_currency stock.precio_unitario %></td>
+    <td class="num"><%= stock.valor_inventario %></td>
+  </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @stocks  %>

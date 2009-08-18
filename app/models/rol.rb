@@ -19,6 +19,7 @@ class Rol < ActiveRecord::Base
     # Iterar a traves de la lista de controladores
     # es necesario verificar esto por que pueden cambiar sin aviso y se debe comparar
     # contra los valores que ya existen en permisos de un rol
+    lista = [] # Variable para almacenar temporalmente los nuevos permisos
     Rol.list_controllers.each do |cont|
       # Asignacion a dos variables para no confundirse
       controlador, acciones = cont[0], cont[1]
@@ -35,7 +36,7 @@ class Rol < ActiveRecord::Base
         permiso.acciones = tmp
       else
         # Adición del nuevo controlador en caso de que no exista
-        permisos_attributes = [{:controlador => cont[0], :acciones => cont[1]}]
+        self.permisos_attributes = [{:controlador => cont[0], :acciones => cont[1]}]
       end
     end
   end

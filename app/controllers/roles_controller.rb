@@ -23,7 +23,7 @@ class RolesController < ApplicationController
   def edit
     @rol = Rol.find(params[:id], :include => :permisos)
     # Metodos necesario para poder actualizar los roles y acciones nuevas o que hayan cambiado en los controladores
-    @rol.actualizar  
+    @rol.actualizar
   end
 
   def update
