@@ -27,12 +27,15 @@
       <% sol.fields_for :solicitud_detalles do |det|%>
         <tr>
           <td>
-                <%= det.hidden_field :item_id %>
-                <% unless det.object.item_id.nil? %>
-                <%= buscar_en_lista(@items, det.object.item_id)[0] %>
-                <% end %>
+            <%= det.hidden_field :item_id %>
+            <% unless det.object.item_id.nil? %>
+              <% @item = buscar_en_objetos(@items, det.object.item_id)[0] %>
+              <%= @item %>
+            <% end %>
           </td>
-          <td>&nbsp;</td>
+          <td>
+            <%= @item.unidad_medida unless @item.nil? %>
+          </td>
           <td><%= det.text_field :cantidad, :class => 'num' %></td>
         </tr> 
 

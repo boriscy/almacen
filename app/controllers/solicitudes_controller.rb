@@ -7,7 +7,7 @@ class SolicitudesController < ApplicationController
     @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario)
     respond_to do |format| 
       format.html
-      format.xml  { render :xml => @solicitudes }
+      format.xml { render :xml => @solicitudes }
     end
   end
 
@@ -18,7 +18,7 @@ class SolicitudesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @solicitud }
+      format.xml { render :xml => @solicitud }
     end
   end
 
@@ -77,27 +77,23 @@ class SolicitudesController < ApplicationController
     end
   end
 
-  # Aprobacion inmediato superior
-  def aprobacion_superior
-    solicitud = Solicitud.find(params[:id])
-    render :json => {:success => solicitud.cambiar_estado(2)}
+  # Creación de metodos basado en los estados
+  # en caso de que se aumenten estados se crearan los metodos necesarios
+  # para aprobaciones, esto debido a la forma que se manejan los roles y permisos
+  # IMPORTANTE: vean el código de config/routes.rb para entender mejor 
+  Solicitud.estados.each do |k, rol|
+    method = "aprobacion_#{rol[0]}"
+    define_method method do
+      solicitud = Solicitud.find(params[:id])
+      estado = k.to_i + 1
+      render :json => {:success => solicitud.cambiar_estado(estado)}
+    end
   end
 
-  # Aprobacion almacenero
-  def aprobacion_almacenero
-    solicitud = Solicitud.find(params[:id])
-    render :json => {:success => solicitud.cambiar_estado(2)}
-  end
-
-  def aprobacion_administracion
-    solicitud = Solicitud.find(params[:id])
-    render :json => {:success => solicitud.cambiar_estado(2)}
-  end
-  
+ 
   # Permite regresar a un estado anterior
   def desaprobar
     solicitud = Solicitud.find(params[:id])
     render :json => {:success => solicitud.desabilitar_estado() }
   end
-
 end

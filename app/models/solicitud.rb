@@ -6,22 +6,28 @@ class Solicitud < ActiveRecord::Base
   attr_protected :fecha, :usuario_id, :estado
   before_create :adicionar_fecha
   before_create :adicionar_usuario
+  before_create :adicionar_estado
 
   # Estados en los que puede estar una solicitud, el estado "0" es el estado final
-  @@estados = {"0" => "Aprobado DGA", "1" => "Aprobado Almacen", "2" =>"Aprobado Superior", "3" => "Incial" }
+  # NOTA: Lo ideal seria que los estados sean numeros decimales en ves de strings
+  # para lo cual seria necesario que cree una migración
+  @@estados = {"0" => ["administracion", "Aprobado DGA"],
+        "1" => ["almacen", "Aprobado Almacen"], 
+        "2" =>["superior", "Aprobado Superior"],
+        "3" => ["inicial", "Incial"] }
 
-  validates_presence_of :descripcion, :usuario_id
+  validates_presence_of :descripcion
   validates_associated :usuario
-
-  protected
-  # Adiciona la fecha al registro
-  def adicionar_fecha
-    self.fecha = DateTime.now
+  
+  class << self
+    def estados
+      @@estados
+    end
   end
 
-  # Adiciona el usuario
-  def adicionar_usuario
-    self.usuario_id = 1# session[:usuario_id]
+  # retorna el texto del estado
+  def estado
+    @@estados[read_attribute(:estado)][1]
   end
 
   # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
@@ -34,9 +40,22 @@ class Solicitud < ActiveRecord::Base
     end
   end
 
-  # retorna el estado
-  def estado
-    @@estados[read_attribute(:estado)]
+  protected
+  # Adiciona la fecha al registro
+  def adicionar_fecha
+    self.fecha = DateTime.now
+  end
+
+  # Adiciona el usuario
+  def adicionar_usuario
+    usuario = UsuarioSession.find.record
+    self.usuario_id = usuario.id
+  end
+
+  # Pone el estado inicial para la creación de una solicitud
+  def adicionar_estado
+    usuario = UsuarioSession.find.record
+    self.estado = @@estados.to_a.last[0]
   end
 
   # Permite ir a un estado anterior, debe revisar un periodo de tiempo
@@ -56,4 +75,5 @@ class Solicitud < ActiveRecord::Base
       return false
     end
   end
+
 end

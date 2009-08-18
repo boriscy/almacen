@@ -22,7 +22,6 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   protected
-
   def adicionar_paginacion
     @page = params[:page] || 1
   end
