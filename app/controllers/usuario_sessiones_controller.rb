@@ -13,7 +13,7 @@ class UsuarioSessionesController < ApplicationController
     @usuario_session = UsuarioSession.new(params[:usuario_session])
     if @usuario_session.save
       flash[:notice] = "Bienvenido Al Sistema de Almacenes."
-      redirect_to @usuario_session
+      redirect_to usuario_url(current_user)
     else
       flash[:notice] = "Usuario y/o Contraseña Incorrectos."
       render :action => 'new'

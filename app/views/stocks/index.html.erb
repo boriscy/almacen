@@ -1,5 +1,8 @@
 <h1>Stocks de Items</h1>
-
+<% form_tag(stocks_path, :method => :get) do %>
+<label>Almacen:</label>
+<%= select_tag "almacen", "<option></option>" + Almacen.list.map{|v| "<option value='#{v[1]}'>#{v[0]}</option>"}.join("")  %>
+<% end %>
 <table>
   <tr>
     <th class="ui-state-default">Item</th>
