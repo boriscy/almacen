@@ -47,6 +47,18 @@ class Solicitud < ActiveRecord::Base
       permisos.each{|k, v| est[k] = "aprobacion_#{v[0]}" }
       est
     end
+
+    def permitir_aprobacion?
+      permiso = Permiso.find_by_rol_id_and_controlador(1, "solicitudes")
+      permitido = false
+      rutas_estados.each do |k,v|
+        if permiso.acciones[v]
+          permitido = true
+          break
+        end
+      end
+      permitido
+    end
   end
 
   # retorna el texto del estado
