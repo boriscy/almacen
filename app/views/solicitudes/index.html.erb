@@ -1,11 +1,13 @@
 <% content_for :title do %>
 Solicitudes
 <% end %>
+
 <h1>Solicitudes</h1>
+
+<!--Muestra las solicitudes segun el estado -->
 
 <table>
   <tr>
-    <th class="ui-state-default" >Numero</th>
     <th class="ui-state-default" >Fecha</th>
     <th class="ui-state-default">Solicitante</th>
     <th class="ui-state-default">Descripcion</th>
@@ -15,8 +17,7 @@ Solicitudes
 
 <% @solicitudes.each do |solicitud| %>
   <tr>
-    <td><%= solicitud.id%></td>
-    <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%I" %></td>
+    <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%M" %></td>
     <td><%= solicitud.usuario.nombre_completo %></td>
     <td><%= solicitud.descripcion[0,100] +  (solicitud.descripcion.size > 100 ? "..." : "") %></td>
     <td><%= solicitud.estado %></td>

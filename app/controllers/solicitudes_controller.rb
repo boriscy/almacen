@@ -4,7 +4,8 @@ class SolicitudesController < ApplicationController
   # GET /solicitudes
   # GET /solicitudes.xml
   def index
-    @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario)
+    @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario,
+        :conditions => ["estado >=?", 0])
     respond_to do |format| 
       format.html
       format.xml { render :xml => @solicitudes }
@@ -80,13 +81,12 @@ class SolicitudesController < ApplicationController
   # Creación de metodos basado en los estados
   # en caso de que se aumenten estados se crearan los metodos necesarios
   # para aprobaciones, esto debido a la forma que se manejan los roles y permisos
-  # IMPORTANTE: vean el código de config/routes.rb para entender mejor 
-  Solicitud.estados.each do |k, rol|
-    method = "aprobacion_#{rol[0]}"
+  # IMPORTANTE: vean el código de config/routes.rb para entender mejor
+  Solicitud.rutas_estados.each do |k, ruta|
+    method = "aprobacion_#{ruta}"
     define_method method do
       solicitud = Solicitud.find(params[:id])
-      estado = k.to_i + 1
-      render :json => {:success => solicitud.cambiar_estado(estado)}
+      render :json => {:success => solicitud.cambiar_estado(k) }
     end
   end
 
