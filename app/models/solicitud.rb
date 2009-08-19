@@ -38,6 +38,15 @@ class Solicitud < ActiveRecord::Base
       @@estados.to_a.last[0]
     end
 
+    def permite_almacen?
+      permiso = Permiso.find_by_rol_id_and_controlador(current_user.id, "solicitudes")
+      if permiso.acciones["aprobacion_almacen"]
+        true
+      else
+        false
+      end
+    end
+
     # Retorna un hash con todos los estados exeptuando el inicial debido a que
     # este estado no necesita ser aprobado
     def rutas_estados
@@ -48,8 +57,13 @@ class Solicitud < ActiveRecord::Base
       est
     end
 
+    def current_user
+      UsuarioSession.find.record
+    end
+    # Indica si es que permite la aprobación del superior
+    # Por ejemplo inmediato superior u otro que haga aprobaciones
     def permitir_aprobacion?
-      permiso = Permiso.find_by_rol_id_and_controlador(1, "solicitudes")
+      permiso = Permiso.find_by_rol_id_and_controlador(current_user.id, "solicitudes")
       permitido = false
       rutas_estados.each do |k,v|
         if permiso.acciones[v]
@@ -87,6 +101,7 @@ class Solicitud < ActiveRecord::Base
       return false
     end
   end
+
 
   protected
   # Retorna el usuario actual

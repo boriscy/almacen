@@ -2,18 +2,33 @@
 Ver Solicitud
 <% end %>
 <% content_for :title do %>
+<style>
+</style>
 Ver Solicitud
 <% end %>
-<h1>Ver solicitud Detalle</h1>
- <%= @solicitud.usuario.nombre_completo %>
+<h1>Ver Solicitud</h1>
+<div class="input">
+<label>Creado por</label>
+<%= @solicitud.usuario.nombre_completo %>
+</div>
 
+<div class="input">
+  <label>Estado</label>
+  <%= @solicitud.estado %>
+</div>
 
+<div class="input">
+  <label>Descripción</label>
+  <%= @solicitud.descripcion %>
+</div>
+
+ <h3>Detalle de Items</h3>
 <table>
     <tr>
     <th class="ui-state-default">Item</th>
     <th class="ui-state-default">Cantidad</th>
     <th class="ui-state-default">Unid. Medida</th>
-     </tr>
+    </tr>
 
 <% @solicitud.solicitud_detalles.each do |inv| %>
   <tr>
@@ -24,7 +39,8 @@ Ver Solicitud
 <% end %>
 </table>
 
-<br />
+
+<br/>
 
 
 <%= link_to 'Listado', solicitudes_path(@solicitud, :page => @page) %> |
