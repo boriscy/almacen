@@ -1,12 +1,9 @@
 <% content_for :title do %>
 Ver Solicitud
 <% end %>
-<% content_for :title do %>
-<style>
-</style>
-Ver Solicitud
-<% end %>
+
 <h1>Ver Solicitud</h1>
+
 <div class="input">
 <label>Creado por</label>
 <%= @solicitud.usuario.nombre_completo %>
@@ -22,26 +19,37 @@ Ver Solicitud
   <%= @solicitud.descripcion %>
 </div>
 
- <h3>Detalle de Items</h3>
+<h3>Detalle de Items</h3>
 <table>
     <tr>
     <th class="ui-state-default">Item</th>
-    <th class="ui-state-default">Cantidad</th>
     <th class="ui-state-default">Unid. Medida</th>
+    <th class="ui-state-default">Cantidad</th>
     </tr>
 
 <% @solicitud.solicitud_detalles.each do |inv| %>
   <tr>
     <td><%=h inv.item %></td>
-    <td><%=h inv.cantidad %></td>
     <td> <%=h inv.item.unidad_medida.abreviacion%></td>
+    <td class="num"><%=h inv.cantidad %></td>
   </tr>
 <% end %>
 </table>
+<br/><br/>
+<ul class="inline">
+  <li><%= link_to "Aprobar", "", :class => "aprobar estados" %></li>
+  <li><%= link_to "Rechazar", anulacion_solicitud_path(@solicitud), :class => "rechazar estados" %></li>
+</ul>
 
-
-<br/>
+<br/><br/>
 
 
 <%= link_to 'Listado', solicitudes_path(@solicitud, :page => @page) %> |
 <%= link_to 'Editar', edit_solicitud_path(@solicitud, :page=>@page) %>
+<script type="text/javascript">
+  $(document).ready(function() {
+      // Funcion que permite cambiar el estado de la solicitud
+      $('a.estados').click(function(){
+      });
+  });
+</script>

@@ -15,10 +15,8 @@ ActionController::Routing::Routes.draw do |map|
   # Este codigo crea de forma automatica las rutas necesarias para que puedan ser correctamente mapeados
   solicitudes_members = {}
   Solicitud.rutas_estados.each do |k, estado|
-    method = 
-    solicitudes_members["aprobacion_#{estado[0]}".to_sym] = :post
+    solicitudes_members["#{estado}".to_sym] = :post
   end
-  solicitudes_members[:desaprobar] = :post
   map.resources :solicitudes, :member => solicitudes_members
 
   map.resources :roles

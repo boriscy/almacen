@@ -104,6 +104,7 @@ div#cont{
   text-align:left;
   margin:auto;
 }
+
 /*Menu*/
 @a_menu_color: #5f5f5f;
 ul#navigation{
@@ -144,12 +145,55 @@ ul#navigation{
 }
 }
 
-ul{margin:2px; padding:2px}
+ul{margin:4px; padding:4px;}
 
-ul.inline{
-padding: 10px;
-  li{display:inline;}
-}
 .bb{border-bottom: 1px solid @border_color;}
 
 .bold{ font-weight: bold;}
+
+/* Estilos especiales con imagenes*/
+.comun-ap{
+  font-weight: bold;
+  padding: 4px 8px !important;
+  padding-right: 20px !important;
+  margin: 0px 2px;
+  border: 1px solid @border_color;
+  text-decoration: none;
+}
+.aprobar{
+  .comun-ap;
+  background: @background2 url(../images/icons/tick.png) no-repeat right;
+}
+
+.rechazar{
+  .comun-ap;
+  background: @background2 url(../images/icons/cross.png) no-repeat right;
+}
+
+.aprobar:hover, a.rechazar:hover{
+  background-color: @a_color;
+  color: @background;
+}
+
+ul.inline{
+  list-style: none;
+  padding: 4px;
+  margin: 0px;
+  display: table;
+
+  li{
+    float:left;
+    margin: 0px;
+    padding: 0px;
+
+    a{
+      display: block;
+      padding: 2px 4px;
+    }
+  }
+
+}
+
+.margin-side{
+  margin: 0px 4px;
+}

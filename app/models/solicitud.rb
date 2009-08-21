@@ -53,7 +53,7 @@ class Solicitud < ActiveRecord::Base
       permisos = @@estados.dup
       permisos.delete(Solicitud.estado_inicial)
       est = {}
-      permisos.each{|k, v| est[k] = "aprobacion_#{v[0]}" }
+      permisos.each{|k, v| est[k] = "#{v[0]}" }
       est
     end
 
@@ -63,7 +63,7 @@ class Solicitud < ActiveRecord::Base
     # Indica si es que permite la aprobación del superior
     # Por ejemplo inmediato superior u otro que haga aprobaciones
     def permitir_aprobacion?
-      permiso = Permiso.find_by_rol_id_and_controlador(current_user.id, "solicitudes")
+      permiso = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
       permitido = false
       rutas_estados.each do |k,v|
         if permiso.acciones[v]

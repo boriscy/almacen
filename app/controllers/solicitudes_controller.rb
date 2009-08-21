@@ -83,8 +83,7 @@ class SolicitudesController < ApplicationController
   # para aprobaciones, esto debido a la forma que se manejan los roles y permisos
   # IMPORTANTE: vean el código de config/routes.rb para entender mejor
   Solicitud.rutas_estados.each do |k, ruta|
-    method = "aprobacion_#{ruta}"
-    define_method method do
+    define_method ruta do
       solicitud = Solicitud.find(params[:id])
       render :json => {:success => solicitud.cambiar_estado(k) }
     end

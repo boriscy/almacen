@@ -132,10 +132,58 @@ ul#navigation li a:hover { background: #5f5f5f !important; }
 }
 #enc .login a:hover { text-decoration: underline; }
 ul {
-  margin: 2px;
-  padding: 2px;
+  margin: 4px;
+  padding: 4px;
 }
-ul.inline { padding: 10px; }
-ul.inline li { display: inline; }
 .bb { border-bottom: 1px solid #666666; }
 .bold { font-weight: bold; }
+.comun-ap {
+  font-weight: bold;
+  padding: 4px 8px !important;
+  padding-right: 20px !important;
+  margin: 0px 2px;
+  border: 1px solid #666666;
+  text-decoration: none;
+}
+.aprobar {
+  font-weight: bold;
+  padding: 4px 8px !important;
+  padding-right: 20px !important;
+  margin: 0px 2px;
+  border: 1px solid #666666;
+  text-decoration: none;
+  background: #000000 url(../images/icons/tick.png) no-repeat right;
+}
+.rechazar {
+  font-weight: bold;
+  padding: 4px 8px !important;
+  padding-right: 20px !important;
+  margin: 0px 2px;
+  border: 1px solid #666666;
+  text-decoration: none;
+  background: #000000 url(../images/icons/cross.png) no-repeat right;
+}
+.aprobar:hover {
+  background-color: #f58f17;
+  color: #262626;
+}
+a.rechazar:hover {
+  background-color: #f58f17;
+  color: #262626;
+}
+ul.inline {
+  list-style: none;
+  padding: 4px;
+  margin: 0px;
+  display: table;
+}
+ul.inline li {
+  float: left;
+  margin: 0px;
+  padding: 0px;
+}
+ul.inline li a {
+  display: block;
+  padding: 2px 4px;
+}
+.margin-side { margin: 0px 4px; }
