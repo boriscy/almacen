@@ -19,6 +19,7 @@
     <div class="login">
         <%= link_to current_user.nombre_completo, edit_perfil_usuario_path(current_user) %>
     </div>  
+     <%= link_to "Cambiar contraseña", edit_password_usuario_path(current_user) %>
     <%end%>
   </div>
   

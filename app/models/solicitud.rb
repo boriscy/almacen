@@ -1,6 +1,8 @@
 class Solicitud < ActiveRecord::Base
   has_many :solicitud_detalles, :dependent => :destroy
+  has_many :modificacion_solicitudes
   belongs_to :usuario
+
 
   # Almacena la secuencia de aprobaciones con el siguiente formato
   # {"fecha" => {"usuario_id" => "estado"}
@@ -9,10 +11,12 @@ class Solicitud < ActiveRecord::Base
   
   accepts_nested_attributes_for :solicitud_detalles, :allow_destroy => true
   attr_protected :fecha, :usuario_id, :estado
+  # Callbacks
   before_create :adicionar_fecha
   before_create :adicionar_usuario
   before_create :adicionar_estado
   after_save :actualizar_aprobaciones
+  before_update :adicionar_modificacion
 
   # Estados en los que puede estar una solicitud, el estado 0 es el estado final
   # Todos los estados deben estar ordenados consecutivamente para que los
@@ -29,6 +33,19 @@ class Solicitud < ActiveRecord::Base
   
   # metodos de instancia ej: Solicitud.estados
   class << self
+    # Realiza la busqueda solicitudes propias y las
+    # que tiene que aprobar el inmediato superior
+    def superior_subordinados(options={})
+      # Se crea un array con todos los ids del superior y los subordinados
+      options[:page] = 1 if options[:page].nil?
+      case(options[:tipo])
+        when "propias" then ids = current_user.id
+        when "subordinados" then ids = current_user.subordinado_ids
+        else ids = [current_user.id] + current_user.subordinado_ids
+      end
+      Solicitud.paginate(:page => options[:page], :conditions => {:usuario_id => ids})
+    end
+
     def estados
       @@estados
     end
@@ -156,6 +173,16 @@ class Solicitud < ActiveRecord::Base
       self.aprobaciones= {DateTime.now => {current_user.id => estado}}
     else
       self.aprobaciones[DateTime.now] = {current_user.id => estado}
+    end
+  end
+  
+  # Permite realizar el seguimiento de las las solicitudes
+  def adicionar_modificacion
+    # En este caso se realizo una modificacion
+    if estado == Solicitud.find(self.id).estado
+      @modificacion = ModificacionSolicitud.new(:descripcion => self.descripcion, :solicitud_id => self.id)
+      @modificacion.detalles = self.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
+      @modificacion.save
     end
   end
 

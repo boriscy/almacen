@@ -1,0 +1,31 @@
+<table>
+  <tr>
+    <th class="ui-state-default" >Fecha</th>
+    <th class="ui-state-default">Solicitante</th>
+    <th class="ui-state-default">Descripcion</th>
+    <th class="ui-state-default">Estado</th>
+    <% if @aprobar %>
+    <th class="ui-state-default">Aprobar</th>
+    <% end %>
+    <th class="ui-state-default"></th>
+  </tr>
+
+<% @solicitudes.each do |solicitud| %>
+  <tr>
+    <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%M" %></td>
+    <td><%= solicitud.usuario.nombre_completo %></td>
+    <td><%= solicitud.descripcion[0,70] +  (solicitud.descripcion.size > 70 ? "..." : "") %></td>
+    <td><%= solicitud.estado %></td>
+    <% if @aprobar %>
+    <td><%= link_to "Aprobar", solicitud_path(solicitud, :page => @page) %></td>
+    <% end %>
+    <td>
+      <%= link_to 'Ver', solicitud_path(solicitud,:page => @page) %>
+      <%= link_to 'Editar', edit_solicitud_path(solicitud, :page => @page) %>
+      <%= link_to 'Borrar', solicitud, :confirm => 'Esta Seguro?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+

@@ -2,23 +2,28 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :unidad_id, 'Unidad:' %>
+    <%= f.label :unidad_id, 'Unidad' %>
     <%= f.select :unidad_id, Unidad.list, :include_blank => true %>
   </p>
   <% #Variable que se define en la vista edit_perfil %>
   <% unless @no_rol %>
   <p>
-    <%= f.label :rol_id, 'Rol:' %>
+    <%= f.label :rol_id, 'Rol' %>
     <%= f.select :rol_id, Rol.list, :include_blank => true %>
   </p>
   <% end %>
+  <p>
+    <%= f.label :superior_id %>
+    <%= f.select :superior_id, Usuario.list(:order => "paterno ASC"), :include_blank => true %>
+  </p>
+  </p>
 
   <p>
-    <%= f.label :ci, 'CI:' %>
+    <%= f.label :ci, 'CI' %>
     <%= f.text_field :ci %>
   </p>
   <p>
-    <%= f.label :nombre, 'Nombre:' %>
+    <%= f.label :nombre, 'Nombre' %>
     <%= f.text_field :nombre %>
   </p>
   <p>

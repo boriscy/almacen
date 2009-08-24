@@ -3,39 +3,30 @@ Solicitudes
 <% end %>
 
 <h1>Solicitudes</h1>
+<%  %>
 
-<!--Muestra las solicitudes segun el estado -->
-<% @aprobar = Solicitud.permitir_aprobacion? %>
-<table>
-  <tr>
-    <th class="ui-state-default" >Fecha</th>
-    <th class="ui-state-default">Solicitante</th>
-    <th class="ui-state-default">Descripcion</th>
-    <th class="ui-state-default">Estado</th>
-    <% if @aprobar %>
-    <th class="ui-state-default">Aprobar</th>
-    <% end %>
-    <th class="ui-state-default"></th>
-  </tr>
-
-<% @solicitudes.each do |solicitud| %>
-  <tr>
-    <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%M" %></td>
-    <td><%= solicitud.usuario.nombre_completo %></td>
-    <td><%= solicitud.descripcion[0,70] +  (solicitud.descripcion.size > 70 ? "..." : "") %></td>
-    <td><%= solicitud.estado %></td>
-    <% if @aprobar %>
-    <td><%= link_to "Aprobar", solicitud_path(solicitud, :page => @page) %></td>
-    <% end %>
-    <td>
-      <%= link_to 'Ver', solicitud_path(solicitud,:page => @page) %>
-      <%= link_to 'Editar', edit_solicitud_path(solicitud, :page => @page) %>
-      <%= link_to 'Borrar', solicitud, :confirm => 'Esta Seguro?', :method => :delete %>
-    </td>
-  </tr>
+<% #En este caso solo presenta si que es un superior o mayor %>
+<% if @aprobar %>
+<fieldset style="width:15em;">
+  <legend>Tipo</legend>
+  <div><label><%= radio_button_tag 'tipo', 'all', :checked => true %>Todas</label></div>
+  <div><label><%= radio_button_tag 'tipo', 'subordinados' %>Pendientes de aprobación</lable></div>
+  <div><label><%= radio_button_tag 'tipo', 'propias' %>Propias</label></div>
+</fieldset><br/><br/>
 <% end %>
-</table>
 
+<!--Div ustilizado para AJAX-->
+<div id="buscar">
+  <%= render :partial => "lista" %>
+</div>
 <br />
 
 <%= link_to 'Nueva solicitud', new_solicitud_path %>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('input[type=radio]').click(function() {
+    //$('#buscar').load('/solicitudes', {tipo: this.value}); // Cuando se carga con parametros realiza un POST y no GET
+    $.get('/solicitudes', {tipo: this.value}, function(data) { $('#buscar').html(data); });
+  });
+});
+</script>

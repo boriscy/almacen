@@ -4,10 +4,19 @@ class SolicitudesController < ApplicationController
   # GET /solicitudes
   # GET /solicitudes.xml
   def index
-    @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario,
-        :conditions => ["estado >=?", 0])
+    # Buscar todas las solicitudes realizadas por el usuario
+#    @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario, :conditions => ["estado >=? AND usuario_id=?", 0, current_user.id])
+    options = params
+    options[:page] = @page
+    @solicitudes = Solicitud.superior_subordinados(options)
+    # Muestra las solicitudes segun el estado
+    @aprobar = Solicitud.permitir_aprobacion?
     respond_to do |format| 
-      format.html
+      if request.xhr?
+        format.html {render :partial => "lista"}
+      else
+        format.html
+      end
       format.xml { render :xml => @solicitudes }
     end
   end

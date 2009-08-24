@@ -5,7 +5,7 @@ class Permiso < ActiveRecord::Base
 
   before_save :cambiar_valor_acciones!
 
-  validates_presence_of :controlador, :rol_id
+  validates_presence_of :controlador#, :rol_id # No se debe activar esta validación de lo contrario creara problemas
   validates_associated :rol
 
   # Actualiza los valores de las acciones para que sean true, false

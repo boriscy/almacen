@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090818184848) do
+ActiveRecord::Schema.define(:version => 20090824115625) do
 
   create_table "almacenes", :force => true do |t|
     t.string   "nombre",     :limit => 100
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(:version => 20090818184848) do
     t.string   "cargo"
     t.string   "rol"
     t.integer  "rol_id"
+    t.integer  "superior_id"
   end
 
   create_table "vencimientos", :force => true do |t|
