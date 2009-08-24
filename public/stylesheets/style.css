@@ -61,6 +61,11 @@ th, td {
   border: 1px solid #8f8f8f;
   padding: 3px 4px;
 }
+form p {
+  clear: both;
+  with: 100%;
+  margin-bottom: 1em;
+}
 input, select, textarea {
   padding: 2px 3px;
   background: #000000;
@@ -72,8 +77,9 @@ input[type="submit"] {
   font-weight: bold;
 }
 input[type="file"] {
-  color: #000000;
-  background: #ffffff;
+  color: #ffffff;
+  background-color: #000000;
+  border: 1px solid #666666;
 }
 .num { text-align: right; }
 input.num {

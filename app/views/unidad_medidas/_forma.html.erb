@@ -2,17 +2,17 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :nombre %><br />
+    <%= f.label :nombre %>
     <%= f.text_field :nombre %>
   </p>
   <p>
-    <%= f.label :abreviacion %><br />
+    <%= f.label :abreviacion %>
     <%= f.text_field :abreviacion %>
   </p>
   <p>
-    <%= f.label :entero %><br />
     <%= f.check_box :entero %>
-  </p>
+    <%= f.label :entero, "Entero", :style => 'float:left' %>
+   </p>
   <p>
     <%= f.submit 'Salvar', :class => 'ui-corner-all' %>
   </p>

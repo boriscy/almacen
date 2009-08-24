@@ -2,49 +2,49 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :unidad_id, 'Unidad:' %><br />
+    <%= f.label :unidad_id, 'Unidad:' %>
     <%= f.select :unidad_id, Unidad.list, :include_blank => true %>
   </p>
   <% #Variable que se define en la vista edit_perfil %>
   <% unless @no_rol %>
   <p>
-    <%= f.label :rol_id, 'Rol:' %><br />
+    <%= f.label :rol_id, 'Rol:' %>
     <%= f.select :rol_id, Rol.list, :include_blank => true %>
   </p>
   <% end %>
 
   <p>
-    <%= f.label :ci, 'CI:' %><br />
+    <%= f.label :ci, 'CI:' %>
     <%= f.text_field :ci %>
   </p>
   <p>
-    <%= f.label :nombre, 'Nombre:' %><br />
+    <%= f.label :nombre, 'Nombre:' %>
     <%= f.text_field :nombre %>
   </p>
   <p>
-    <%= f.label :paterno, 'Paterno:' %><br />
+    <%= f.label :paterno, 'Paterno:' %>
     <%= f.text_field :paterno %>
   </p>
   <p>
-    <%= f.label :materno, 'Materno:' %><br />
+    <%= f.label :materno, 'Materno:' %>
     <%= f.text_field :materno %>
   </p>
  <p>
-    <%= f.label :cargo, 'Cargo:' %><br />
+    <%= f.label :cargo, 'Cargo:' %>
     <%= f.text_field :cargo %>
   </p>
  <p>
-    <%= f.label :login, 'Nombre de usuario:' %><br />
+    <%= f.label :login, 'Nombre de usuario:' %>
     <%= f.text_field :login %>
   </p>
   <% #No permite editar el password de un usuario %>
   <% if @usuario.id.nil? %>
   <p>
-    <%= f.label :password, 'Contraseña:' %><br />
+    <%= f.label :password, 'Contraseña:' %>
     <%= f.password_field :password %>
   </p>
   <p>
-    <%= f.label :password_confirmation, 'Confirmar contraseña:' %><br />
+    <%= f.label :password_confirmation, 'Confirmar contraseña:' %>
     <%= f.password_field :password_confirmation %>
   </p>
   <% end %>

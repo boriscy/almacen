@@ -2,23 +2,23 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :partida_id %><br />
+    <%= f.label :partida_id %>
     <%= f.select :partida_id, Partida.list, :include_blank => true %>
   </p>
   <p>
-    <%= f.label :unidad_medida_id, 'Unidad de medida' %><br />
+    <%= f.label :unidad_medida_id, 'Unidad de medida' %>
     <%= f.select :unidad_medida_id, UnidadMedida.list, :include_blank => true  %>
   </p>
   <p>
-    <%= f.label :codigo, "Código" %><br />
+    <%= f.label :codigo, "Código" %>
     <%= f.text_field :codigo %>
   </p>
   <p>
-    <%= f.label :nombre, "Nombre:" %><br />
+    <%= f.label :nombre, "Nombre:" %>
     <%= f.text_field :nombre %>
   </p>
   <p>
-    <%= f.label :foto %><br/>
+    <%= f.label :foto %>
     <%= f.file_field :foto, :size => 50 %>
   </p>
   <p>

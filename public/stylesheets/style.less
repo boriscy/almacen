@@ -66,6 +66,12 @@ th, td{
 }
 
 /*Forms*/
+form p{
+  clear: both;
+  with: 100%;
+  margin-bottom: 1em;
+}
+
 input, select, textarea{
   padding: 2px 3px;
   background: @background2;
@@ -77,8 +83,9 @@ input[type="submit"] {
   font-weight:bold;
 }
 input[type="file"] {
-  color: #000;
-  background: #FFF;
+  color: @color;
+  background-color: @background2;
+  border: 1px solid @border_color;
 }
 .num{
   text-align:right;
@@ -93,6 +100,10 @@ label{
   vertical-align: top;
   font-weight: bold; 
   display: block;
+/*  float:left;
+  width: 7em;
+  text-align: right;
+  margin-right: 1em;*/
   color: @color2;
 }
 .input{
