@@ -13,4 +13,8 @@ class ModificacionSolicitud < ActiveRecord::Base
   def adicionar_usuario
     self.usuario_id = current_user.id
   end
+
+  def current_user
+    UsuarioSession.find.record
+  end
 end

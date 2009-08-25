@@ -193,3 +193,7 @@ ul.inline li a {
   padding: 2px 4px;
 }
 .margin-side { margin: 0px 4px; }
+.resaltar {
+  font-weight: bold;
+  color: #3fb2ff;
+}

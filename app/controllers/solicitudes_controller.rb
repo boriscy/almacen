@@ -10,7 +10,7 @@ class SolicitudesController < ApplicationController
     options[:page] = @page
     @solicitudes = Solicitud.superior_subordinados(options)
     # Muestra las solicitudes segun el estado
-    @aprobar = Solicitud.permitir_aprobacion?
+    @aprobar = Solicitud.puede_aprobar_superior?
     respond_to do |format| 
       if request.xhr?
         format.html {render :partial => "lista"}
@@ -94,7 +94,11 @@ class SolicitudesController < ApplicationController
   Solicitud.rutas_estados.each do |k, ruta|
     define_method ruta do
       solicitud = Solicitud.find(params[:id])
-      render :json => {:success => solicitud.cambiar_estado(k) }
+      if solicitud.cambiar_estado?(k)
+        render :json => {:success => true, :estado => Solicitud.estados[k -1][1] }
+      else
+        render :json => {:success => false }
+      end
     end
   end
 

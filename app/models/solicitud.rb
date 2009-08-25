@@ -15,8 +15,8 @@ class Solicitud < ActiveRecord::Base
   before_create :adicionar_fecha
   before_create :adicionar_usuario
   before_create :adicionar_estado
-  after_save :actualizar_aprobaciones
-  before_update :adicionar_modificacion
+  before_update :actualizar_aprobaciones
+  after_update :adicionar_modificacion
 
   # Estados en los que puede estar una solicitud, el estado 0 es el estado final
   # Todos los estados deben estar ordenados consecutivamente para que los
@@ -52,7 +52,9 @@ class Solicitud < ActiveRecord::Base
 
     # Retorna el estado inicial, el estado final es 0
     def estado_inicial
-      @@estados.to_a.last[0]
+      max = 0
+      @@estados.each{|k,v| max = k if k > max }
+      [max, @@estados[max]]
     end
 
     def permite_almacen?
@@ -76,6 +78,24 @@ class Solicitud < ActiveRecord::Base
 
     def current_user
       UsuarioSession.find.record
+    end
+
+    # Retorna todos los estados de aprobacion
+    def estados_aprobacion
+      estados = @@estados.dup
+      ini = estado_inicial[0]
+      estados.delete_if{|k,v| k < 0 or k == ini}
+      estados
+    end
+
+    # Metodos autogenerados para permisos y aprobacion
+    Solicitud.estados_aprobacion.each do |k, estado|
+      method = "puede_aprobar_#{estado[0]}?"
+      # Creación de metodos        
+      define_method method do
+        permiso = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
+        permiso.acciones[estado[0]]
+      end
     end
     # Indica si es que permite la aprobación del superior
     # Por ejemplo inmediato superior u otro que haga aprobaciones
@@ -105,18 +125,17 @@ class Solicitud < ActiveRecord::Base
   end
 
   # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
-  def cambiar_estado(val)
+  def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
     # similar a una cuenta regresiva
-    if (estado - 1) == val
-      estado = val
-      return self.save
+    if (self.read_attribute(:estado) - 1) == val
+      self.estado = val
     elsif val == -1
-      estado = val
-      return self.save
+      self.estado = val
     else 
       return false
     end
+    return true if self.save
   end
 
 
@@ -169,10 +188,10 @@ class Solicitud < ActiveRecord::Base
 
   # Realiza la secuencia en la cual se aprueban los estados
   def actualizar_aprobaciones
-    if aprobaciones.nil?
-      self.aprobaciones= {DateTime.now => {current_user.id => estado}}
+    if self.aprobaciones.nil?
+      self.aprobaciones = {DateTime.now => {current_user.id => read_attribute(:estado)}}
     else
-      self.aprobaciones[DateTime.now] = {current_user.id => estado}
+      self.aprobaciones[DateTime.now] = {current_user.id => read_attribute(:estado)}
     end
   end
   
