@@ -4,6 +4,8 @@ class ModificacionSolicitud < ActiveRecord::Base
   belongs_to :solicitud
   belongs_to :usuario
 
+  serialize :detalles
+
   attr_protected :usuario_id
 
   before_create :adicionar_usuario

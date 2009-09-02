@@ -14,4 +14,16 @@ class Permiso < ActiveRecord::Base
     acciones.each{ |k,v|  acciones[k] = (v == "1") }
   end
 
+  class << self
+    # Verifica si un usuario tiene permiso al controlador y la acción
+    def permite_ruta?(controlador, accion)
+      p = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, controlador)
+      p.acciones[accion]
+    end
+
+    def current_user
+      UsuarioSession.find.record
+    end
+  end
+
 end

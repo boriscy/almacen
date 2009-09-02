@@ -1,6 +1,6 @@
 class Solicitud < ActiveRecord::Base
   has_many :solicitud_detalles, :dependent => :destroy
-  has_many :modificacion_solicitudes
+  has_many :modificacion_solicitudes, :class_name => "ModificacionSolicitud", :dependent => :destroy
   belongs_to :usuario
 
 
@@ -59,7 +59,7 @@ class Solicitud < ActiveRecord::Base
 
     def permite_almacen?
       permiso = Permiso.find_by_rol_id_and_controlador(current_user.id, "solicitudes")
-      if permiso.acciones["aprobacion_almacen"]
+      if permiso.acciones["almacen"]
         true
       else
         false
@@ -97,6 +97,7 @@ class Solicitud < ActiveRecord::Base
         permiso.acciones[estado[0]]
       end
     end
+
     # Indica si es que permite la aprobación del superior
     # Por ejemplo inmediato superior u otro que haga aprobaciones
     def permitir_aprobacion?
@@ -110,6 +111,16 @@ class Solicitud < ActiveRecord::Base
       end
       permitido
     end
+  end
+
+  # Retorna verdadero si es que el usuario que esta viendo el registro puede
+  # Modificar el estado, si el registro fue aprobado o el usuario no tiene permiso
+  # retorna false
+  def permitir_aprobacion_superior?
+    estado = Solicitud.estado_inicial[0] - 1
+    estado = [estado, @@estados[estado]]
+    permiso = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
+    return permiso.acciones[estado[1][0]]
   end
 
   # retorna el texto del estado
@@ -159,12 +170,12 @@ class Solicitud < ActiveRecord::Base
   # dependiendo  del nivel de acceso de usuario creara el estado
   def adicionar_estado
     p = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
-    primer_estado_aprobado = Solicitud.estado_inicial - 1
+    primer_estado_aprobado = Solicitud.estado_inicial[0] - 1
     # Verifica si el usuario tiene permiso a este estado
-    if p.acciones["aprobacion_#{@@estados[primer_estado_aprobado][0]}"]
+    if p.acciones[@@estados[primer_estado_aprobado][0]]
       self.estado = primer_estado_aprobado
     else
-      self.estado = Solicitud.estado_inicial
+      self.estado = Solicitud.estado_inicial[0]
     end
   end
 

@@ -37,12 +37,12 @@ Ver Solicitud
 </table>
 <br/><br/>
 
-<% @aprobar = Solicitud.puede_aprobar_superior? %>
+<% @aprobar = @solicitud.permitir_aprobacion_superior? %>
 <% if @aprobar %>
-<ul class="inline">
-  <li><%= link_to "Aprobar", superior_solicitud_path(@solicitud), :class => "aprobar estados" %></li>
-  <li><%= link_to "Rechazar", anulacion_solicitud_path(@solicitud), :class => "rechazar estados" %></li>
-</ul>
+  <ul class="inline">
+    <li><%= link_to "Aprobar", superior_solicitud_path(@solicitud), :class => "aprobar estados" %></li>
+    <li><%= link_to "Rechazar", anulacion_solicitud_path(@solicitud), :class => "rechazar estados" %></li>
+  </ul>
 <% end %>
 <br/><br/>
 
