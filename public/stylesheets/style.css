@@ -86,6 +86,7 @@ input.num {
   width: 10em;
   text-align: right;
 }
+legend { font-weight: bold; }
 label {
   vertical-align: top;
   font-weight: bold;
@@ -141,8 +142,6 @@ ul {
   margin: 4px;
   padding: 4px;
 }
-.bb { border-bottom: 1px solid #666666; }
-.bold { font-weight: bold; }
 .comun-ap {
   font-weight: bold;
   padding: 4px 8px !important;
@@ -151,6 +150,9 @@ ul {
   border: 1px solid #666666;
   text-decoration: none;
 }
+.bb { border-bottom: 1px solid #666666; }
+.bold { font-weight: bold; }
+.bg2 { background-color: #000000; }
 .aprobar {
   font-weight: bold;
   padding: 4px 8px !important;
@@ -197,3 +199,13 @@ ul.inline li a {
   font-weight: bold;
   color: #3fb2ff;
 }
+.icon-l {
+  background-position: left top !important;
+  padding-left: 16px;
+}
+.icon-r {
+  background-position: right top !important;
+  padding-right: 16px;
+}
+.mas { background: url(../images/icons/bullet_arrow_down.png) no-repeat; }
+.menos { background: url(../images/icons/bullet_arrow_up.png) no-repeat; }

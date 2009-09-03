@@ -24,7 +24,7 @@ class SolicitudesController < ApplicationController
   # GET /solicitudes/1
   # GET /solicitudes/1.xml
   def show
-    @solicitud = Solicitud.find(params[:id], :include => :modificar_solicitudes)
+    @solicitud = Solicitud.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

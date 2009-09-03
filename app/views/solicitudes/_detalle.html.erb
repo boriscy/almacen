@@ -1,15 +1,62 @@
+<h3>Detalle de modificaciones a la Solicitud</h3>
 <% unless @solicitud.aprobaciones.nil? %>
 <fieldset>
-  <legend>Apobaciones</legend>
+  <legend>Aprobaciones</legend>
   <% @solicitud.lista_aprobaciones.each do |v| %>
-    <%= v[:fecha] %>
-    <%= v[:usuario] %>
-    <%= v[:estado] %>
-    <hr/>
+    <p>
+    <i><%= v[:fecha] %></i>
+    <strong><%= v[:usuario] %></strong>
+    <span class="resaltar"><%= v[:estado] %></span>
+    </p>
   <% end %>
 </fieldset>
 <% end %>
+<br/>
+<br/>
 
-<% if @solicitud.modificacion_solicitudes.size > 0 %>
 
-<% end %>
+<% if @solicitud.solicitud_modificaciones.size > 0 %>
+<fieldset>
+  <legend>Cambios en la Solicitud (<%= @solicitud.solicitud_modificaciones.size %>)</legend>
+
+  <% @solicitud.lista_modificaciones.each do |mod| %>
+  <p>  
+    <div class="input">
+      <label>Fecha</label>
+      <i><%= I18n.l mod[:fecha], :format => "%d de %B %Y, %H:%M:%S" %></i>
+    </div>
+
+    <div class="input">
+      <label>Estado</label>
+      <span class="estado resaltar"><%= mod[:estado] %></span>
+    </div>
+
+    <div class="input">
+      <label>Descripción</label>
+      <%= mod[:descripcion] %>
+    </div>
+
+    <div class="input">
+      <label>Modificado por</label>
+      <%= mod[:usuario] %>
+    </div>
+
+    <table>
+      <tr>
+        <th class="ui-state-default">Item</th>
+        <th class="ui-state-default">Unidad Medida</th>
+        <th class="ui-state-default">Cantidad</th>
+      </tr>
+    <% mod[:detalles].each do |item| %>
+      <tr>
+        <td><%= item[:item] %></td>
+        <td><%= item[:unidad_medida] %></td>
+        <td><%= item[:cantidad] %></td>
+      </tr>
+    <% end %>
+    <table>
+  </p>
+  <% end %>
+
+</fieldset>
+<% end  %>

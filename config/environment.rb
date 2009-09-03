@@ -41,4 +41,6 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   config.i18n.default_locale = :es
 end
+# Ambos archivos se encuentran en la carpeta lib/
 require 'active_record_extensions'
+require 'class_extensions'

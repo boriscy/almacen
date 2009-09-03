@@ -1,6 +1,7 @@
 class Solicitud < ActiveRecord::Base
   has_many :solicitud_detalles, :dependent => :destroy
-  has_many :modificacion_solicitudes, :class_name => "ModificacionSolicitud", :dependent => :destroy
+#  has_many :modificacion_solicitudes, :class_name => "ModificacionSolicitud", :dependent => :destroy
+  has_many :solicitud_modificaciones, :class_name => "SolicitudModificacion"
   belongs_to :usuario
 
 
@@ -158,20 +159,44 @@ class Solicitud < ActiveRecord::Base
 
   # Prepara un array con con los datos de las aprobaciones
   # format = "" es el formato de la fecha
-  def lista_aprobaciones(format = "%d de %B %Y a %H:%M")
+  def lista_aprobaciones(format = "%d de %B %Y, %H:%M:%S")
     # Ordenar en ordern ascendente
     fechas = self.aprobaciones.to_a.map{|v| v[0] }.sort
     # Obtener el array de usuario solo con los usuarios únicos
-    usuarios = self.aprobaciones.to_a.map{|v| v[1][:usuario_id] }.inject([]) do |usuarios, k|
-      usuarios << k unless usuarios.include? k
-      usuarios
-    end
+    # Aqui utilizo la función creada unique_values en "lib/class_extensions.rb"
+    usuarios = self.aprobaciones.to_a.map{|v| v[1][:usuario_id] }.unique_values
     usuarios = Usuario.all(:conditions => {:id => usuarios})
     lista = []
     fechas.each do |fecha|
       lista << {:fecha => (I18n.l fecha, :format => format), 
         :usuario => usuarios.find{|v| self.aprobaciones[fecha][:usuario_id] == v.id}.nombre_completo, 
         :estado => @@estados[self.aprobaciones[fecha][:estado]][1]}
+    end
+    lista
+  end
+
+  # Prepara un array con todos los items que hay en un listado de modificaciones
+  def lista_modificaciones
+    # Aqui utilizo la función creada unique_values en "lib/class_extensions.rb"
+    items = self.solicitud_modificaciones.map{|v| v.detalles.map{|k| k[:item_id]} }.flatten.unique_values
+    usuarios = self.solicitud_modificaciones.map{|v| v.usuario_id}.unique_values
+
+    items = Item.all(:conditions => {:id => items}, :include => :unidad_medida)
+    usuarios = Usuario.all(:conditions => {:id => usuarios})
+
+    lista = []
+    # Se prepara un array con un detalle de lo que existe en cada modificación
+    self.solicitud_modificaciones.each do |mod|
+      lista << {
+        :usuario => usuarios.find{|v| v.id == mod.usuario_id}.nombre_completo,
+        :descripcion => mod.descripcion,
+        :estado => Solicitud.estados[mod.estado][1], # Descripción del estado en el que se modifico
+        :fecha => mod.created_at,
+        :detalles => mod.detalles.map do |v|
+          item = items.find{|k| k.id == v[:item_id]}
+          {:item => item.to_s, :unidad_medida => item.unidad_medida.to_s, :cantidad => v[:cantidad]}
+        end
+      }
     end
     lista
   end
@@ -236,7 +261,7 @@ class Solicitud < ActiveRecord::Base
   def adicionar_modificacion
     # En este caso se realizo una modificacion
     if estado == Solicitud.find(self.id).estado
-      @modificacion = ModificacionSolicitud.new(:descripcion => self.descripcion, :solicitud_id => self.id)
+      @modificacion = SolicitudModificacion.new(:descripcion => self.descripcion, :solicitud_id => self.id, :estado => self.read_attribute(:estado))
       @modificacion.detalles = self.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
       @modificacion.save
     end

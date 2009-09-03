@@ -94,7 +94,9 @@ input.num{
   width: 10em;
   text-align: right;
 }
-
+legend{
+  font-weight: bold;
+}
 
 label{
   vertical-align: top;
@@ -158,10 +160,6 @@ ul#navigation{
 
 ul{margin:4px; padding:4px;}
 
-.bb{border-bottom: 1px solid @border_color;}
-
-.bold{ font-weight: bold;}
-
 /* Estilos especiales con imagenes*/
 .comun-ap{
   font-weight: bold;
@@ -171,6 +169,13 @@ ul{margin:4px; padding:4px;}
   border: 1px solid @border_color;
   text-decoration: none;
 }
+.bb{border-bottom: 1px solid @border_color;}
+
+.bold{ font-weight: bold;}
+.bg2{
+  background-color: @background2;
+}
+
 .aprobar{
   .comun-ap;
   background: @background2 url(../images/icons/tick.png) no-repeat right;
@@ -213,3 +218,18 @@ ul.inline{
   font-weight: bold;
   color: @a_hover;
 }
+.icon-l{
+  background-position: left top !important;
+  padding-left: 16px;
+}
+.icon-r{
+  background-position: right top !important;
+  padding-right: 16px;
+}
+.mas{
+  background: url(../images/icons/bullet_arrow_down.png) no-repeat;
+}
+.menos{
+  background: url(../images/icons/bullet_arrow_up.png) no-repeat;
+}
+

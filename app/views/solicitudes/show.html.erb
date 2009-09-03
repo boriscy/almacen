@@ -46,12 +46,13 @@ Ver Solicitud
 <% end %>
 <br/><br/>
 
-<a href="#" id="a_detale">Mostrar detalle</a>
-<div id="detalle" style="">
+<a href="#" id="a_detalle" class="bold icon-r mas">Mostrar detalle</a>
+<div id="detalle" style="display:none;width: 700px;padding:5px" class="bg2">
   <%= render :partial => "detalle" %>
 </div>
 <br/>
 <br/>
+
 <%= link_to 'Listado', solicitudes_path(@solicitud, :page => @page) %> |
 <%= link_to 'Editar', edit_solicitud_path(@solicitud, :page=>@page) %>
 
@@ -75,13 +76,15 @@ Ver Solicitud
 
       // Mostrar detalle de la operación
       $('#a_detalle').click(function() {
-        $('#detalle').toggle();
-        if($('#detalle').html() == "Mostrar detalle") {
-          $('#detalle').html("Ocultar detalle");
+        var target = $('#detalle');
+        if($(this).html() == "Mostrar detalle") {
+          $(this).html("Ocultar detalle").removeClass("mas").addClass("menos");
         }else {
-          $('#detalle').html("Mostrar detalle");
+          $(this).html("Mostrar detalle").removeClass("menos").addClass("mas");
         }
-        $('#detalle').toggle("medium");
+        target.toggle(300);
+
+        return false;
       });
 
   });

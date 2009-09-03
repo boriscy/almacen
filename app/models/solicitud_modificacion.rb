@@ -1,8 +1,8 @@
 # Esta clase permite almacenar cualquier modificacion que se realize
 # en el modelo Solicitud, siempre que no sea una aprobación
-class ModificacionSolicitud < ActiveRecord::Base
-  belongs_to :solicitud
+class SolicitudModificacion < ActiveRecord::Base
   belongs_to :usuario
+  belongs_to :solicitud
 
   serialize :detalles
 
@@ -19,4 +19,5 @@ class ModificacionSolicitud < ActiveRecord::Base
   def current_user
     UsuarioSession.find.record
   end
+
 end
