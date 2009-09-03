@@ -38,10 +38,10 @@
     <% end %>
     </ul>
   <% end %>
-
+<div id="debug-error" style="display:none; width: 640px; height: 480px; overflow: auto; z-index: 10000"></div> 
 
 <div id="cont">
-  
+
   <div id="flashNotice"><%= flash[:notice] %></div>
 
   <%= yield %>
@@ -53,5 +53,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $("select[class*=flexselect]").flexselect();
+  $('#debug-error').ajaxError( function(event, resp, settings){
+    $("#debug-error").dialog("open").html(resp.responseText);
+  });
 });
 </script>

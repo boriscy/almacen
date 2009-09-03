@@ -46,9 +46,15 @@ Ver Solicitud
 <% end %>
 <br/><br/>
 
-
+<a href="#" id="a_detale">Mostrar detalle</a>
+<div id="detalle" style="">
+  <%= render :partial => "detalle" %>
+</div>
+<br/>
+<br/>
 <%= link_to 'Listado', solicitudes_path(@solicitud, :page => @page) %> |
 <%= link_to 'Editar', edit_solicitud_path(@solicitud, :page=>@page) %>
+
 
 <% if @aprobar %>
 <script type="text/javascript">
@@ -66,6 +72,18 @@ Ver Solicitud
           }, 'json');
           return false;
       });
+
+      // Mostrar detalle de la operación
+      $('#a_detalle').click(function() {
+        $('#detalle').toggle();
+        if($('#detalle').html() == "Mostrar detalle") {
+          $('#detalle').html("Ocultar detalle");
+        }else {
+          $('#detalle').html("Mostrar detalle");
+        }
+        $('#detalle').toggle("medium");
+      });
+
   });
 </script>
 <% end %>

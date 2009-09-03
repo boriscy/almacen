@@ -21,6 +21,9 @@ describe Solicitud do
       end
     end
 
+    # Necesario para poder simular a la clase UsuarioSession
+    # debido a que para funcionar la misma crea instancias del controlador
+    # y solo queremos testear el modelo
     UsuarioSession.instance_eval do
       def find
         Je.new

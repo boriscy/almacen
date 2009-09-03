@@ -16,7 +16,7 @@ class Solicitud < ActiveRecord::Base
   before_create :adicionar_usuario
   before_create :adicionar_estado
   before_update :actualizar_aprobaciones
-  after_update :adicionar_modificacion
+  before_update :adicionar_modificacion
 
   # Estados en los que puede estar una solicitud, el estado 0 es el estado final
   # Todos los estados deben estar ordenados consecutivamente para que los
@@ -35,15 +35,24 @@ class Solicitud < ActiveRecord::Base
   class << self
     # Realiza la busqueda solicitudes propias y las
     # que tiene que aprobar el inmediato superior
-    def superior_subordinados(options={})
+    def filtro(options={})
       # Se crea un array con todos los ids del superior y los subordinados
       options[:page] = 1 if options[:page].nil?
+      conditions = {}  
       case(options[:tipo])
-        when "propias" then ids = current_user.id
-        when "subordinados" then ids = current_user.subordinado_ids
-        else ids = [current_user.id] + current_user.subordinado_ids
+        when "propias" then conditions[:usuario_id] = current_user.id
+        when "pendientes"
+          conditions[:usuario_id] = current_user.subordinado_ids
+          conditions[:estado] = Solicitud.estado_inicial[0]
+        when "aprobadas"
+          conditions[:usuario_id] = current_user.subordinado_ids
+          conditions[:estado] = Solicitud.estado_inicial[0] - 1
+        when "rechazadas"
+          conditions[:estado] = -1
+        else 
+          conditions[:usuario_id] = [current_user.id] + current_user.subordinado_ids
       end
-      Solicitud.paginate(:page => options[:page], :conditions => {:usuario_id => ids})
+      Solicitud.paginate(:page => options[:page], :conditions => conditions, :order => "created_at DESC")
     end
 
     def estados
@@ -139,16 +148,33 @@ class Solicitud < ActiveRecord::Base
   def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
     # similar a una cuenta regresiva
-    if (self.read_attribute(:estado) - 1) == val
-      self.estado = val
-    elsif val == -1
-      self.estado = val
-    else 
-      return false
+    if val == -1
+      # self.tiempo_de_cambio # Se debe verificar si esta dentro del tiempo
     end
-    return true if self.save
+
+    self.estado = val
+    return self.save
   end
 
+  # Prepara un array con con los datos de las aprobaciones
+  # format = "" es el formato de la fecha
+  def lista_aprobaciones(format = "%d de %B %Y a %H:%M")
+    # Ordenar en ordern ascendente
+    fechas = self.aprobaciones.to_a.map{|v| v[0] }.sort
+    # Obtener el array de usuario solo con los usuarios únicos
+    usuarios = self.aprobaciones.to_a.map{|v| v[1][:usuario_id] }.inject([]) do |usuarios, k|
+      usuarios << k unless usuarios.include? k
+      usuarios
+    end
+    usuarios = Usuario.all(:conditions => {:id => usuarios})
+    lista = []
+    fechas.each do |fecha|
+      lista << {:fecha => (I18n.l fecha, :format => format), 
+        :usuario => usuarios.find{|v| self.aprobaciones[fecha][:usuario_id] == v.id}.nombre_completo, 
+        :estado => @@estados[self.aprobaciones[fecha][:estado]][1]}
+    end
+    lista
+  end
 
   protected
   # Retorna el usuario actual
@@ -200,9 +226,9 @@ class Solicitud < ActiveRecord::Base
   # Realiza la secuencia en la cual se aprueban los estados
   def actualizar_aprobaciones
     if self.aprobaciones.nil?
-      self.aprobaciones = {DateTime.now => {current_user.id => read_attribute(:estado)}}
+      self.aprobaciones = {DateTime.now => {:usuario_id => current_user.id, :estado => read_attribute(:estado)}}
     else
-      self.aprobaciones[DateTime.now] = {current_user.id => read_attribute(:estado)}
+      self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => read_attribute(:estado)}
     end
   end
   

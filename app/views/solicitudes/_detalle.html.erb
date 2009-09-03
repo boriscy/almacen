@@ -1,0 +1,15 @@
+<% unless @solicitud.aprobaciones.nil? %>
+<fieldset>
+  <legend>Apobaciones</legend>
+  <% @solicitud.lista_aprobaciones.each do |v| %>
+    <%= v[:fecha] %>
+    <%= v[:usuario] %>
+    <%= v[:estado] %>
+    <hr/>
+  <% end %>
+</fieldset>
+<% end %>
+
+<% if @solicitud.modificacion_solicitudes.size > 0 %>
+
+<% end %>

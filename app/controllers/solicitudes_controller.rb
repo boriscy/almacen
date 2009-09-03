@@ -8,7 +8,7 @@ class SolicitudesController < ApplicationController
 #    @solicitudes = Solicitud.paginate(:page => @page, :include => :usuario, :conditions => ["estado >=? AND usuario_id=?", 0, current_user.id])
     options = params
     options[:page] = @page
-    @solicitudes = Solicitud.superior_subordinados(options)
+    @solicitudes = Solicitud.filtro(options)
     # Muestra las solicitudes segun el estado
     @aprobar = Solicitud.puede_aprobar_superior?
     respond_to do |format| 
@@ -24,7 +24,7 @@ class SolicitudesController < ApplicationController
   # GET /solicitudes/1
   # GET /solicitudes/1.xml
   def show
-    @solicitud = Solicitud.find(params[:id])
+    @solicitud = Solicitud.find(params[:id], :include => :modificar_solicitudes)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -95,7 +95,7 @@ class SolicitudesController < ApplicationController
     define_method ruta do
       solicitud = Solicitud.find(params[:id])
       if solicitud.cambiar_estado?(k)
-        render :json => {:success => true, :estado => Solicitud.estados[k -1][1] }
+        render :json => {:success => true, :estado => Solicitud.estados[k][1] }
       else
         render :json => {:success => false }
       end

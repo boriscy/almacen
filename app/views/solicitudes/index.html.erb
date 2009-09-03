@@ -10,8 +10,10 @@ Solicitudes
 <fieldset style="width:15em;">
   <legend>Tipo</legend>
   <div><label><%= radio_button_tag 'tipo', 'all', :checked => true %>Todas</label></div>
-  <div><label><%= radio_button_tag 'tipo', 'subordinados' %>Pendientes de aprobación</lable></div>
+  <div><label><%= radio_button_tag 'tipo', 'pendientes' %>Pendientes de aprobación</lable></div>
   <div><label><%= radio_button_tag 'tipo', 'propias' %>Propias</label></div>
+  <div><label><%= radio_button_tag 'tipo', 'aprobadas' %>Aprobadas</label></div>
+  <div><label><%= radio_button_tag 'tipo', 'rechazadas' %>Rechazadas</label></div>
 </fieldset><br/><br/>
 <% end %>
 

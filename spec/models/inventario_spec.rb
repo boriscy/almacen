@@ -95,29 +95,4 @@ describe Inventario do
 
 end
 
-class InventarioSpec
-  class << self
-    def create
-      i = Inventario.new(:descripcion => 'Prueba', :tipo => 'ingreso', :almacen_id => 1)
-      i.inventario_detalles_attributes = [ {:item_id => 1, :cantidad => 2, :precio_unitario => 1.5},
-            {:item_id => 2, :cantidad => 1, :precio_unitario => 1}]
-      i.save
-      i
-    end
-
-    def update(i)
-      attrs = []
-      c = 1
-      i.inventario_detalles.each do |inv|
-        attrs << {:id => inv.id, :item_id => inv.item_id, :cantidad => c * 5, :precio_unitario => c * 1.5}
-        c += 1
-      end
-      attrs.push({:item_id => 3, :cantidad => 2, :precio_unitario => 2})
-      i.inventario_detalles_attributes = attrs
-      i.save
-      i
-    end
-
-  end
-end
 
