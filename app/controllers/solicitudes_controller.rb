@@ -1,5 +1,6 @@
 class SolicitudesController < ApplicationController
   before_filter :verificar_permiso, :except => [:index]
+  before_filter :verificar_permiso_actualizacion, :only => [:edit, :update, :destroy]
 
   # GET /solicitudes
   # GET /solicitudes.xml
@@ -75,6 +76,8 @@ class SolicitudesController < ApplicationController
     end
   end
 
+  # Hay que revisar con mas detalle que es lo que se debe hacer con las solicitudes
+  # antes de eliminarlas
   # DELETE /solicitudes/1
   # DELETE /solicitudes/1.xml
   def destroy
@@ -107,5 +110,19 @@ class SolicitudesController < ApplicationController
   def desaprobar
     solicitud = Solicitud.find(params[:id])
     render :json => {:success => solicitud.desabilitar_estado() }
+  end
+
+  protected
+  # Verifica si es que el usuario puede actualizar su solicitud
+  # dependiendo en el estado que este y los accesos que el mismo tenga
+  def verificar_permiso_actualizacion
+    solicitud = Solicitud.find(params[:id])
+    ruta = Solicitud.estados[solicitud.read_attribute(:estado)][0]
+    p = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, params[:controller])
+    # Si no tiene permiso es redireccionado
+    unless p.acciones[ruta] or Solicitud.estado_inicial[0] == solicitud.read_attribute(:estado)
+      flash[:notice] = "Usted ya no puede editar esta solicitud"
+      redirect_to solicitudes_path
+    end
   end
 end

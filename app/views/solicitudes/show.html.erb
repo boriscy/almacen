@@ -57,7 +57,6 @@ Ver Solicitud
 <%= link_to 'Editar', edit_solicitud_path(@solicitud, :page=>@page) %>
 
 
-<% if @aprobar %>
 <script type="text/javascript">
   $(document).ready(function() {
       $('a.estados').click(function(){ return false;});
@@ -76,17 +75,16 @@ Ver Solicitud
 
       // Mostrar detalle de la operación
       $('#a_detalle').click(function() {
-        var target = $('#detalle');
+         var target = $('#detalle');
         if($(this).html() == "Mostrar detalle") {
           $(this).html("Ocultar detalle").removeClass("mas").addClass("menos");
         }else {
           $(this).html("Mostrar detalle").removeClass("menos").addClass("mas");
         }
         target.toggle(300);
-
+        
         return false;
       });
 
   });
 </script>
-<% end %>

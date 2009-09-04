@@ -257,12 +257,13 @@ class Solicitud < ActiveRecord::Base
     end
   end
   
-  # Permite realizar el seguimiento de las las solicitudes
+  # Permite realizar el seguimiento de las las solicitudes almacenando la solicitud anterior
   def adicionar_modificacion
     # En este caso se realizo una modificacion que no incluye cambio de estado
     if estado == Solicitud.find(self.id).estado
-      @modificacion = SolicitudModificacion.new(:descripcion => self.descripcion, :solicitud_id => self.id, :estado => self.read_attribute(:estado))
-      @modificacion.detalles = self.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
+      mod = Solicitud.find(self.id, :include => :solicitud_detalles)
+      @modificacion = SolicitudModificacion.new(:descripcion => mod.descripcion, :solicitud_id => mod.id, :estado => mod.read_attribute(:estado))
+      @modificacion.detalles = mod.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
       @modificacion.save
     end
   end

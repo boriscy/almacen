@@ -17,7 +17,7 @@
 
 <% if @solicitud.solicitud_modificaciones.size > 0 %>
 <fieldset>
-  <legend>Cambios en la Solicitud (<%= @solicitud.solicitud_modificaciones.size %>)</legend>
+  <legend>Solicitudes anteriores (<%= @solicitud.solicitud_modificaciones.size %>)</legend>
 
   <% @solicitud.lista_modificaciones.each do |mod| %>
     <p>  
