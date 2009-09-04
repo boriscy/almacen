@@ -149,12 +149,12 @@ class Solicitud < ActiveRecord::Base
   def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
     # similar a una cuenta regresiva
-    if val == -1
-      # self.tiempo_de_cambio # Se debe verificar si esta dentro del tiempo
+    unless self.read_attribute(:estado) == val
+      self.estado = val
+      return self.save
+    else
+      return false
     end
-
-    self.estado = val
-    return self.save
   end
 
   # Prepara un array con con los datos de las aprobaciones
@@ -249,17 +249,17 @@ class Solicitud < ActiveRecord::Base
   end
 
   # Realiza la secuencia en la cual se aprueban los estados
-  def actualizar_aprobaciones
+  def actualizar_aprobaciones()
     if self.aprobaciones.nil?
       self.aprobaciones = {DateTime.now => {:usuario_id => current_user.id, :estado => read_attribute(:estado)}}
-    else
+    elsif(self.estado != Solicitud.find(self.id).estado)
       self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => read_attribute(:estado)}
     end
   end
   
   # Permite realizar el seguimiento de las las solicitudes
   def adicionar_modificacion
-    # En este caso se realizo una modificacion
+    # En este caso se realizo una modificacion que no incluye cambio de estado
     if estado == Solicitud.find(self.id).estado
       @modificacion = SolicitudModificacion.new(:descripcion => self.descripcion, :solicitud_id => self.id, :estado => self.read_attribute(:estado))
       @modificacion.detalles = self.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
