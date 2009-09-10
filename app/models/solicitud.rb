@@ -1,7 +1,6 @@
 class Solicitud < ActiveRecord::Base
-  has_many :solicitud_detalles, :dependent => :destroy
-#  has_many :modificacion_solicitudes, :class_name => "ModificacionSolicitud", :dependent => :destroy
-  has_many :solicitud_modificaciones, :class_name => "SolicitudModificacion"
+  has_many :solicitud_detalles, :dependent => :destroy, :class_name => "SolicitudDetalle"
+  has_many :solicitud_modificaciones #, :class_name => "SolicitudModificacion"
   belongs_to :usuario
 
 

@@ -52,15 +52,6 @@ ActiveRecord::Schema.define(:version => 20090903121807) do
     t.datetime "updated_at"
   end
 
-  create_table "modificacion_solicitudes", :force => true do |t|
-    t.integer  "solicitud_id"
-    t.integer  "usuario_id"
-    t.text     "descripcion"
-    t.text     "detalles"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "partidas", :force => true do |t|
     t.string   "codigo"
     t.string   "nombre"
@@ -90,9 +81,10 @@ ActiveRecord::Schema.define(:version => 20090903121807) do
     t.text     "detalles"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "estado"
   end
 
-  create_table "solicitudes", :force => true do |t|
+  create_table "solicitud", :force => true do |t|
     t.integer  "usuario_id"
     t.datetime "fecha"
     t.integer  "estado",           :limit => 255, :null => false

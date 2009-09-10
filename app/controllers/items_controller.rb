@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
   def index
-    @items = Item.paginate(:include => [:partida, :unidad_medida],:page => @page)
+    @items = Item.paginate(:include => [:partida, :unidad_medida], :page => @page)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @items }

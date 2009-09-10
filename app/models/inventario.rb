@@ -1,6 +1,6 @@
 class Inventario < ActiveRecord::Base
   # Relaciones
-  has_many :inventario_detalles, :dependent => :destroy
+  has_many :inventario_detalles, :dependent => :destroy, :class_name => "InventarioDetalle"
   belongs_to :almacen
   
   default_scope :order => "fecha DESC"
@@ -27,7 +27,7 @@ class Inventario < ActiveRecord::Base
   attr_protected :fecha, :total 
  
   # paginacion
-  cattr_reader:per_page
+  cattr_reader :per_page
   @@per_page = 9
   
   protected

@@ -4,8 +4,8 @@
 # (all these examples are active by default):
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural /^([a-z_]+)([^aeiou])$/i, '\1\2es'
-  inflect.singular /^([a-z_]+)(es)$/, '\1'
-  inflect.irregular 'solicitud_detalle', 'solicitudes_detalles'
+  inflect.singular /^([a-z_]+)(es)$/i, '\1'
+  inflect.irregular 'solicitud_detalle', 'solicitud_detalles' 
   inflect.irregular 'inventario_item', 'inventario_items'
   inflect.irregular 'item', 'items'
   inflect.irregular 'stock', 'stocks'

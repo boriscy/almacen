@@ -32,8 +32,14 @@ describe Solicitud do
   end
 
   describe "probando Sesiones" do
-    it "Michi mockeada" do
+    it "mockeada de UsuarioSession" do
       UsuarioSession.find.record.should == @@usuario
+    end
+  end
+
+  describe "" do
+    it "" do
+
     end
   end
 
