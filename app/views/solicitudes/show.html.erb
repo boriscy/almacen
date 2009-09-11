@@ -63,7 +63,7 @@ Ver Solicitud
       var token = '<%= form_authenticity_token() %>';
       // Funcion que permite cambiar el estado de la solicitud
       $('a.estados').click(function() {
-          $.post(this.href, {authenticity_token: token}, function(data) {
+          $.post(this.href, {authenticity_token: token, _method: "put"}, function(data) {
             if(data.success) {
               $('span.estado').fadeOut(500).html(data.estado).fadeIn(500);
             }else{

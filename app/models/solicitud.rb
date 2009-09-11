@@ -15,18 +15,20 @@ class Solicitud < ActiveRecord::Base
   before_create :adicionar_fecha
   before_create :adicionar_usuario
   before_create :adicionar_estado
-  before_update :actualizar_aprobaciones
   before_update :adicionar_modificacion
 
-  # Estados en los que puede estar una solicitud, el estado 0 es el estado final
+  # Estados en los que puede estar una solicitud, el estado 0 es el estado final en el cual se ejecuta
   # Todos los estados deben estar ordenados consecutivamente para que los
   # metodos funcionen de forma correcta
   @@estados = {
-      -1 => ["anulacion", "Anulado"],
-      0 => ["administracion", "Aprobado DGA"],
-      1 => ["almacen", "Aprobado Almacen"], 
-      2 =>["superior", "Aprobado Superior"],
-      3 => ["inicial", "Incial"] }
+      0 => ["ejecutado", "Ejecutado"],
+      -1 => ["administracion", "Rechazado DGA"],
+      1 => ["administracion", "Aprobado DGA"],
+      -2 => ["almacen", "Rechazado Almacen"], 
+      2 => ["almacen", "Aprobado Almacen"], 
+      -3 =>["superior", "Rechazado Superior"],
+      3 =>["superior", "Aprobado Superior"],
+      4 => ["inicial", "Incial"] }
 
   validates_presence_of :descripcion
   validates_associated :usuario
@@ -48,7 +50,7 @@ class Solicitud < ActiveRecord::Base
           conditions[:usuario_id] = current_user.subordinado_ids
           conditions[:estado] = Solicitud.estado_inicial[0] - 1
         when "rechazadas"
-          conditions[:estado] = -1
+          conditions[:rechazado] = true
         else 
           conditions[:usuario_id] = [current_user.id] + current_user.subordinado_ids
       end
@@ -75,14 +77,16 @@ class Solicitud < ActiveRecord::Base
       end
     end
 
-    # Retorna un hash con todos los estados exeptuando el inicial debido a que
-    # este estado no necesita ser aprobado
+    # Retorna un array con todos los estados exeptuando el inicial debido a que
+    # el formato Ej: [{:estado => 1, :ruta => "administracion"}]
+    # Solo se selecciona las rutas ayores a 0 y no la inicial
     def rutas_estados
-      permisos = @@estados.dup
-      permisos.delete(Solicitud.estado_inicial)
-      est = {}
-      permisos.each{|k, v| est[k] = "#{v[0]}" }
-      est
+      est = [Solicitud.estado_inicial[0], 0] 
+      est += @@estados.to_a.inject([]){|arr,v| arr << v[0] if v[0] < 0; arr }
+      Solicitud.estados.inject([]){|arr, v| 
+        arr << {:estado => v[0], :ruta => v[1][0]} unless est.include? v[0]
+        arr 
+      }
     end
 
     def current_user
@@ -112,8 +116,8 @@ class Solicitud < ActiveRecord::Base
     def permitir_aprobacion?
       permiso = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
       permitido = false
-      rutas_estados.each do |k,v|
-        if permiso.acciones[v]
+      rutas_estados.each do |v|
+        if permiso.acciones[v[:ruta]]
           permitido = true
           break
         end
@@ -147,13 +151,16 @@ class Solicitud < ActiveRecord::Base
   # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
   def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
-    # similar a una cuenta regresiva
-    unless self.read_attribute(:estado) == val
-      self.estado = val
-      return self.save
-    else
+
+    # Se actualiza
+    actualizar_aprobaciones()
+    if val < 0 and !Permiso.permite_ruta("solicitudes", @@estados[val][0])
       return false
     end
+
+    self.estado = val
+    return self.save
+    
   end
 
   # Prepara un array con con los datos de las aprobaciones
@@ -251,7 +258,7 @@ class Solicitud < ActiveRecord::Base
   def actualizar_aprobaciones()
     if self.aprobaciones.nil?
       self.aprobaciones = {DateTime.now => {:usuario_id => current_user.id, :estado => read_attribute(:estado)}}
-    elsif(self.estado != Solicitud.find(self.id).estado)
+    else
       self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => read_attribute(:estado)}
     end
   end

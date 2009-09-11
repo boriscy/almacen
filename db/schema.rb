@@ -74,6 +74,14 @@ ActiveRecord::Schema.define(:version => 20090903121807) do
     t.datetime "updated_at"
   end
 
+  create_table "solicitud_detalles", :force => true do |t|
+    t.integer  "solicitud_id"
+    t.integer  "item_id"
+    t.decimal  "cantidad",     :precision => 10, :scale => 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "solicitud_modificaciones", :force => true do |t|
     t.integer  "usuario_id"
     t.integer  "solicitud_id"
@@ -84,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20090903121807) do
     t.integer  "estado"
   end
 
-  create_table "solicitud", :force => true do |t|
+  create_table "solicitudes", :force => true do |t|
     t.integer  "usuario_id"
     t.datetime "fecha"
     t.integer  "estado",           :limit => 255, :null => false
@@ -93,14 +101,6 @@ ActiveRecord::Schema.define(:version => 20090903121807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "aprobaciones"
-  end
-
-  create_table "solicitudes_detalles", :force => true do |t|
-    t.integer  "solicitud_id"
-    t.integer  "item_id"
-    t.decimal  "cantidad",     :precision => 10, :scale => 2
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "stocks", :force => true do |t|

@@ -94,8 +94,8 @@ class SolicitudesController < ApplicationController
   # en caso de que se aumenten estados se crearan los metodos necesarios
   # para aprobaciones, esto debido a la forma que se manejan los roles y permisos
   # IMPORTANTE: vean el código de config/routes.rb para entender mejor
-  Solicitud.rutas_estados.each do |k, ruta|
-    define_method ruta do
+  Solicitud.rutas_estados.each do |ruta|
+    define_method ruta[:ruta] do
       solicitud = Solicitud.find(params[:id])
       if solicitud.cambiar_estado?(k)
         render :json => {:success => true, :estado => Solicitud.estados[k][1] }
