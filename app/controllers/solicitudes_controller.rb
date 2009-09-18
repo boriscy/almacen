@@ -96,7 +96,8 @@ class SolicitudesController < ApplicationController
   # IMPORTANTE: vean el código de config/routes.rb para entender mejor
   Solicitud.rutas_estados.each do |ruta|
     define_method ruta[:ruta] do
-      solicitud = Solicitud.find(params[:id])
+      solicitud = SolicitudPermiso.find(params[:id])
+      solicitud.usuario_id = current_user.id
       if solicitud.cambiar_estado?(k)
         render :json => {:success => true, :estado => Solicitud.estados[k][1] }
       else

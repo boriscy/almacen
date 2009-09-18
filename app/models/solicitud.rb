@@ -14,7 +14,7 @@ class Solicitud < ActiveRecord::Base
   # Callbacks
   before_create :adicionar_fecha
   before_create :adicionar_usuario
-  before_create :adicionar_estado
+  before_create :actualizar_estado
   before_update :adicionar_modificacion
 
   # Estados en los que puede estar una solicitud, el estado 0 es el estado final en el cual se ejecuta
@@ -141,28 +141,6 @@ class Solicitud < ActiveRecord::Base
     @@estados[read_attribute(:estado)][1]
   end
 
-  # busqueda por estado
-  #-- Necesita ser implementado
-  def buscar_por_estado(params = {})
-    Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
-    paginate(:page => params[:page], :include => :usuario )
-  end
-
-  # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
-  def cambiar_estado?(val)
-    # Los estados superiores estan con numeros menores
-
-    # Se actualiza
-    actualizar_aprobaciones()
-    if val < 0 and !Permiso.permite_ruta("solicitudes", @@estados[val][0])
-      return false
-    end
-
-    self.estado = val
-    return self.save
-    
-  end
-
   # Prepara un array con con los datos de las aprobaciones
   # format = "" es el formato de la fecha
   def lista_aprobaciones(format = "%d de %B %Y, %H:%M:%S")
@@ -225,7 +203,7 @@ class Solicitud < ActiveRecord::Base
 
   # Pone el estado inicial para la creación de una solicitud
   # dependiendo  del nivel de acceso de usuario creara el estado
-  def adicionar_estado
+  def actualizar_estado
     p = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
     primer_estado_aprobado = Solicitud.estado_inicial[0] - 1
     # Verifica si el usuario tiene permiso a este estado
@@ -234,6 +212,93 @@ class Solicitud < ActiveRecord::Base
     else
       self.estado = Solicitud.estado_inicial[0]
     end
+  end
+
+
+  # Realiza la secuencia en la cual se aprueban los estados
+  def actualizar_aprobaciones()
+    if self.aprobaciones.nil?
+      self.aprobaciones = {DateTime.now => {:usuario_id => current_user.id, :estado => read_attribute(:estado)}}
+    else
+      self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => read_attribute(:estado)}
+    end
+  end
+  
+  # Permite realizar el seguimiento de las las solicitudes almacenando la solicitud anterior
+  def adicionar_modificacion
+    # En este caso se realizo una modificacion que no incluye cambio de estado
+    if estado == Solicitud.find(self.id).estado
+      mod = Solicitud.find(self.id, :include => :solicitud_detalles)
+      @modificacion = SolicitudModificacion.new(:descripcion => mod.descripcion, :solicitud_id => mod.id, :estado => mod.read_attribute(:estado))
+      @modificacion.detalles = mod.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
+      @modificacion.save
+    end
+  end
+
+end
+
+# ---------------------------------------------------------------
+# Clase que estara encargada de manejar todo los que son los
+# estados de la clase
+class SolicitudEstado < Solicitud
+
+  before_save :actualizar_estado
+
+  attr_accessor :tiempo_permitido_cambio_estado, :usuario
+
+  # Inicializa los datos, por defecto el tiempo para que permita cambio de estado 
+  # es de 3600 segundos
+  def initialize
+    super
+    tiempo_permitido_cambio_estado= 3600
+  end
+
+  # Permite ir a un estado anterior, debe revisar un periodo de tiempo
+  # en el cual una solicitud puede ser aprobada
+  # en caso de que sea el administrador podra realizar la modificación sin
+  # importar el tiempo
+  def desabilitar_estado(admin=false)
+    if estado < 3
+      # puede cambiersa segun se prefiera, en este caso sera 1 hora
+      if (updated_at + tiempo_permitido_cambio_estado) <= DateTime.now
+        estado = estado + 1
+        return self.save
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+  # Retorna el estado inicial, el estado final es 0
+  def estado_inicial
+    @@estados.to_a.max_by{|v| v[0]}
+  end
+
+  # Realiza una busqueda de los estados por ruta o nombre
+  # ==== Ejemplo
+  #   SolicitudEstado.buscar_estado_por_nombre("Aprobado Administracion")
+  #   SolicitudEstado.buscar_estado_por_ruta("almacen")
+  2.times do |i|
+    nom = i == 0 ? "ruta" : "nombre"
+    method = "buscar_estado_por_#{nom}"
+
+    define_method method do |param|
+      @@estados.to_a.find{|v| v[1][i] == param}
+    end
+  end
+
+  # Retorna si un usuario puede cambiar de estado
+  # ==== Ejemplo
+  #   permitir_usuario_cambiar_estado?("almacen")
+  def permitir_usuario_cambiar_estado?(accion)
+    unless usuario
+      raise "Debe seleccionar un usuario"
+    end
+    permiso = Permiso.find_by_rol_id_and_controlador(usuario.rol_id, "solicitudes")
+    
+    permiso ? permiso.acciones[accion] : false
   end
 
   # Permite ir a un estado anterior, debe revisar un periodo de tiempo
@@ -254,24 +319,25 @@ class Solicitud < ActiveRecord::Base
     end
   end
 
-  # Realiza la secuencia en la cual se aprueban los estados
-  def actualizar_aprobaciones()
-    if self.aprobaciones.nil?
-      self.aprobaciones = {DateTime.now => {:usuario_id => current_user.id, :estado => read_attribute(:estado)}}
-    else
-      self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => read_attribute(:estado)}
-    end
+  # busqueda por estado
+  #-- Necesita ser implementado
+  def buscar_por_estado(params = {})
+    Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
+    paginate(:page => params[:page], :include => :usuario )
   end
-  
-  # Permite realizar el seguimiento de las las solicitudes almacenando la solicitud anterior
-  def adicionar_modificacion
-    # En este caso se realizo una modificacion que no incluye cambio de estado
-    if estado == Solicitud.find(self.id).estado
-      mod = Solicitud.find(self.id, :include => :solicitud_detalles)
-      @modificacion = SolicitudModificacion.new(:descripcion => mod.descripcion, :solicitud_id => mod.id, :estado => mod.read_attribute(:estado))
-      @modificacion.detalles = mod.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
-      @modificacion.save
+
+  # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
+  def cambiar_estado?(val)
+    # Los estados superiores estan con numeros menores
+
+    # Se actualiza
+    actualizar_aprobaciones()
+    if val < 0 and !Permiso.permite_ruta("solicitudes", @@estados[val][0])
+      return false
     end
+
+    self.estado = val
+    return self.save
   end
 
 end
