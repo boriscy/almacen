@@ -41,7 +41,7 @@ Ver Solicitud
 <% if @aprobar %>
   <ul class="inline">
     <li><%= link_to "Aprobar", superior_solicitud_path(@solicitud), :class => "aprobar estados" %></li>
-    <li><%= link_to "Rechazar", anulacion_solicitud_path(@solicitud), :class => "rechazar estados" %></li>
+    <li><%= link_to "Rechazar", superior_solicitud_path(@solicitud), :class => "rechazar estados" %></li>
   </ul>
 <% end %>
 <br/><br/>
@@ -56,16 +56,18 @@ Ver Solicitud
 <%= link_to 'Listado', solicitudes_path(@solicitud, :page => @page) %> |
 <%= link_to 'Editar', edit_solicitud_path(@solicitud, :page=>@page) %>
 
-
 <script type="text/javascript">
   $(document).ready(function() {
       $('a.estados').click(function(){ return false;});
       var token = '<%= form_authenticity_token() %>';
       // Funcion que permite cambiar el estado de la solicitud
       $('a.estados').click(function() {
-          $.post(this.href, {authenticity_token: token, _method: "put"}, function(data) {
+          params = {authenticity_token: token, _method: "put"};
+          if($(this).hasClass("rechazar"))
+              params["rechazar"] = true;
+          $.post(this.href, params, function(data) {
             if(data.success) {
-              $('span.estado').fadeOut(500).html(data.estado).fadeIn(500);
+              $('span.estado:first').fadeOut(500).html(data.estado).fadeIn(500);
             }else{
               alert("No se pudo cambiar de estado");
             }

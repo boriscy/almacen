@@ -1,8 +1,14 @@
 class Solicitud < ActiveRecord::Base
+  # Callbacks, deben estar antes que las asociasiones
+  before_create :adicionar_fecha
+  before_create :adicionar_usuario
+  before_create :adicionar_estado
+  before_update :adicionar_modificacion
+
+  # Asociasiones
   has_many :solicitud_detalles, :dependent => :destroy, :class_name => "SolicitudDetalle"
   has_many :solicitud_modificaciones #, :class_name => "SolicitudModificacion"
   belongs_to :usuario
-
 
   # Almacena la secuencia de aprobaciones con el siguiente formato
   # {"fecha" => {"usuario_id" => "estado"}
@@ -11,11 +17,7 @@ class Solicitud < ActiveRecord::Base
   
   accepts_nested_attributes_for :solicitud_detalles, :allow_destroy => true
   attr_protected :fecha, :usuario_id, :estado
-  # Callbacks
-  before_create :adicionar_fecha
-  before_create :adicionar_usuario
-  before_create :actualizar_estado
-  before_update :adicionar_modificacion
+
 
   # Estados en los que puede estar una solicitud, el estado 0 es el estado final en el cual se ejecuta
   # Todos los estados deben estar ordenados consecutivamente para que los
@@ -50,7 +52,7 @@ class Solicitud < ActiveRecord::Base
           conditions[:usuario_id] = current_user.subordinado_ids
           conditions[:estado] = Solicitud.estado_inicial[0] - 1
         when "rechazadas"
-          conditions[:rechazado] = true
+          conditions[:estado] = -1 * (Solicitud.estado_inicial[0] -1)
         else 
           conditions[:usuario_id] = [current_user.id] + current_user.subordinado_ids
       end
@@ -63,9 +65,7 @@ class Solicitud < ActiveRecord::Base
 
     # Retorna el estado inicial, el estado final es 0
     def estado_inicial
-      max = 0
-      @@estados.each{|k,v| max = k if k > max }
-      [max, @@estados[max]]
+      @@estados.to_a.max_by{|v| v[0] }
     end
 
     def permite_almacen?
@@ -81,11 +81,10 @@ class Solicitud < ActiveRecord::Base
     # el formato Ej: [{:estado => 1, :ruta => "administracion"}]
     # Solo se selecciona las rutas ayores a 0 y no la inicial
     def rutas_estados
-      est = [Solicitud.estado_inicial[0], 0] 
-      est += @@estados.to_a.inject([]){|arr,v| arr << v[0] if v[0] < 0; arr }
-      Solicitud.estados.inject([]){|arr, v| 
-        arr << {:estado => v[0], :ruta => v[1][0]} unless est.include? v[0]
-        arr 
+      @est = [Solicitud.estado_inicial[0]] + @@estados.to_a.inject([]){|arr,v| arr << v[0] if v[0] <= 0; arr }
+      @@estados.to_a.inject([]){|arr, v|
+        arr << {:estado => v[0], :ruta => v[1][0]} unless @est.include? v[0]
+        arr
       }
     end
 
@@ -136,7 +135,7 @@ class Solicitud < ActiveRecord::Base
     return permiso.acciones[estado[1][0]]
   end
 
-  # retorna el texto del estado
+  # retorna el texto del estado en el que se encuentra el registro
   def estado
     @@estados[read_attribute(:estado)][1]
   end
@@ -203,8 +202,8 @@ class Solicitud < ActiveRecord::Base
 
   # Pone el estado inicial para la creación de una solicitud
   # dependiendo  del nivel de acceso de usuario creara el estado
-  def actualizar_estado
-    p = Permiso.find_by_rol_id_and_controlador(current_user.rol_id, "solicitudes")
+  def adicionar_estado
+    p = Permiso.controlador("solicitudes")
     primer_estado_aprobado = Solicitud.estado_inicial[0] - 1
     # Verifica si el usuario tiene permiso a este estado
     if p.acciones[@@estados[primer_estado_aprobado][0]]
@@ -214,25 +213,14 @@ class Solicitud < ActiveRecord::Base
     end
   end
 
-
-  # Realiza la secuencia en la cual se aprueban los estados
-  def actualizar_aprobaciones()
-    if self.aprobaciones.nil?
-      self.aprobaciones = {DateTime.now => {:usuario_id => current_user.id, :estado => read_attribute(:estado)}}
-    else
-      self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => read_attribute(:estado)}
-    end
-  end
   
   # Permite realizar el seguimiento de las las solicitudes almacenando la solicitud anterior
+  # Las modificaciones no incluyen cambio de estado
   def adicionar_modificacion
-    # En este caso se realizo una modificacion que no incluye cambio de estado
-    if estado == Solicitud.find(self.id).estado
-      mod = Solicitud.find(self.id, :include => :solicitud_detalles)
-      @modificacion = SolicitudModificacion.new(:descripcion => mod.descripcion, :solicitud_id => mod.id, :estado => mod.read_attribute(:estado))
-      @modificacion.detalles = mod.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
-      @modificacion.save
-    end
+    mod = Solicitud.find(self.id, :include => :solicitud_detalles)
+    @modificacion = SolicitudModificacion.new(:descripcion => mod.descripcion, :solicitud_id => mod.id, :estado => mod.read_attribute(:estado))
+    @modificacion.detalles = mod.solicitud_detalles.map{|v| {:item_id => v.item_id, :cantidad => v.cantidad} }
+    @modificacion.save
   end
 
 end
@@ -242,7 +230,7 @@ end
 # estados de la clase
 class SolicitudEstado < Solicitud
 
-  before_save :actualizar_estado
+  before_save :actualizar_aprobaciones
 
   attr_accessor :tiempo_permitido_cambio_estado, :usuario
 
@@ -330,14 +318,27 @@ class SolicitudEstado < Solicitud
   def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
 
-    # Se actualiza
-    actualizar_aprobaciones()
-    if val < 0 and !Permiso.permite_ruta("solicitudes", @@estados[val][0])
+    # Se busca con valor absoluto para ver si el usuario puede aprobar o reprobar el estado
+    if Permiso.permite_ruta?("solicitudes", @@estados[val.abs][0])
+      self.estado = val
+      return self.save
+    else
       return false
     end
 
-    self.estado = val
-    return self.save
   end
+
+  protected
+  # Se sobreescribe el metodo que realiza las actualizaciones
+  def adicionar_modificacion
+    true
+  end
+
+  # Realiza la secuencia en la cual se aprueban los estados, almacenando el estado anterior, almacenando el estado anterior
+  def actualizar_aprobaciones()
+    self.aprobaciones ||= {} # Inicialización de la variable en caso de que no exista
+    self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => Solicitud.find(self.id).read_attribute(:estado)}
+  end
+
 
 end

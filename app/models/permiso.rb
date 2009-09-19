@@ -1,9 +1,15 @@
 class Permiso < ActiveRecord::Base
+  before_save :cambiar_valor_acciones!
+
   belongs_to :rol
 
   serialize :acciones
 
-  before_save :cambiar_valor_acciones!
+  # Para poder buscar los permisos de un usuario en un controlador
+  named_scope :controlador, lambda{|cont| 
+    { :conditions => {:rol_id => Permiso.current_user.rol_id, :controlador => cont} }
+  }
+
 
   validates_presence_of :controlador#, :rol_id # No se debe activar esta validación de lo contrario creara problemas
   validates_associated :rol
