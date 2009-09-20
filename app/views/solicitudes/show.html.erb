@@ -40,15 +40,20 @@ Ver Solicitud
 <% @aprobar = @solicitud.permitir_aprobacion_superior? %>
 <% if @aprobar %>
   <ul class="inline">
-    <li><%= link_to "Aprobar", superior_solicitud_path(@solicitud), :class => "aprobar estados" %></li>
-    <li><%= link_to "Rechazar", superior_solicitud_path(@solicitud), :class => "rechazar estados" %></li>
+    <li><%= link_to "Aprobar", send("#{@estado[:ruta]}_solicitud_path", @solicitud), :class => "aprobar estados" %></li>
+    <li><%= link_to "Rechazar", send("#{@estado[:ruta]}_solicitud_path", @solicitud), :class => "rechazar estados" %></li>
   </ul>
 <% end %>
 <br/><br/>
 
 <a href="#" id="a_detalle" class="bold icon-r mas">Mostrar detalle</a>
 <div id="detalle" style="display:none;width: 700px;padding:5px" class="bg2">
-  <%= render :partial => "detalle" %>
+  <div class="partial_detalles_estado">
+    <%= render :partial => "detalle_estado" %>
+  </div>
+  <div class="partial_detalle_modificaciones">
+    <%= render :partial => "detalle_modificaciones" %>
+  </div>
 </div>
 <br/>
 <br/>
@@ -63,8 +68,13 @@ Ver Solicitud
       // Funcion que permite cambiar el estado de la solicitud
       $('a.estados').click(function() {
           params = {authenticity_token: token, _method: "put"};
+          // Parametro que indica que se haga un rechazo, valor negativo
           if($(this).hasClass("rechazar"))
-              params["rechazar"] = true;
+            params["rechazar"] = true;
+          // Indica que se vaya hacia atras la transaccion
+          if($(this).hasClass("revertir"))
+              params["revertir"] = true;
+
           $.post(this.href, params, function(data) {
             if(data.success) {
               $('span.estado:first').fadeOut(500).html(data.estado).fadeIn(500);

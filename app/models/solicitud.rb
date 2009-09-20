@@ -59,8 +59,15 @@ class Solicitud < ActiveRecord::Base
       Solicitud.paginate(:page => options[:page], :conditions => conditions, :order => "created_at DESC")
     end
 
+    # Retorna los estados
     def estados
       @@estados
+    end
+
+    # Retorna un array que puede usarse para un select
+    # En caso de que option = true, entonces retorna un string
+    def lista_estados(option = false)
+      @@estados.to_a.sort_by{|v| v[0]}.map{|v| [v[1][1], v[0]]}
     end
 
     # Retorna el estado inicial, el estado final es 0
@@ -193,7 +200,7 @@ class Solicitud < ActiveRecord::Base
   protected
   # Retorna el usuario actual que se encuentra logueado
   def current_user
-    UsuarioSession.find.record
+    Solicitud.current_user
   end
 
   # Adiciona la fecha al registro antes de que sea salvado
@@ -241,16 +248,13 @@ class SolicitudEstado < Solicitud
 
   before_save :actualizar_aprobaciones
 
-  attr_accessor :tiempo_permitido_cambio_estado, :usuario
+  attr_accessor :tiempo_permitido_cambio_estado
 
   # Inicializa los datos, por defecto el tiempo para que permita cambio de estado 
-  # es de 3600 segundos
-  def initialize
-    super
-    tiempo_permitido_cambio_estado= 3600
+  # es de 3600 segundos (1 hora)
+  def after_initialize()
+    @tiempo_permitido_cambio_estado = 3600
   end
-
-
 
   # Realiza una busqueda de los estados por ruta o nombre
   # ==== Ejemplo
@@ -265,33 +269,14 @@ class SolicitudEstado < Solicitud
     end
   end
 
-  # Retorna si un usuario puede cambiar de estado
-  # ==== Ejemplo
-  #   permitir_usuario_cambiar_estado?("almacen")
-  def permitir_usuario_cambiar_estado?(accion)
-    unless usuario
-      raise "Debe seleccionar un usuario"
-    end
-    permiso = Permiso.find_by_rol_id_and_controlador(usuario.rol_id, "solicitudes")
-    
-    permiso ? permiso.acciones[accion] : false
-  end
 
   # Permite ir a un estado anterior, debe revisar un periodo de tiempo
   # en el cual una solicitud puede ser aprobada
-  # en caso de que sea el administrador podra realizar la modificación sin
-  # importar el tiempo
-  def desabilitar_estado(admin=false)
-    if estado < 3
-      # puede cambiersa segun se prefiera, en este caso sera 1 hora
-      if (updated_at + 3600) <= DateTime.now
-        estado = estado + 1
-        return self.save
-      else
-        return false
-      end
-    else
-      return false
+  # [0, Solicitud.estado_inicial[0]] # => [0, 4]
+  def revertir_estado()
+    unless [0, Solicitud.estado_inicial[0]].include? self.read_atribute(:estado)
+      self.estado = self.read_attribute(:estado) + 1
+      return self.save
     end
   end
 
@@ -305,24 +290,31 @@ class SolicitudEstado < Solicitud
   # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
   def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
-
-    # Se busca con valor absoluto para ver si el usuario puede aprobar o reprobar el estado
-    if Permiso.permite_ruta?("solicitudes", @@estados[val.abs][0])
+    # Permiso.permite_ruta?("solicitudes", @@estados[val.abs][0]) 
+    unless self.read_attribute(:estado) == val
       self.estado = val
       return self.save
     else
       return false
     end
-
   end
 
-  # Retorna el maximo estado y la ruta al cual puede acceder un usuario que esta logueado
-  # de la siguiente forma
-  # ==== Ejemplos
-  #   SolicitudEstado.new.maximo_estado_permitido # => {:ruta => "almacen", :estado => 2}
-  def maximo_estado_permitido
-    p = Permiso.controlador("solicitudes")
-    Solicitud.rutas_estados.find{|v| v[:estado] > 0 and p.acciones[v[:ruta]]}
+  ########################################################
+  # Clases de instancia
+  class << self
+    # Retorna el maximo estado y la ruta al cual puede acceder (incluye estado inicial)
+    # un usuario que esta logueado de la siguiente forma
+    # ==== Ejemplos
+    #   SolicitudEstado.new.maximo_estado_permitido # => {:ruta => "almacen", :estado => 2}
+    def maximo_estado_permitido
+      p = Permiso.controlador("solicitudes")
+      if estado = Solicitud.rutas_estados.find{|v| v[:estado] > 0 and p.acciones[v[:ruta]]}
+        estado
+      else
+        {:ruta => Solicitud.estado_inicial[1][0], :estado => Solicitud.estado_inicial[0]}
+      end
+    end
+
   end
 
   protected
@@ -337,6 +329,5 @@ class SolicitudEstado < Solicitud
     self.aprobaciones ||= {} # Inicialización de la variable en caso de que no exista
     self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => Solicitud.find(self.id).read_attribute(:estado)}
   end
-
 
 end

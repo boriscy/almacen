@@ -34,29 +34,25 @@ describe Solicitud do
     it "verificar cual es la mayor accion (almacen)" do
       acciones = {"almacen" => true, "administracion" => false, "superior" => true}
       create_acciones(acciones)
-      @solicitud = SolicitudEstado.new
-      @solicitud.maximo_estado_permitido.should == {:ruta => "almacen", :estado => 2}
+      SolicitudEstado.maximo_estado_permitido.should == {:ruta => "almacen", :estado => 2}
     end
 
     it "verificar cual es la mayor accion (superior)" do
       acciones = {"almacen" => false, "administracion" => false, "superior" => true}
       create_acciones(acciones)
-      @solicitud = SolicitudEstado.new
-      @solicitud.maximo_estado_permitido.should == {:ruta => "superior", :estado => 3}
+      SolicitudEstado.maximo_estado_permitido.should == {:ruta => "superior", :estado => 3}
     end
 
     it "verificar cual es la mayor accion (administracion)" do
       acciones = {"almacen" => true, "administracion" => true, "superior" => true}
       create_acciones(acciones)
-      @solicitud = SolicitudEstado.new
-      @solicitud.maximo_estado_permitido.should == {:ruta => "administracion", :estado => 1}
+      SolicitudEstado.maximo_estado_permitido.should == {:ruta => "administracion", :estado => 1}
     end
 
     it "verificar cual es la mayor accion (administracion) con almacen false" do
       acciones = {"almacen" => false, "administracion" => true, "superior" => true}
       create_acciones(acciones)
-      @solicitud = SolicitudEstado.new
-      @solicitud.maximo_estado_permitido.should == {:ruta => "administracion", :estado => 1}
+      SolicitudEstado.maximo_estado_permitido.should == {:ruta => "administracion", :estado => 1}
     end
 
   end

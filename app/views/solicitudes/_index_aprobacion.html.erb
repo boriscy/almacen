@@ -1,0 +1,44 @@
+<%= form_tag(solicitudes_path, :method => "get") %>
+  <label>Estado</label>
+  <% 
+   # Es muy importante notar que en el metodo "options_for_select" se realiza la conversion a entero
+   # de los valores de "params"
+  %>
+  <%= select_tag "estados", 
+    options_for_select(Solicitud.lista_estados, 
+                       :selected => ( params[:estados].map{|v| v.to_i} if params[:estados] and params[:estados].is_a? Array )  ),
+    :multiple => true
+  %>
+  <label for="id">Usuarios</label>
+  <%= select_tag "usuarios", 
+    options_for_select(Usuario.list,
+            :selected => ( params[:usuarios].map{|v| v.to_i} if params[:usuarios] and params[:usuarios].is_a? Array )  ),
+            :multiple => true, :size => 10
+  %>
+
+  <%= submit_tag "Buscar" %>
+</form>
+
+<table>
+  <tr>
+    <th class="ui-state-default" >Fecha</th>
+    <th class="ui-state-default">Solicitante</th>
+    <th class="ui-state-default">Descripcion</th>
+    <th class="ui-state-default">Estado</th>
+    <th class="ui-state-default"></th>
+  </tr>
+
+<% @solicitudes.each do |solicitud| %>
+  <tr>
+    <td><%= I18n.l solicitud.fecha, :format => "%d de %B %Y %H:%M" %></td>
+    <td><%= solicitud.usuario.nombre_completo %></td>
+    <td><%= solicitud.descripcion[0,70] +  (solicitud.descripcion.size > 70 ? "..." : "") %></td>
+    <td><%= solicitud.estado %></td>
+    <td>
+      <%= link_to 'Ver', solicitud_path(solicitud,:page => @page) %>
+      <%= link_to 'Editar', edit_solicitud_path(solicitud, :page => @page) %>
+      <%= link_to 'Borrar', solicitud, :confirm => 'Esta Seguro?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>
+</table>

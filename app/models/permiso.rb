@@ -5,11 +5,6 @@ class Permiso < ActiveRecord::Base
 
   serialize :acciones
 
-  # Para poder buscar los permisos de un usuario en un controlador
-  named_scope :controlador, lambda{|cont| 
-    { :conditions => {:rol_id => Permiso.current_user.rol_id, :controlador => cont} }
-  }
-
 
   validates_presence_of :controlador#, :rol_id # No se debe activar esta validación de lo contrario creara problemas
   validates_associated :rol
@@ -29,6 +24,11 @@ class Permiso < ActiveRecord::Base
 
     def current_user
       UsuarioSession.find.record
+    end
+
+    # Para poder buscar los permisos de un usuario en un controlador
+    def controlador(cont)
+      Permiso.find_by_controlador_and_rol_id(cont, Permiso.current_user.rol_id)
     end
   end
 
