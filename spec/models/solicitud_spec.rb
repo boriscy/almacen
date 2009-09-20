@@ -1,46 +1,64 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require "authlogic/test_case"
+include Authlogic::TestCase
 
 describe Solicitud do
   before(:each) do
-    methods = UsuarioSession.instance_methods - String.instance_methods
-
-    class UsuarioSession
-      methods.each do |method|
-        define_method method do
-        end
-      end
-    end
-    
-    @@usuario = Usuario.new(:rol_id => 1, :nombre => 'Juan')
-    @@usuario.id = 1
-
-
-    class Je
-      def record
-        @@usuario
-      end
-    end
-
-    # Necesario para poder simular a la clase UsuarioSession
-    # debido a que para funcionar la misma crea instancias del controlador
-    # y solo queremos testear el modelo
-    UsuarioSession.instance_eval do
-      def find
-        Je.new
-      end
-    end
+    activate_authlogic
+    @usuario = Usuario.new(:rol_id => 1)
+    UsuarioSession.create(@usuario)
+    @record = mock("record", :record => @usuario)
+    UsuarioSession.stub!(:find).and_return(@record)
   end
 
   describe "probando Sesiones" do
     it "mockeada de UsuarioSession" do
-      UsuarioSession.find.record.should == @@usuario
+      UsuarioSession.find.record.should == @usuario
     end
   end
 
-  describe "" do
-    it "" do
+  describe "Probar metodos internos" do
 
+    def create_acciones(acciones = {})
+      stub_model(Permiso) # Casi no toca a la base de datos
+      @permiso = mock_model(Permiso, :acciones => acciones)
+      Permiso.stub!(:controlador).and_return(@permiso)
     end
+
+    it "verificar stub" do
+      acciones = {"hola" => true, "si" => false}
+      create_acciones(acciones)
+      acciones.should == Permiso.controlador("solicitudes").acciones
+    end
+
+    it "verificar cual es la mayor accion (almacen)" do
+      acciones = {"almacen" => true, "administracion" => false, "superior" => true}
+      create_acciones(acciones)
+      @solicitud = SolicitudEstado.new
+      @solicitud.maximo_estado_permitido.should == {:ruta => "almacen", :estado => 2}
+    end
+
+    it "verificar cual es la mayor accion (superior)" do
+      acciones = {"almacen" => false, "administracion" => false, "superior" => true}
+      create_acciones(acciones)
+      @solicitud = SolicitudEstado.new
+      @solicitud.maximo_estado_permitido.should == {:ruta => "superior", :estado => 3}
+    end
+
+    it "verificar cual es la mayor accion (administracion)" do
+      acciones = {"almacen" => true, "administracion" => true, "superior" => true}
+      create_acciones(acciones)
+      @solicitud = SolicitudEstado.new
+      @solicitud.maximo_estado_permitido.should == {:ruta => "administracion", :estado => 1}
+    end
+
+    it "verificar cual es la mayor accion (administracion) con almacen false" do
+      acciones = {"almacen" => false, "administracion" => true, "superior" => true}
+      create_acciones(acciones)
+      @solicitud = SolicitudEstado.new
+      @solicitud.maximo_estado_permitido.should == {:ruta => "administracion", :estado => 1}
+    end
+
   end
 
 end

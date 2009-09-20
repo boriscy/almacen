@@ -64,9 +64,13 @@ class Solicitud < ActiveRecord::Base
     end
 
     # Retorna el estado inicial, el estado final es 0
+    # de la siguiente forma
+    # ==== Ejemplos
+    #   Solicitud.new.estado_inicial # => [4, ["inicial", "Incial"]]
     def estado_inicial
-      @@estados.to_a.max_by{|v| v[0] }
+      @@estados.to_a.max_by{|v| v[0]}
     end
+
 
     def permite_almacen?
       permiso = Permiso.find_by_rol_id_and_controlador(current_user.id, "solicitudes")
@@ -78,8 +82,9 @@ class Solicitud < ActiveRecord::Base
     end
 
     # Retorna un array con todos los estados exeptuando el inicial debido a que
-    # el formato Ej: [{:estado => 1, :ruta => "administracion"}]
     # Solo se selecciona las rutas ayores a 0 y no la inicial
+    # ==== Ejemplos
+    #   Solicitud.rutas_estados # =>  [{:ruta=>"administracion", :estado=>1}, {:ruta=>"almacen", :estado=>2}, {:ruta=>"superior", :estado=>3}]
     def rutas_estados
       @est = [Solicitud.estado_inicial[0]] + @@estados.to_a.inject([]){|arr,v| arr << v[0] if v[0] <= 0; arr }
       @@estados.to_a.inject([]){|arr, v|
@@ -88,6 +93,7 @@ class Solicitud < ActiveRecord::Base
       }
     end
 
+    # Metodo utilizado para poder encontrar usuario actual
     def current_user
       UsuarioSession.find.record
     end
@@ -185,17 +191,17 @@ class Solicitud < ActiveRecord::Base
   end
 
   protected
-  # Retorna el usuario actual
+  # Retorna el usuario actual que se encuentra logueado
   def current_user
     UsuarioSession.find.record
   end
 
-  # Adiciona la fecha al registro
+  # Adiciona la fecha al registro antes de que sea salvado
   def adicionar_fecha
     self.fecha = DateTime.now
   end
 
-  # Adiciona el usuario
+  # Adiciona el usuario que ha creado la solicitud
   def adicionar_usuario
     self.usuario_id = current_user.id
   end
@@ -225,9 +231,12 @@ class Solicitud < ActiveRecord::Base
 
 end
 
-# ---------------------------------------------------------------
+
 # Clase que estara encargada de manejar todo los que son los
-# estados de la clase
+# estados de la clase, la creación se igual que solicitud solo que se elimina 
+# algunos metodos que no son necesarios para este modelo como ser
+# ===== Metodos sobrescritos
+#   adicionar_modificacion
 class SolicitudEstado < Solicitud
 
   before_save :actualizar_aprobaciones
@@ -241,28 +250,7 @@ class SolicitudEstado < Solicitud
     tiempo_permitido_cambio_estado= 3600
   end
 
-  # Permite ir a un estado anterior, debe revisar un periodo de tiempo
-  # en el cual una solicitud puede ser aprobada
-  # en caso de que sea el administrador podra realizar la modificación sin
-  # importar el tiempo
-  def desabilitar_estado(admin=false)
-    if estado < 3
-      # puede cambiersa segun se prefiera, en este caso sera 1 hora
-      if (updated_at + tiempo_permitido_cambio_estado) <= DateTime.now
-        estado = estado + 1
-        return self.save
-      else
-        return false
-      end
-    else
-      return false
-    end
-  end
 
-  # Retorna el estado inicial, el estado final es 0
-  def estado_inicial
-    @@estados.to_a.max_by{|v| v[0]}
-  end
 
   # Realiza una busqueda de los estados por ruta o nombre
   # ==== Ejemplo
@@ -328,8 +316,18 @@ class SolicitudEstado < Solicitud
 
   end
 
+  # Retorna el maximo estado y la ruta al cual puede acceder un usuario que esta logueado
+  # de la siguiente forma
+  # ==== Ejemplos
+  #   SolicitudEstado.new.maximo_estado_permitido # => {:ruta => "almacen", :estado => 2}
+  def maximo_estado_permitido
+    p = Permiso.controlador("solicitudes")
+    Solicitud.rutas_estados.find{|v| v[:estado] > 0 and p.acciones[v[:ruta]]}
+  end
+
   protected
   # Se sobreescribe el metodo que realiza las actualizaciones
+  # que se heredo del modelo Solicitud
   def adicionar_modificacion
     true
   end

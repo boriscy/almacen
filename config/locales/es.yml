@@ -125,6 +125,7 @@ es:
         less_than_or_equal_to: "debe ser menor que o igual a {{count}}"
         odd: "debe ser impar"
         even: "debe ser par"
+        record_invalid: "registro inválido"
 
         # Append your own errors here or at the model/attributes scope.
 
@@ -147,7 +148,7 @@ es:
     abbr_day_names: [Dom, Lun, Mar, Mie, Jue, Vie, Sab]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]
+    month_names: [~, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Setiembre, Octubre, Noviembre, Diciembre]
     abbr_month_names: [~, Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic]
     # Used in date_select and datime_select.
     order: [ :day, :month, :year ]
@@ -160,6 +161,28 @@ es:
     am: "am"
     pm: "pm"
 
+  authlogic:
+    error_messages:
+      login_blank: "no debe estar en blanco"
+      login_not_found: "no es válido"
+      login_invalid: "solo debe ingresar letras, números y -_@ sin espacios" 
+      consecutive_failed_logins_limit_exceeded: "Se sobrepaso el numero consecutivo de logins, la cuenta fue desactivada"
+      email_invalid: "debe ser un email válido."
+      password_blank: "no puede estar en blanco"
+      password_invalid: "no es válido"
+      not_active: "Su cuenta no esta activa"
+      not_confirmed: "Su cuenta no ha sido confirmada"
+      not_approved: "Su cuenta no fue aprovada"
+      no_authentication_details: "Usted no proveio ningún detalle para la autentu¡icación."
+    models:
+      user_session: "UsuarioSession (o lo que este usando)"
+    attributes:
+      user_session: # "(or whatever name you are using)"
+        login: "login"
+        email: "email"
+        password: "password"
+        remember_me: "remember me"
+
 # Used in array.to_sentence.
   support:
     array:
@@ -169,4 +192,5 @@ es:
       words_connector: ", "
       two_words_connector: " y "
       last_word_connector: " y "
- 
+
+

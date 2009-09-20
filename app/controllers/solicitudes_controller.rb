@@ -127,4 +127,13 @@ class SolicitudesController < ApplicationController
       redirect_to solicitudes_path
     end
   end
+
+  # Realiza la asignacion del partial que debe usar un usuario denpendiendo
+  # del nivel de autorizacion que tiene para una solicitud y las rutas a las cuales puede
+  # tener acceso
+  def asignar_partial_rutas
+    p = Permiso.controlador("solicitudes")
+    Solicitud.rutas_estados.find{|v| v[:estado] > 0 and est[v[:ruta]]}
+    Solicitud.rutas_estados.inject([]){|arr, v| arr << v[:ruta] if p.acciones[v[:ruta]]; arr}
+  end
 end
