@@ -324,8 +324,12 @@ class SolicitudEstado < Solicitud
     # Los estados superiores estan con numeros menores
     # Permiso.permite_ruta?("solicitudes", @@estados[val.abs][0]) 
     unless self.read_attribute(:estado) == val
-      self.estado = val
-      return self.save
+      if val.abs < self.read_attribute(:estado).abs
+        self.estado = val
+        return self.save
+      else
+        return false
+      end
     else
       return false
     end

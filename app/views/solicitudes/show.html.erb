@@ -19,7 +19,7 @@ Ver Solicitud
   <%= @solicitud.descripcion %>
 </div>
 
-<% @partial = @partial == "aprobacion" ? "aprobacion" : "show_normal"  %>
+<% @partial = @partial == "aprobacion" ? "aprobacion" : "normal"  %>
 
 <%= render :partial => "show_#{@partial}" %>
 
