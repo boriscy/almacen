@@ -1,0 +1,28 @@
+<h3>Detalle de Items</h3>
+
+<% @solicitud.calcular_stock %>
+
+<table>
+    <tr>
+    <th class="ui-state-default">Item</th>
+    <th class="ui-state-default">Unid. Medida</th>
+    <th class="ui-state-default">Cantidad</th>
+    <th class="ui-state-default">Sumas<br/><small>Otros estados</small></th>
+    <th class="ui-state-default">Stock</th>
+    <th class="ui-state-default">Disponible</th>
+
+    </tr>
+
+<% @solicitud.solicitud_detalles.each do |inv| %>
+  <tr>
+    <td><%=h inv.item %></td>
+    <td> <%=h inv.item.unidad_medida.abreviacion%></td>
+    <td class="num"><%=h inv.cantidad %></td>
+    <td class="num"><%=h inv.cantidad_suma %></td>
+    <td class="num"><%=h inv.stock %></td>
+    <td class="num"><%=h inv.stock_disponible %></td>
+  </tr>
+<% end %>
+</table>
+<br/><br/>
+

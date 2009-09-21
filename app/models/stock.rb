@@ -18,3 +18,8 @@ class Stock < ActiveRecord::Base
   def actualizar_vencimiento
   end
 end
+
+
+#class StockDisponible < Stock
+#  default_scope :conditions => { :activo => true }
+#end

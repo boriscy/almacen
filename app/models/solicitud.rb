@@ -197,6 +197,35 @@ class Solicitud < ActiveRecord::Base
     lista
   end
 
+  # Permite calcular el stock disponible de los items que se encuentran en una solicitud
+  # - <tt>estados</tt> es un array con los estados que se quire mostrar
+  # Retorna un Array
+  def calcular_stock(estados = [1,2])
+    items = self.solicitud_detalles.map{|v| v.item_id}
+    suma = sumar_items(items, estados)
+    stocks = Stock.sum(:cantidad, :conditions => {:item_id => items}, :group => :item_id)
+
+    self.solicitud_detalles.each do |v|
+      # Requerido transformar a String por el tipo de query que se realiza en sumar_items
+      v.cantidad_suma = suma[v.item_id.to_s] 
+      v.stock = stocks[v.item_id].to_f + 0
+      v.stock_disponible = v.stock.to_f - (v.cantidad.to_f + v.cantidad_suma.to_f)
+    end
+  end
+
+  # Realiza la suma de todos los items que se le indica
+  # <tt>items</tt> Array de items
+  # <tt>estados</tt> Array de estados
+  # Retorna un hash
+  def sumar_items(items, estados = [1,2])
+    Solicitud.sum("solicitud_detalles.cantidad",
+        :conditions => ["solicitud_detalles.item_id IN (?) AND solicitudes.estado IN (?)
+        AND solicitudes.id != ?",
+        items, estados, self.id],
+        :include => :solicitud_detalles, :group => 'solicitud_detalles.item_id')
+  end
+
+
   protected
   # Retorna el usuario actual que se encuentra logueado
   def current_user
@@ -236,6 +265,7 @@ class Solicitud < ActiveRecord::Base
     @modificacion.save
   end
 
+
 end
 
 
@@ -247,7 +277,9 @@ end
 class SolicitudEstado < Solicitud
 
   before_save :actualizar_aprobaciones
-
+  
+  # - <tt>:tiempo_permitido_cambio_estado<tt> determina Dcuanto tiempo se permite para
+  # poder hacer el cambio de estado, No implementado todavia
   attr_accessor :tiempo_permitido_cambio_estado
 
   # Inicializa los datos, por defecto el tiempo para que permita cambio de estado 
