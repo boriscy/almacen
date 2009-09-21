@@ -1,8 +1,9 @@
 class SolicitudesController < ApplicationController
-  before_filter :verificar_permiso_actualizacion, :only => [:edit, :update, :destroy]
   # Asignacion de partial y de estado
   # # Asignacion de partial y de estado
   before_filter :asignar_partial, :only => [:index, :show]
+
+  before_filter :verificar_permiso_actualizacion, :only => [:edit, :update, :destroy]
 
   # Existen 3 tipos de busqueda
   # 1.- Cuando esta en estado "inicial" (propias)
@@ -152,12 +153,13 @@ class SolicitudesController < ApplicationController
       conditions = {:usuario_id => current_user.id}
     when (Solicitud.estado_inicial[0] - 1)
       conditions = {:usuario_id => [current_user.id] + current_user.subordinado_ids}
+      params[:estados] = [estado[:estado] + 1] unless params[:estados]
     else
       if params[:usuarios]
         conditions.merge({:usuario_id => params[:usuarios]})
       end
+      params[:estados] = [estado[:estado] + 1] unless params[:estados]
     end
-
     if params[:estados]
       conditions[:estado] = params[:estados]
     end
