@@ -80,7 +80,7 @@ class Solicitud < ActiveRecord::Base
 
 
     def permite_almacen?
-      permiso = Permiso.find_by_rol_id_and_controlador(current_user.id, "solicitudes")
+      permiso = Permiso.controlador("solicitudes")
       if permiso.acciones["almacen"]
         true
       else
@@ -226,7 +226,7 @@ class Solicitud < ActiveRecord::Base
   end
 
 
-  protected
+protected
   # Retorna el usuario actual que se encuentra logueado
   def current_user
     Solicitud.current_user
@@ -353,7 +353,7 @@ class SolicitudEstado < Solicitud
 
   end
 
-  protected
+private
   # Se sobreescribe el metodo que realiza las actualizaciones
   # que se heredo del modelo Solicitud
   def adicionar_modificacion

@@ -1,4 +1,12 @@
 class Inventario < ActiveRecord::Base
+  # Callbacks, son metodos que llaman a funciones cuando se realiza alguna de las acciones
+  # descritas en el modelo ej: before_save (Antes de salvar), after_create (Despues de crear)
+  before_create :adicionar_fecha
+  before_save :adicionar_total
+  before_save :actualizar_inventario
+  before_destroy :marcar_destroy
+  #after_destroy :actualizar_inventario
+
   # Relaciones
   has_many :inventario_detalles, :dependent => :destroy, :class_name => "InventarioDetalle"
   belongs_to :almacen
@@ -13,14 +21,6 @@ class Inventario < ActiveRecord::Base
   # validaciones
   validates_associated :almacen
   validates_presence_of :almacen_id
-
-  # Callbacks, son metodos que llaman a funciones cuando se realiza alguna de las acciones
-  # descritas en el modelo ej: before_save (Antes de salvar), after_create (Despues de crear)
-  before_create :adicionar_fecha
-  before_save :adicionar_total
-  before_save :actualizar_inventario
-  before_destroy :marcar_destroy
-  #after_destroy :actualizar_inventario
 
 
   # Atributos protegidos que no pueden ser modificados por los parametros
@@ -63,31 +63,6 @@ class Inventario < ActiveRecord::Base
     actualizar_inventario
   end
 
-  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
-  def actualizar_inventario_delete(inv, stock)
-    cantidad = stock.cantidad - inv.cantidad
-    valor = stock.valor_inventario - inv.precio_unitario * inv.cantidad
-    [cantidad, valor]
-  end
-
-  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
-  # En este caso es necesario revisar en la base de datos cual es su estado actual ya que
-  # el objeto inv es atualizado por los nuevos valores que ingresa el usuario
-  def actualizar_inventario_update(inv, stock)
-    # Valor que se encuentra almacenado en la Base de Datos
-    db_inv = InventarioDetalle.find(inv.id)
-    cantidad = inv.cantidad + stock.cantidad - db_inv.cantidad
-    valor =  inv.cantidad * inv.precio_unitario + stock.valor_inventario - (db_inv.cantidad * db_inv.precio_unitario)
-    [cantidad, valor]
-  end
-
-  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
-  def actualizar_inventario_create(inv, stock)
-    cantidad = stock.cantidad + inv.cantidad
-    valor = stock.valor_inventario + inv.cantidad * inv.precio_unitario 
-    [cantidad, valor]
-  end
-
   # metodo para poder actualizar el valor y el total que hay en inventarios
   def actualizar_inventario
     # Incio de una transaccion para poder asegurar que los datos
@@ -117,6 +92,32 @@ class Inventario < ActiveRecord::Base
 
     end
 
+  end
+
+protected
+  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
+  def actualizar_inventario_delete(inv, stock)
+    cantidad = stock.cantidad - inv.cantidad
+    valor = stock.valor_inventario - inv.precio_unitario * inv.cantidad
+    [cantidad, valor]
+  end
+
+  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
+  # En este caso es necesario revisar en la base de datos cual es su estado actual ya que
+  # el objeto inv es atualizado por los nuevos valores que ingresa el usuario
+  def actualizar_inventario_update(inv, stock)
+    # Valor que se encuentra almacenado en la Base de Datos
+    db_inv = InventarioDetalle.find(inv.id)
+    cantidad = inv.cantidad + stock.cantidad - db_inv.cantidad
+    valor =  inv.cantidad * inv.precio_unitario + stock.valor_inventario - (db_inv.cantidad * db_inv.precio_unitario)
+    [cantidad, valor]
+  end
+
+  # Funcion que realiza las operaciones par poder actualizar los totales dependiente de actualizar_inventario
+  def actualizar_inventario_create(inv, stock)
+    cantidad = stock.cantidad + inv.cantidad
+    valor = stock.valor_inventario + inv.cantidad * inv.precio_unitario 
+    [cantidad, valor]
   end
 
 end
