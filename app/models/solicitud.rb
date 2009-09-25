@@ -18,7 +18,9 @@ class Solicitud < ActiveRecord::Base
   accepts_nested_attributes_for :solicitud_detalles, :allow_destroy => true
   attr_protected :fecha, :usuario_id, :estado
 
-
+  validates_presence_of :descripcion
+  validates_associated :usuario
+ 
   # Estados en los que puede estar una solicitud, el estado 0 es el estado final en el cual se ejecuta
   # Todos los estados deben estar ordenados consecutivamente para que los
   # metodos funcionen de forma correcta
@@ -32,9 +34,7 @@ class Solicitud < ActiveRecord::Base
       3 =>["superior", "Aprobado Superior"],
       4 => ["inicial", "Incial"] }
 
-  validates_presence_of :descripcion
-  validates_associated :usuario
-  
+ 
   # metodos de instancia ej: Solicitud.estados
   class << self
     # Realiza la busqueda solicitudes propias y las
@@ -229,7 +229,7 @@ class Solicitud < ActiveRecord::Base
 protected
   # Retorna el usuario actual que se encuentra logueado
   def current_user
-    Solicitud.current_user
+    self.class.current_user
   end
 
   # Adiciona la fecha al registro antes de que sea salvado
@@ -319,7 +319,7 @@ class SolicitudEstado < Solicitud
     paginate(:page => params[:page], :include => :usuario )
   end
 
-  # Verifica de que el estado sea el siguiente de lo contrario no hara modificaciones
+  # Cambia el estado de una solicitud
   def cambiar_estado?(val)
     # Los estados superiores estan con numeros menores
     # Permiso.permite_ruta?("solicitudes", @@estados[val.abs][0]) 
@@ -341,11 +341,9 @@ class SolicitudEstado < Solicitud
   def completar_solicitud(almacen_id)
     SolicitudEstado.transaction do
       self.solicitud_detalles.each do |sd|
-        Stock.actualizar_stock(:item_id =>sd.item_id, :cantidad => -sd.cantidad, 
-                               :almacen_id => almacen_id)
-
+        Stock.actualizar_stock(:item_id =>sd.item_id, :cantidad => -sd.cantidad, :almacen_id => almacen_id)
       end
-      cambiar_estado?(0)
+      raise "No es posible cambiar el estado" unless( cambiar_estado?(0) )
     end
   end
   
@@ -377,7 +375,7 @@ private
 
   # Realiza la secuencia en la cual se aprueban los estados, almacenando el estado anterior, almacenando el estado anterior
   def actualizar_aprobaciones()
-    self.aprobaciones ||= {} # Inicialización de la variable en caso de que no exista
+    self.aprobaciones = {} unless self.aprobaciones.is_a? Hash # Inicialización de la variable en caso de que no exista
     self.aprobaciones[DateTime.now] = {:usuario_id => current_user.id, :estado => Solicitud.find(self.id).read_attribute(:estado)}
   end
 

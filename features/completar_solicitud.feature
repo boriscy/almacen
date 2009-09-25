@@ -12,7 +12,7 @@ Caracteristica:
       |papel bond |1                  |2          |pplb      |
       |puntabloa azul |1              |2          |paz      |
       |gomas    |1                    |1          |gom      |
-      |carpicola |2                    |1          |car      |
+      |carpicola |2                   |1          |car      |
       |cds      |1                    |2          |cd      |
     
     Dado que tendo los siguientes usuarios
