@@ -335,6 +335,21 @@ class SolicitudEstado < Solicitud
     end
   end
 
+  # Termina una solicitud cambiando las cantidades en el stock
+  # Debe seleccionarse el almacen del cual se hara restara el item
+  # para completar la solictud
+  def completar_solicitud(almacen_id)
+    SolicitudEstado.transaction do
+      self.solicitud_detalles.each do |sd|
+        Stock.actualizar_stock(:item_id =>sd.item_id, :cantidad => -sd.cantidad, 
+                               :almacen_id => almacen_id)
+
+      end
+      cambiar_estado?(0)
+    end
+  end
+  
+
   ########################################################
   # Clases de instancia
   class << self

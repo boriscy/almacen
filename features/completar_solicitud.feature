@@ -21,7 +21,8 @@ Caracteristica:
     
     Dado el stock
       |almacen_id |item_id|cantidad |valor_inventario  |activo |
-      |1          |1      |10       |25                |1      |
+      |1          |1      |100      |250               |1      |
+      |1          |2      |150      |300               |1      |
 
     Dado la solicitud
       |fecha      |estado   | descripcion   |
@@ -31,3 +32,11 @@ Caracteristica:
       |solicitud_id |item_id  |cantidad |
       |1            |1        |10       |
       |1            |2        |15       |
+
+    Cuando ejecuto el estado final en el almacen 1
+
+    Entonces debo tener los siguientes valores en stock
+      |almacen_id |item_id|cantidad |valor_inventario |
+      |1          |1      |90       |225              |
+      |1          |2      |135      |270              |
+     

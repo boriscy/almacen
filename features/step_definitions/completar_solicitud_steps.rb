@@ -1,19 +1,6 @@
 require "authlogic/test_case"
 include Authlogic::TestCase
 
-require "spec/mocks"
-
-Before do
-  $rspec_mocks ||= Spec::Mocks::Space.new
-end
-
-After do
-  begin
-    $rspec_mocks.verify_all
-  ensure
-    $rspec_mocks.reset_all
-  end
-end
 
 Before do
   activate_authlogic
@@ -50,5 +37,17 @@ end
 
 Dado /^el detalle de la solicitud$/ do |table|
   table.hashes.each{|t| Factory(:solicitud_detalle, t)}
+end
+
+Cuando /^ejecuto el estado final en el almacen (.+)$/ do |almacen_id|
+  SolicitudEstado.first.completar_solicitud(almacen_id.to_i)
+end
+
+Entonces /^debo tener los siguientes valores en stock$/ do |table|
+  table.hashes.each do |t|
+    @stock = Stock.first(:conditions =>{:almacen_id => t[:almacen_id], :item_id => t[:item_id]})
+    @stock.cantidad.should == t["cantidad"].to_f
+    @stock.valor_inventario.should == t["valor_inventario"].to_f
+  end
 end
 

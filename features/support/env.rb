@@ -11,8 +11,7 @@ require 'cucumber/formatter/unicode'
 Cucumber::Rails.use_transactional_fixtures
 
 # Comment out the next line if you want Rails' own error handling
-# (e.g. rescue_action_in_public / rescue_responses / rescue_from)
-Cucumber::Rails.bypass_rescue
+# (e.g. rescue_action_in_public / rescue_responses / rescue_from)Cucumber::Rails.bypass_rescue
 
 require 'webrat'
 require 'cucumber/webrat/element_locator' # Lets you do table.diff!(element_at('#my_table_or_dl_or_ul_or_ol').to_table)
@@ -25,3 +24,19 @@ require 'cucumber/rails/rspec'
 require 'webrat/core/matchers'
 require 'factory_girl'
 Dir.glob(File.join(File.dirname(__FILE__), '../../spec/factories/*.rb')).each {|f| require f }
+
+# Soporte para mocks en cucumber
+require "spec/mocks"
+
+Before do
+  $rspec_mocks ||= Spec::Mocks::Space.new
+end
+
+After do
+  begin
+    $rspec_mocks.verify_all
+  ensure
+    $rspec_mocks.reset_all
+  end
+end
+
