@@ -20,4 +20,10 @@ class SolicitudModificacion < ActiveRecord::Base
     UsuarioSession.find.record
   end
 
+  # Retorna la lista de modificaciones realizada al detale
+  # de una solicitud
+  def lista_detalle
+
+  end
+
 end

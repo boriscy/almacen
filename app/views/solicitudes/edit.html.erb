@@ -1,9 +1,8 @@
-<% content_for :title do %>}
+<% content_for :title do %>
 Editar solicitud
 <% end %>
 <h1>Editar Solicitud</h1>
 <%= render :partial => "forma" %>
 <%= link_to "Listado", solicitudes_path(:page => @page) %>
 <%= link_to "Ver", solicitud_path(@solicitud) %>
-
 

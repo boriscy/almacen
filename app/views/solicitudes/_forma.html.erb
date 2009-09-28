@@ -48,8 +48,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-  <% @json = {}%>
-  <% @items.each{|v| @json[v.id] = "#{v.unidad_medida.nombre} (#{v.unidad_medida.abreviacion})"} %>
+  <% @json = @items.inject({}){|arr, v| arr[v.id] = "#{v.unidad_medida.nombre} (#{v.unidad_medida.abreviacion})"; arr} %>
   var itemUnidades = <%= @json.to_json %>;
   
   
@@ -61,7 +60,9 @@ $(document).ready(function(){
   val = $('#item').val();
   var init = <%= @solicitud.solicitud_detalles.first.item_id.nil? ? false : true %>;
 
-  elementos = {}
+  // Elementos seleccionados, en caso de edición es necesario tener el listado
+  elementos = <%= @solicitud.solicitud_detalles.inject({}){|hash, v| hash[v.item_id] = true; hash}.to_json %>;
+
   $('#item_flexselect').focus(function(){
     var tmp = $('#item').val();
     if(val != tmp  && !elementos[tmp + ""]) {

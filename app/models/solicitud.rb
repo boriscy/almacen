@@ -164,9 +164,12 @@ class Solicitud < ActiveRecord::Base
     usuarios = Usuario.all(:conditions => {:id => usuarios})
     lista = []
     fechas.each do |fecha|
+      begin
       lista << {:fecha => (I18n.l fecha, :format => format), 
         :usuario => usuarios.find{|v| self.aprobaciones[fecha][:usuario_id] == v.id}.nombre_completo, 
         :estado => @@estados[self.aprobaciones[fecha][:estado]][1]}
+      rescue
+      end
     end
     lista
   end
@@ -183,6 +186,9 @@ class Solicitud < ActiveRecord::Base
     lista = []
     # Se prepara un array con un detalle de lo que existe en cada modificación
     self.solicitud_modificaciones.each do |mod|
+      # Es necesario manejar la exepcion debido a que pueden haber hecho modificaciones
+      # en la base de datos directamente sin hacer uso de la aplicación
+      begin
       lista << {
         :usuario => usuarios.find{|v| v.id == mod.usuario_id}.nombre_completo,
         :descripcion => mod.descripcion,
@@ -193,6 +199,8 @@ class Solicitud < ActiveRecord::Base
           {:item => item.to_s, :unidad_medida => item.unidad_medida.to_s, :cantidad => v[:cantidad]}
         end
       }
+      rescue
+      end
     end
     lista
   end
