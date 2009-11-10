@@ -87,15 +87,15 @@ ActiveRecord::Schema.define(:version => 20090926152537) do
     t.integer  "solicitud_id"
     t.text     "descripcion"
     t.text     "detalles"
+    t.integer  "estado"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "estado"
   end
 
   create_table "solicitudes", :force => true do |t|
     t.integer  "usuario_id"
     t.datetime "fecha"
-    t.integer  "estado",           :null => false
+    t.integer  "estado",           :limit => 255, :null => false
     t.datetime "fecha_aprobacion"
     t.text     "descripcion"
     t.datetime "created_at"
