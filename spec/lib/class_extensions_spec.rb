@@ -7,6 +7,8 @@ describe Array, "unique_values" do
 
   it "should return Unique values" do
     @arr.unique_values.should == [1,2,3]
+    arr = ["uno", "uno", "dos", "tres", "dos", "uno"]
+    arr.unique_values.should == ["uno", "dos", "tres"]
   end
 
 end

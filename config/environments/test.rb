@@ -28,8 +28,10 @@ config.action_mailer.delivery_method = :test
 # config.active_record.schema_format = :sql
 config.gem "rspec", :lib => false, :version => ">=1.2.4"
 config.gem "rspec-rails", :lib => false, :version => ">=1.2.4"
-config.gem "thoughtbot-shoulda", :lib => "shoulda"
-config.gem "thoughtbot-factory_girl", :lib => "factory_girl"
+#config.gem "thoughtbot-shoulda", :lib => "shoulda"
+config.gem "shoulda"
+#config.gem "thoughtbot-factory_girl", :lib => "factory_girl"
+config.gem "factory_girl"
 config.gem "webrat", :lib => false, :version => ">=0.4.4"
-config.gem "cucumber", :lib => false, :version => ">=0.3.1"
+config.gem "cucumber"#, :lib => false, :version => ">=0.3.1"
 config.gem 'ruby-debug'

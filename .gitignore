@@ -3,6 +3,7 @@
 *.swo
 *.log
 *.sqlite3
+*.vim
 *~
 public/fotos
 nbproject
