@@ -12,7 +12,11 @@ class Permiso < ActiveRecord::Base
   # Actualiza los valores de las acciones para que sean true, false
   # en ves de "0" o "1"
   def cambiar_valor_acciones!
-    acciones.each{ |k,v|  acciones[k] = (v == "1") }
+    acciones.each{ |k, v|
+      val = false
+      val = true if v == "1" or v == true
+      acciones[k] = val
+    }
   end
 
   class << self

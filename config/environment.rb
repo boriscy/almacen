@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   config.gem "authlogic"
-  config.gem "binarylogic-searchlogic", :lib => "searchlogic", :source => 'http://gems.github.com'
+  #config.gem "searchlogic", :lib => "searchlogic", :source => 'http://gems.github.com'
   config.gem "will_paginate"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
