@@ -4,3 +4,12 @@ el manejo de inventarios en los almacenes, creado con Ruby on Rails y jQuery
 Para poder obtener los submodulos como grider se ejecuta
 git submodule update --init
 dentro la carpeta del proyecto
+
+Para inciar el proyecto ejecuten:
+
+rake db:migrate
+rake db:seed
+
+y despues pueden ingresar con 
+login: admin
+password: demo123
